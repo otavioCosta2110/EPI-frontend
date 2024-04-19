@@ -1,14 +1,15 @@
 import React from 'react';
-import './App.css';
+import Header from './Header/header';
+import Home from './home.js'; 
 
-const ThreeSquares = () => {
+function App() {
   return (
-    <div className="container">
-      <div className="square"></div>
-      <div className="square"></div>
-      <div className="square"></div>
+    <div>
+      <Header />
+      <Home />
+      {/* Renderize outras telas conforme necessário */}
     </div>
   );
-};
+}
 
-export default ThreeSquares;
+export default App;
