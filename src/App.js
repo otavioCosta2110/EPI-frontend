@@ -1,12 +1,13 @@
 import React from 'react';
-import './App.css';
+import Header from './Header/header';
+import Home from './home/home'; 
 
 const ThreeSquares = () => {
   return (
-    <div className="container">
-      <div className="square"></div>
-      <div className="square"></div>
-      <div className="square"></div>
+    <div>
+      
+      <Home />
+      {/* Renderize outras telas conforme necessário */}
     </div>
   );
 };
