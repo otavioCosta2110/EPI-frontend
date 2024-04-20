@@ -1,0 +1,11 @@
+.header {
+    background-color: #000000; /* Cor de fundo do cabeçalho */
+    color: #ffffff; /* Cor do texto */
+    padding: 20px; /* Espaçamento interno do cabeçalho */
+    text-align: center; /* Alinhar o texto centralmente */
+    width: 100%; /* Define a largura do cabeçalho como 100% da largura da página */
+    box-sizing: border-box; /* Inclui padding e bordas na largura total */
+}
+* {
+    margin: 0;
+}
