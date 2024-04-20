@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import ThreeSquares from './App';
 
+
 ReactDOM.render(
   <React.StrictMode>
     <ThreeSquares />
