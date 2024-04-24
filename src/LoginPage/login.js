@@ -10,7 +10,7 @@ function AdminPage() {
         e.preventDefault();
 
         try {
-            const response = await fetch('sua_api_de_validacao', {
+            const response = await fetch('api', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

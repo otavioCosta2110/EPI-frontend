@@ -20,4 +20,4 @@ function App() {
   );
 };
 
-export default ThreeSquares;
+export default App;
