@@ -1,10 +1,54 @@
-import React from 'react';
+import React, { useState } from 'react';
+import './login.css';
 
 function AdminPage() {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        try {
+            const response = await fetch('sua_api_de_validacao', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email, password }),
+            });
+
+            if (!response.ok) {
+                throw new Error('Erro ao enviar dados');
+            }
+
+            const data = await response.json();
+        } catch (error) {
+            setError('Erro ao enviar dados');
+        }
+    };
+
     return (
-        <div>
-            <h1>Página de Login do admin</h1>
-        </div>
+        <form onSubmit={handleSubmit}>
+            <label>
+                E-mail:
+                <input 
+                    type="text" 
+                    name="email" 
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)} />
+            </label>
+            <label>
+                Senha:
+                <input 
+                    type="password" 
+                    name="password" 
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)} />
+            </label>
+            {error && <div className="error">{error}</div>}
+            <input type="submit" value="Enviar" />
+        </form>
     );
 }
 
