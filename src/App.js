@@ -5,7 +5,7 @@ import Home from './home/home.js';
 import Footer from './Footer/footer.js';
 import AppRoutes from './routes.js';
 
-const ThreeSquares = () => {
+function App() {
   return (
     <Router>
       <div>
