@@ -1,12 +1,12 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import './index.css';
 import ThreeSquares from './App';
 
+const root = createRoot(document.getElementById('root'));
 
-ReactDOM.render(
+root.render(
   <React.StrictMode>
     <ThreeSquares />
-  </React.StrictMode>,
-  document.getElementById('root')
+  </React.StrictMode>
 );
