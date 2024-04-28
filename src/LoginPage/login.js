@@ -28,10 +28,8 @@ function Login() {
             }
           const jsonToken = await response.json();
           const token = jsonToken.data;
-          // Store JWT token in cookies
           Cookies.set('jwt', token);
           console.log(token)
-          // Fetch user data using the token
           fetchUserData(token);
         } catch (error) {
             setError('Erro ao enviar dados');
@@ -59,31 +57,11 @@ function Login() {
     }
     
   };
-  const handleLogin = async (credentials) => {
-    try {
-      const response = await fetch(`${apiURL}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(credentials)
-      });
-      if (response.ok) {
-        const { token } = await response.json();
-        Cookies.set('jwt', token);
-        fetchUserData(token);
-      } else {
-        setUser(null);
-      }
-    } catch (error) {
-      console.error('Error logging in:', error);
-    }
-  };
-
+  
   const handleLogout = () => {
-    // Remove JWT token from cookies
     Cookies.remove('jwt');
     setUser(null);
+    //retirar do localStorage depois
   };
     return (
         <form onSubmit={handleSubmit}>
