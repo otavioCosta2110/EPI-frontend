@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import './login.css';
 import Cookies from 'js-cookie';
+import Header from '../Header/header';
+import { Link } from 'react-router-dom';
 
-function AdminPage() {
+function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
@@ -31,32 +33,14 @@ function AdminPage() {
           console.log(token)
           // Fetch user data using the token
           fetchUserData(token);
-
-
-          // console.log(await response.json())
-          // const getToken = Cookies.get('jwt');
-          // console.log(getToken)
-          // if (getToken) {
-          //   fetchUserData(getToken);
-          // }
-
-          const data = await response.json();
         } catch (error) {
             setError('Erro ao enviar dados');
         }
     };
 
-   const [user, setUser] = useState(null);
+   const [user, setUser] = useState('');
 
-  // useEffect(() => {
-  //   const token = Cookies.get('jwt');
-  //   console.log(token)
-  //   if (token) {
-  //     fetchUserData(token);
-  //   }
-  // }, []);
-
-  const fetchUserData = async (token) => {
+   const fetchUserData = async (token) => {
     try {
       const token = Cookies.get('jwt');
       console.log("token epico:", token)
@@ -66,15 +50,17 @@ function AdminPage() {
         },
         method: 'GET',
       });
-      console.log(await response.json())
+      const user = await response.json()
+      setUser(user.data);
+      localStorage.setItem('user', JSON.stringify(user));
+      window.location.href = "/adminPage";
     }catch (error) {
       console.error('Error fetching user data:', error);
     }
+    
   };
-
   const handleLogin = async (credentials) => {
     try {
-      // Make a request to the server to authenticate the user
       const response = await fetch(`${apiURL}`, {
         method: 'POST',
         headers: {
@@ -84,12 +70,9 @@ function AdminPage() {
       });
       if (response.ok) {
         const { token } = await response.json();
-        // Store JWT token in cookies
         Cookies.set('jwt', token);
-        // Fetch user data using the token
         fetchUserData(token);
       } else {
-        // Handle login errors
         setUser(null);
       }
     } catch (error) {
@@ -122,9 +105,8 @@ function AdminPage() {
             </label>
             {error && <div className="error">{error}</div>}
             <input type="submit" value="Enviar" onClick={handleSubmit} />
-            <p>{user ? `Olá, ${user.name}!` : 'Faça login para acessar o sistema.'}</p>
         </form>
     );
 }
 
-export default AdminPage;
+export default Login;
