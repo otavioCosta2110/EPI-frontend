@@ -23,14 +23,9 @@ function Register() {
                     name,
                     email,
                     password,
-                    role: role === 'admin' ? 0 : 1,
+                    role : '0', 
                 }),
             });
-
-            if (!response.ok) {
-                throw new Error('Erro ao enviar dados');
-            }
-
             //window.location.href = "/login";
         } catch (error) {
             setError('Erro ao enviar dados');
@@ -62,13 +57,6 @@ function Register() {
                     name="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)} />
-            </label>
-            <label>
-                Role:
-                <select value={role} onChange={(e) => setRole(e.target.value)}>
-                    <option value="admin">Admin</option>
-                    <option value="usuario">Usuário</option>
-                </select>
             </label>
             <input type="submit" value="Registrar" onClick={handleSubmit} />
         </form>
