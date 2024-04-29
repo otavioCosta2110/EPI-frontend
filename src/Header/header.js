@@ -7,10 +7,11 @@ import './header.css';
 function Header({ style }) {
     return (
         <header className="header" style={style}>
-        <Link to="/">
-            <h1>EPI</h1>
-        </Link>
-        
+            <div className="logo-container">
+            <Link to="/">
+                <h1 className="logo">EPI</h1>
+            </Link>
+            </div>
             <div className="login">
                 <Link to="/login">
                     <span>Login de Administrador</span>
