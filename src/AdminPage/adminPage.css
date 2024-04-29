@@ -1,0 +1,8 @@
+.RegisterButton {
+  background-color: #000000;
+  color: white;
+  margin: 8px 0;
+  padding: 10px;
+  width: 23%;
+  border-radius: 10px;
+}
