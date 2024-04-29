@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './login.css';
 import Cookies from 'js-cookie';
-import Header from '../Header/header';
-import { Link } from 'react-router-dom';
 
 function Login() {
     const [email, setEmail] = useState('');

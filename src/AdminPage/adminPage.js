@@ -1,11 +1,19 @@
 
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBook, faFileAlt, faTrophy } from '@fortawesome/free-solid-svg-icons';
+import { faBook, faFileAlt, faTrophy, faPenToSquare } from '@fortawesome/free-solid-svg-icons';
+import { Link } from 'react-router-dom';
+import './adminPage.css';
 
 function AdminPage() {
     return (
         <div>
+          <div className="RegisterButton">
+            <Link to='/register'>
+              <span>Registrar Novo Administrador </span>
+            </Link>
+            <FontAwesomeIcon icon={faPenToSquare} />
+          </div>
           <div className="container">
             <div className="square">
               <a className='square-text'>
