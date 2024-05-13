@@ -19,7 +19,7 @@ function AdminPage() {
               <a className='square-text'>
                 <FontAwesomeIcon icon={faBook} size="3x" />
                 <br />
-                Aulas
+                Alterar Aulas
               </a>
             </div>
     
@@ -27,7 +27,7 @@ function AdminPage() {
               <a className='square-text'>
                 <FontAwesomeIcon icon={faFileAlt} size="3x" />
                 <br />
-                Materiais
+                Alterar Materiais
               </a>
             </div>
     
@@ -35,7 +35,7 @@ function AdminPage() {
               <a className='square-text'>
                 <FontAwesomeIcon icon={faTrophy} size="3x" />
                 <br />
-                Desafios
+                Alterar Desafios
               </a>
             </div>
           </div>

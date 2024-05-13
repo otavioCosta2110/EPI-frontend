@@ -5,6 +5,7 @@ import LoginPage from './LoginPage/login';
 import HomePage from './home/home'; 
 import AdminPage from './AdminPage/adminPage';
 import RegisterPage from './RegisterPage/register';
+import RegisterStudent from './RegisterStudent/register';
 import VideosPage from './Videos/videos'; 
 import MaterialsPage from './Materials/materials'; 
 import ChallengesPage from './Challenges/challenges';
@@ -25,6 +26,7 @@ const AppRoutes = () => {
             <Route path="/Videos/js" element={<JsPage />}/>
             <Route path="/Videos/html" element={<HtmlPage />}/>
             <Route path="/Videos/css" element={<CssPage />}/>
+            <Route path="/registerStudent" element={<RegisterStudent />} />
         </Routes>
     );
 };

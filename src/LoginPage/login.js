@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import './login.css';
 import Cookies from 'js-cookie';
 
@@ -46,21 +47,34 @@ function Login() {
         },
         method: 'GET',
       });
-      const user = await response.json()
+
+      const loggeduser = await response.json()
+
+      const getUserResponse = await fetch(`${apiURL}/user/getuserbyemail?email=${loggeduser.data.email}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        method: 'GET',
+      });
+      console.log(loggeduser)
+
+      const user = await getUserResponse.json()
+
+      console.log("user:", user.data)
       setUser(user.data);
       localStorage.setItem('user', JSON.stringify(user));
-      window.location.href = "/adminPage";
+      if (user.data.role === "1") {
+        window.location.href = "/";
+      } else {
+        console.log(user);
+        window.location.href = "/adminPage";
+      }
     }catch (error) {
       console.error('Error fetching user data:', error);
     }
     
   };
-  
-  const handleLogout = () => {
-    Cookies.remove('jwt');
-    setUser(null);
-    //retirar do localStorage depois
-  };
+
     return (
         <form onSubmit={handleSubmit}>
             <label>
@@ -78,6 +92,13 @@ function Login() {
                     name="password" 
                     value={password}
                     onChange={(e) => setPassword(e.target.value)} />
+            </label>
+            <label>
+              <Link to="/registerStudent">  
+              <a style={{ color: 'black' }}>
+                Ainda não possui uma conta?
+              </a>
+              </Link>
             </label>
             {error && <div className="error">{error}</div>}
             <input type="submit" value="Enviar" onClick={handleSubmit} />

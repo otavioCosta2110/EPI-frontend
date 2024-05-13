@@ -1,0 +1,24 @@
+.autocomplete-container {
+  width: 300px;
+  margin-bottom: 20px;
+}
+
+.autocomplete-input {
+  width: 100%;
+}
+
+.autocomplete-listbox {
+  background-color: #ffffff;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.autocomplete-option {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.autocomplete-option:hover {
+  background-color: #f0f0f0;
+}

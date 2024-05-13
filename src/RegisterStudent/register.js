@@ -1,5 +1,9 @@
 import React, { useState } from 'react';
-import './register.css'; 
+import { Link } from 'react-router-dom';
+import { TextField, selectClasses } from '@mui/material';
+import Autocomplete from '@mui/material/Autocomplete';
+import { useEffect } from 'react';
+import './register.css';
 
 function Register() {
     const [name, setName] = useState('');
@@ -7,8 +11,33 @@ function Register() {
     const [password, setPassword] = useState('');
     const [role, setRole] = useState('');
     const [error, setError] = useState('');
+    const [tags, setTags] = useState([]);
+    const [selectedTags, setSelectedTags] = useState([]);
 
     const apiURL = 'http://localhost:3000';
+        //fazer um get em /tag/gettags e pegar as tags para colocar no autocomplete
+        useEffect(() => {
+            const fetchTags = async () => {
+                try {
+                    const tagResponse = await fetch(`${apiURL}/tag/gettags`, {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                    });
+                    const tagsData = await tagResponse.json();
+                    const tagNames = tagsData.data.map(tag => tag.name);
+                    setTags(tagNames);
+                    console.log(tagNames)
+                } catch (error) {
+                    console.error('Error fetching tags:', error);
+                }
+            };
+    
+            fetchTags();
+        }, []);
+
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -23,7 +52,8 @@ function Register() {
                     name,
                     email,
                     password,
-                    role : '0', 
+                    role : '1', 
+                    tags : selectedTags
                 }),
             });
             window.location.href = "/login";
@@ -57,6 +87,19 @@ function Register() {
                     name="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)} />
+            </label>
+            <label>
+                <Autocomplete
+                    multiple
+                    id="combo-box-demo"
+                    options={tags}
+                    className="autocomplete-container"
+                    renderInput={(params) => <TextField {...params} className="autocomplete-input" label="Preferência" />}
+                    onChange={(event, newValue) => {
+                        setSelectedTags(newValue);
+                        console.log(selectedTags);
+                    }}
+                />
             </label>
             <input type="submit" value="Registrar" onClick={handleSubmit} />
         </form>
