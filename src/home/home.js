@@ -14,7 +14,7 @@ const ThreeSquares = () => {
           <a className='square-text'>
             <FontAwesomeIcon icon={faBook} size="3x" />
             <br />
-            Aulas
+            Vídeos
           </a>
         </div>
         </Link>

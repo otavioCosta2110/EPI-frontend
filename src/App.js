@@ -5,7 +5,7 @@ import Home from './home/home.js';
 import Footer from './Footer/footer.js';
 import AppRoutes from './routes.js';
 
-const ThreeSquares = () => {
+const App = () => {
   return (
     <Router>
       <div>
@@ -20,4 +20,4 @@ const ThreeSquares = () => {
   );
 };
 
-export default ThreeSquares;
+export default App;
