@@ -7,7 +7,10 @@ import AdminPage from './AdminPage/adminPage';
 import RegisterPage from './RegisterPage/register';
 import VideosPage from './Videos/videos'; 
 import MaterialsPage from './Materials/materials'; 
-import ChallengesPage from './Challenges/challenges'; 
+import ChallengesPage from './Challenges/challenges';
+import JsPage from './Videos/js/jsPage'; 
+import HtmlPage from './Videos/html/htmlPage'; 
+import CssPage from './Videos/css/cssPage'; 
 
 const AppRoutes = () => {
     return (
@@ -19,6 +22,9 @@ const AppRoutes = () => {
             <Route path="/videos" element={<VideosPage />} />
             <Route path="/materials" element={<MaterialsPage />}/>
             <Route path="/challenges" element={<ChallengesPage />}/>
+            <Route path="/Videos/js" element={<JsPage />}/>
+            <Route path="/Videos/html" element={<HtmlPage />}/>
+            <Route path="/Videos/css" element={<CssPage />}/>
         </Routes>
     );
 };
