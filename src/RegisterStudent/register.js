@@ -15,7 +15,6 @@ function Register() {
     const [selectedTags, setSelectedTags] = useState([]);
 
     const apiURL = 'http://localhost:3000';
-        //fazer um get em /tag/gettags e pegar as tags para colocar no autocomplete
         useEffect(() => {
             const fetchTags = async () => {
                 try {
@@ -28,7 +27,6 @@ function Register() {
                     const tagsData = await tagResponse.json();
                     const tagNames = tagsData.data.map(tag => tag.name);
                     setTags(tagNames);
-                    console.log(tagNames)
                 } catch (error) {
                     console.error('Error fetching tags:', error);
                 }

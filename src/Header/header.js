@@ -53,18 +53,20 @@ function Header({ style }) {
           <h1>EPI</h1>
         </Link>
       </div>
-
-      <div className="Logout" onClick={handleLogout}>
-        <Link to="/">
-          <h3>
-            <FontAwesomeIcon
-              icon={faArrowRightFromBracket}
-              style={{ marginRight: "0.5rem" }}
-            />
-            Sair
-          </h3>
-        </Link>
-      </div>
+      
+      {user && (
+        <div className="Logout" onClick={handleLogout}>
+          <Link to="/">
+            <h3>
+              <FontAwesomeIcon
+                icon={faArrowRightFromBracket}
+                style={{ marginRight: "0.5rem" }}
+              />
+              Sair
+            </h3>
+          </Link>
+        </div>
+      )}
     </header>
   );
 }
