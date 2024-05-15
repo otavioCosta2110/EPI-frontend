@@ -113,6 +113,7 @@ function Register() {
         </label>
         <div className="password-rules">
           <ul>
+            <li>A senha deve conter: </li>
             <li className={password.length >= 8 ? "valid" : "invalid"}>
               Pelo menos 8 caracteres
             </li>

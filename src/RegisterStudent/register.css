@@ -28,7 +28,7 @@ input[type="password"].invalid {
 }
 
 .password-rules {
-  margin-top: 20px;
+  margin-top: -20px;
 }
 
 .password-rules h3 {
