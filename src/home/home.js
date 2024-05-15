@@ -27,7 +27,7 @@ const ThreeSquares = () => {
           </a>
         </div>
         </Link>
-        <Link to="/materials">
+        <Link to="/challenges">
         <div className="square">
           <a className='square-text'>
             <FontAwesomeIcon icon={faTrophy} size="3x" />

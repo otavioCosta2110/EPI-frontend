@@ -1,65 +1,60 @@
-import React, { useState, useEffect } from 'react';
-import { TextField } from '@mui/material';
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { TextField, selectClasses } from '@mui/material';
 import Autocomplete from '@mui/material/Autocomplete';
+import { useEffect } from 'react';
 import './register.css';
 
 function Register() {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [role, setRole] = useState('');
     const [error, setError] = useState('');
     const [tags, setTags] = useState([]);
     const [selectedTags, setSelectedTags] = useState([]);
 
     const apiURL = 'http://localhost:3000';
+        useEffect(() => {
+            const fetchTags = async () => {
+                try {
+                    const tagResponse = await fetch(`${apiURL}/tag/gettags`, {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                    });
+                    const tagsData = await tagResponse.json();
+                    const tagNames = tagsData.data.map(tag => tag.name);
+                    setTags(tagNames);
+                } catch (error) {
+                    console.error('Error fetching tags:', error);
+                }
+            };
+    
+            fetchTags();
+        }, []);
 
-    useEffect(() => {
-        const fetchTags = async () => {
-            try {
-                const tagResponse = await fetch(`${apiURL}/tag/gettags`, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                });
-                const tagsData = await tagResponse.json();
-                const tagNames = tagsData.data.map(tag => tag.name);
-                setTags(tagNames);
-            } catch (error) {
-                console.error('Error fetching tags:', error);
-            }
-        };
 
-        fetchTags();
-    }, []);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         try {
-            const body = {
-                name,
-                email,
-                password,
-                role: '0', 
-            };
-            if (selectedTags.length > 0) {
-                body.tags = selectedTags;
-            }
-
             const response = await fetch(`${apiURL}/user/create`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(body),
+                body: JSON.stringify({
+                    name,
+                    email,
+                    password,
+                    role : '1', 
+                    tags : selectedTags
+                }),
             });
-
-            if (response.ok) {
-                window.location.href = "/login";
-            } else {
-                setError('Erro ao enviar dados');
-            }
+            window.location.href = "/login";
         } catch (error) {
             setError('Erro ao enviar dados');
         }
@@ -92,7 +87,6 @@ function Register() {
                     onChange={(e) => setPassword(e.target.value)} />
             </label>
             <label>
-                Preferência:
                 <Autocomplete
                     multiple
                     id="combo-box-demo"
@@ -101,11 +95,11 @@ function Register() {
                     renderInput={(params) => <TextField {...params} className="autocomplete-input" label="Preferência" />}
                     onChange={(event, newValue) => {
                         setSelectedTags(newValue);
+                        console.log(selectedTags);
                     }}
                 />
             </label>
-            <input type="submit" value="Registrar" />
-            {error && <p>{error}</p>}
+            <input type="submit" value="Registrar" onClick={handleSubmit} />
         </form>
     );
 }
