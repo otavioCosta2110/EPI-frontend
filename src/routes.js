@@ -11,7 +11,10 @@ import MaterialsPage from './Materials/materials';
 import ChallengesPage from './Challenges/challenges';
 import JsPage from './Videos/js/jsPage'; 
 import HtmlPage from './Videos/html/htmlPage'; 
-import CssPage from './Videos/css/cssPage'; 
+import CssPage from './Videos/css/cssPage';
+import ForumsPage from './Forums/forums'
+import ForumPage from './Forums/ForumPage/forum'
+
 
 const AppRoutes = () => {
     return (
@@ -23,10 +26,12 @@ const AppRoutes = () => {
             <Route path="/videos" element={<VideosPage />} />
             <Route path="/materials" element={<MaterialsPage />}/>
             <Route path="/challenges" element={<ChallengesPage />}/>
-            <Route path="/Videos/js" element={<JsPage />}/>
-            <Route path="/Videos/html" element={<HtmlPage />}/>
-            <Route path="/Videos/css" element={<CssPage />}/>
+            <Route path="/videos/js" element={<JsPage />}/>
+            <Route path="/videos/html" element={<HtmlPage />}/>
+            <Route path="/videos/css" element={<CssPage />}/>
             <Route path="/registerStudent" element={<RegisterStudent />} />
+            <Route path="/forums" element={<ForumsPage />} />
+            <Route path="/forums/:id" element={<ForumPage />} />
         </Routes>
     );
 };
