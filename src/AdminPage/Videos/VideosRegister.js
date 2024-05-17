@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { TextField } from '@mui/material';
 import Autocomplete from '@mui/material/Autocomplete';
-import Cookies from 'js-cookie';
 
 function VideoRegister() {
     const [title, setTitle] = useState('');
@@ -68,9 +67,7 @@ function VideoRegister() {
             });
             if (response.ok) {
                 window.location.href = "/adminPage";
-            } else {
-                setError("Erro ao registrar vídeo");
-            }
+            } 
             if (selectedTags.length > 0) {
                 tags = selectedTags;
             }
@@ -81,46 +78,50 @@ function VideoRegister() {
     
     
     return (
-        <form onSubmit={handleSubmit}>
-            <label>
-                Título:
-                <input
-                    type="text"
-                    name="title"
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)} />
-            </label>
-            <label>
-                URL do vídeo:
-                <input
-                    type="text"
-                    name="url"
-                    value={url}
-                    onChange={(e) => setUrl(e.target.value)} />
-            </label>
-            <label>
-                Descrição:
-                <textarea
-                    name="description"
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)} />
-            </label>
-            <label>
-                Tags:
-                <Autocomplete
-                    multiple
-                    id="combo-box-demo"
-                    options={tags}
-                    className="autocomplete-container"
-                    renderInput={(params) => <TextField {...params} className="autocomplete-input" label="Tags" />}
-                    onChange={(event, newValue) => {
-                        setSelectedTags(newValue);
-                    }}
-                />
-            </label>
-            <input type="submit" value="Registrar Vídeo" />
-            {error && <div className="error">{error}</div>}
-        </form>
+        user && user.data && user.data.role =='0' ? (
+            <form onSubmit={handleSubmit}>
+                <label>
+                    Título:
+                    <input
+                        type="text"
+                        name="title"
+                        value={title}
+                        onChange={(e) => setTitle(e.target.value)} />
+                </label>
+                <label>
+                    URL do vídeo:
+                    <input
+                        type="text"
+                        name="url"
+                        value={url}
+                        onChange={(e) => setUrl(e.target.value)} />
+                </label>
+                <label>
+                    Descrição:
+                    <textarea
+                        name="description"
+                        value={description}
+                        onChange={(e) => setDescription(e.target.value)} />
+                </label>
+                <label>
+                    Tags:
+                    <Autocomplete
+                        multiple
+                        id="combo-box-demo"
+                        options={tags}
+                        className="autocomplete-container"
+                        renderInput={(params) => <TextField {...params} className="autocomplete-input" label="Tags" />}
+                        onChange={(event, newValue) => {
+                            setSelectedTags(newValue);
+                        }}
+                    />
+                </label>
+                <input type="submit" value="Registrar Vídeo" />
+                {error && <div className="error">{error}</div>}
+            </form>
+        ) : (
+            <div>Você não possui autorização para essa função.</div>
+        )
     );
 }
 
