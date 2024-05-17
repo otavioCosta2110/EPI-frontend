@@ -91,19 +91,16 @@ function Register() {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)} />
             </label>
-            <label>
-                Preferência:
-                <Autocomplete
-                    multiple
-                    id="combo-box-demo"
-                    options={tags}
-                    className="autocomplete-container"
-                    renderInput={(params) => <TextField {...params} className="autocomplete-input" label="Preferência" />}
-                    onChange={(event, newValue) => {
-                        setSelectedTags(newValue);
-                    }}
-                />
-            </label>
+            <Autocomplete
+                multiple
+                id="combo-box-demo"
+                options={tags}
+                className="autocomplete-container"
+                renderInput={(params) => <TextField {...params} className="autocomplete-input" label="Preferência" />}
+                onChange={(event, newValue) => {
+                    setSelectedTags(newValue);
+                }}
+            />
             <input type="submit" value="Registrar" />
             {error && <p>{error}</p>}
         </form>

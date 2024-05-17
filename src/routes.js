@@ -11,6 +11,9 @@ import MaterialsPage from './Materials/materials';
 import ChallengesPage from './Challenges/challenges';
 import VideoPage from './Videos/VideoPage';
 import VideoRegister from './AdminPage/Videos/VideosRegister';
+import ForumsPage from './Forums/forums'
+import ForumPage from './Forums/ForumPage/forum'
+
 
 const AppRoutes = () => {
     return (
@@ -25,6 +28,8 @@ const AppRoutes = () => {
             <Route path="/challenges" element={<ChallengesPage />}/>
             <Route path="/videos/:id" element={<VideoPage />}/>
             <Route path="/registerStudent" element={<RegisterStudent />} />
+            <Route path="/forums" element={<ForumsPage />} />
+            <Route path="/forums/:id" element={<ForumPage />} />
         </Routes>
     );
 };
