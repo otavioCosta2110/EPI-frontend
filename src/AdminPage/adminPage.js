@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBook, faFileAlt, faTrophy, faPenToSquare } from '@fortawesome/free-solid-svg-icons';
@@ -16,11 +15,13 @@ function AdminPage() {
           </div>
           <div className="container">
             <div className="square">
+            <Link to='/registerVideo'>
               <a className='square-text'>
                 <FontAwesomeIcon icon={faBook} size="3x" />
                 <br />
                 Alterar Aulas
               </a>
+            </Link>  
             </div>
     
             <div className="square">

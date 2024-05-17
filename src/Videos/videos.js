@@ -1,38 +1,47 @@
-import React from 'react';
-import './videos.css';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import './pagesCss.css';
+import { useParams } from 'react-router-dom';
 
-const Videos = () => {
-  return (
-    <div>
-      <div className="container">
-        <Link to={'/videos/html'}>
-        <div className="square">
-          <a className='square-text'>
-            <br />
-            Html
-          </a>
-        </div>
-        </Link>
-        <Link to={'/videos/css'}>
-        <div className="square">
-          <a className='square-text'>
-            <br />
-            Css
-          </a>
-        </div>
-        </Link>
-        <Link to={'/videos/js'}>
-        <div className="square">
-          <a className='square-text'>
-            <br />
-            Javascript
-          </a>
-        </div>
-        </Link>
+function Videos() {
+  const [videos, setVideos] = useState([]);
+  const apiURL = 'http://localhost:3000';
+
+  useEffect(() => {
+    const fetchVideo = async () => {
+        try {
+            const response = await fetch(`${apiURL}/video/getvideos`);
+            const data = await response.json();
+            setVideos(data.data);
+        } catch (error) {
+            console.error('Error fetching video:', error);
+        }
+    };
+
+    fetchVideo();
+});
+
+
+return (
+  <div className="videos">
+      <div className="videos-list">
+          {videos.map(video => {
+              const match = video.url.match(/(?:https?:\/\/)?(?:www\.)?youtube\.com\/(?:[^/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)([^"&?/ ]{11})/);
+              const videoId = match && match[1];
+              
+              return (
+                  <a key={video.id} href={video.url} className="video-item">
+                      <img src={`https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`} alt={video.title} className="video-thumbnail" />
+                      <div className="video-info">
+                          <h2 className="video-title">{video.title}</h2>
+                          <p className="video-description">{video.description}</p>
+                      </div>
+                  </a>
+              );
+          })}
       </div>
-    </div>
-  );
-};
+  </div>
+);
+}
 
 export default Videos;
