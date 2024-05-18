@@ -1,11 +1,22 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBook, faFileAlt, faTrophy, faPenToSquare } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 import './adminPage.css';
 
+
 function AdminPage() {
-    return (
+  const [user, setUser] = useState('');
+  
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
+  }, []);
+  
+  return (
+      user && user.data && user.data.role =='0' ? (
         <div>
           <div className="RegisterButton">
             <Link to='/register'>
@@ -41,6 +52,9 @@ function AdminPage() {
             </div>
           </div>
         </div>
+        ) : (
+          <div>Você não possui autorização para essa função.</div>
+      )
       );
     };
 
