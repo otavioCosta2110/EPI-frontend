@@ -20,6 +20,7 @@ function Header({ style }) {
     Cookies.remove("jwt");
     setUser(null);
     localStorage.removeItem("user");
+    window.location.reload();
   };
 
   return (
