@@ -4,6 +4,7 @@ import Autocomplete from '@mui/material/Autocomplete';
 import './register.css';
 
 function Register() {
+    const [user, setUser] = useState('');
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -14,6 +15,10 @@ function Register() {
     const apiURL = 'http://localhost:3000';
 
     useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+        setUser(JSON.parse(storedUser));
+    }
         const fetchTags = async () => {
             try {
                 const tagResponse = await fetch(`${apiURL}/tag/gettags`, {
@@ -66,6 +71,7 @@ function Register() {
     };
 
     return (
+        user && user.data && user.data.role =='0' ? (
         <form onSubmit={handleSubmit}>
             <label>
                 Nome:
@@ -104,6 +110,9 @@ function Register() {
             <input type="submit" value="Registrar" />
             {error && <p>{error}</p>}
         </form>
+        ) : (
+            <div>Você não possui autorização para essa função.</div>
+        )
     );
 }
 

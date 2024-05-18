@@ -21,7 +21,6 @@ function Videos() {
     fetchVideo();
 });
 
-
 return (
   <div className="videos">
       <div className="videos-list">
@@ -30,13 +29,13 @@ return (
               const videoId = match && match[1];
               
               return (
-                  <a key={video.id} href={video.url} className="video-item">
+                  <Link key={video.id} to={`/videos/${video.id}`} className="video-item">
                       <img src={`https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`} alt={video.title} className="video-thumbnail" />
                       <div className="video-info">
                           <h2 className="video-title">{video.title}</h2>
                           <p className="video-description">{video.description}</p>
                       </div>
-                  </a>
+                  </Link>
               );
           })}
       </div>
