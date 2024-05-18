@@ -39,6 +39,10 @@ a {
     margin: 0;
 }
 
+.header-column .center-section h1{
+    color: #ffffff;
+}
+
 @media (max-width: 768px) {
     .header {
         padding: 10px;
