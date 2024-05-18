@@ -9,6 +9,7 @@ import "./VideoPage.css";
 
 function VideoPage() {
   const { id } = useParams();
+  const [user, setUser] = useState('');
   const [video, setVideo] = useState();
   const [relatedVideos, setRelatedVideos] = useState([]);
   const [userRating, setUserRating] = useState(null);
@@ -17,6 +18,10 @@ function VideoPage() {
   const apiURL = "http://localhost:3000";
 
   useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+        setUser(JSON.parse(storedUser));
+    }
     const fetchVideo = async () => {
       try {
         const response = await fetch(`${apiURL}/video/getbyid?id=${id}`);
@@ -59,6 +64,7 @@ function VideoPage() {
       try {
         const body = {
           videoID: video.id,
+          userID: user.data.id,
           rating: newValue,
         };
         const response = await fetch(`${apiURL}/video/rate`, {
@@ -76,7 +82,6 @@ function VideoPage() {
       } catch (error) {
         console.error("Error rating video:", error);
       }
-    console.log(video.id)
   };
 
   if (!video) {

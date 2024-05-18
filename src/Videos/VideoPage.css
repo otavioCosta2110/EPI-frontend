@@ -136,29 +136,3 @@ body {
   text-decoration: underline;
 }
 
-.rating-container {
-  display: flex;
-  align-items: center;
-}
-
-.rating-label {
-  margin-right: 10px;
-}
-
-.rating-stars {
-  display: flex;
-  align-items: center;
-}
-
-.rating-stars .MuiRating-iconEmpty {
-  color: #ccc; /* Cor das estrelas vazias */
-}
-
-.rating-stars .MuiRating-iconFilled {
-  color: #ffc107; /* Cor das estrelas preenchidas */
-}
-
-.rating-value {
-  margin-left: 5px;
-  font-weight: bold;
-}
