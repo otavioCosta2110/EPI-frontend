@@ -1,12 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
-import "./VideoPage.css";
+import Rating from '@mui/material/Rating';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 import Youtube from "react-youtube";
+import "./VideoPage.css";
+
 
 function VideoPage() {
   const { id } = useParams();
   const [video, setVideo] = useState();
   const [relatedVideos, setRelatedVideos] = useState([]);
+  const [userRating, setUserRating] = useState(null);
+  const [hoverRating, setHoverRating] = useState(-1);
 
   const apiURL = "http://localhost:3000";
 
@@ -49,7 +55,29 @@ function VideoPage() {
     fetchVideos();
   }, []);
 
-  console.log(video);
+  const handleUserRatingChange = async (event, newValue) => {
+      try {
+        const body = {
+          videoID: video.id,
+          rating: newValue,
+        };
+        const response = await fetch(`${apiURL}/video/rate`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(body),
+        });
+        if (response.ok) {
+          setUserRating(newValue);
+        } else {
+          console.error("Failed to rate video");
+        }
+      } catch (error) {
+        console.error("Error rating video:", error);
+      }
+    console.log(video.id)
+  };
 
   if (!video) {
     return <div>Video not found</div>;
@@ -79,7 +107,20 @@ function VideoPage() {
             ? video.description.slice(0, 50) + "..."
             : video.description}
         </p>
-      </div>
+     
+      <Box component="fieldset" mb={3} borderColor="transparent" className="rating-container">
+        <Typography component="legend" className="rating-label">Avalie:</Typography>
+        <Rating
+          name="video-user-rating"
+          value={userRating}
+          precision={0.5}
+          onChange={handleUserRatingChange}
+          onChangeActive={(event, newHover) => {
+            setHoverRating(newHover);
+          }}
+        />
+      </Box>
+    </div>
 
       {relatedVideos.some((relatedVideo) =>
         relatedVideo.tags.some(

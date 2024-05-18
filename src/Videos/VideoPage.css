@@ -1,18 +1,16 @@
-/* Reset */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-/* Fonte e Cor */
 body {
   font-family: Arial, sans-serif;
   color: #333;
   line-height: 1.6;
   overflow-y: scroll;
   overflow-x: hidden;
-  background-color: #f9f9f9; /* Adiciona um fundo sutil ao corpo da página */
+  background-color: #f9f9f9; 
 }
 
 /* Layout Principal */
@@ -22,12 +20,11 @@ body {
   max-width: 1200px;
   margin: 20px auto;
   padding: 20px;
-  background-color: #fff; /* Fundo branco para o contêiner principal */
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Adiciona uma sombra sutil ao contêiner principal */
-  border-radius: 8px; /* Borda arredondada para o contêiner principal */
+  background-color: #fff; 
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+  border-radius: 8px; 
 }
 
-/* Contêiner do Vídeo */
 .video-container {
   flex: 1;
   margin-right: 20px;
@@ -66,7 +63,6 @@ body {
   color: #666;
 }
 
-/* Lista de Vídeos Relacionados */
 .related-videos {
   flex: 1;
 }
@@ -125,22 +121,44 @@ body {
   }
 }
 
-/* Estilização Adicional */
-
-/* Fundo sutil ao passar o mouse */
 .video-item:hover {
   background-color: #f5f5f5;
 }
 
-/* Estilo do Link */
 .video-item .video-title,
 .video-item .video-description {
   color: #333;
   text-decoration: none;
 }
 
-/* Estilo do Link ao passar o mouse */
 .video-item:hover .video-title,
 .video-item:hover .video-description {
   text-decoration: underline;
+}
+
+.rating-container {
+  display: flex;
+  align-items: center;
+}
+
+.rating-label {
+  margin-right: 10px;
+}
+
+.rating-stars {
+  display: flex;
+  align-items: center;
+}
+
+.rating-stars .MuiRating-iconEmpty {
+  color: #ccc; /* Cor das estrelas vazias */
+}
+
+.rating-stars .MuiRating-iconFilled {
+  color: #ffc107; /* Cor das estrelas preenchidas */
+}
+
+.rating-value {
+  margin-left: 5px;
+  font-weight: bold;
 }
