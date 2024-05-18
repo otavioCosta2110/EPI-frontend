@@ -23,8 +23,10 @@ function Videos() {
     };
 
     fetchVideo();
-  }, []); // Add dependency array to ensure it runs once
+  }, []); 
+
   console.log(videos)
+  
   return (
     <div className="videos">
       <div className="videos-list">
