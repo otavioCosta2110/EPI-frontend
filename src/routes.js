@@ -6,9 +6,9 @@ import HomePage from './home/home';
 import AdminPage from './AdminPage/adminPage';
 import RegisterPage from './RegisterPage/register';
 import RegisterStudent from './RegisterStudent/register';
-import VideosPage from './Videos/Videos'; 
 import MaterialsPage from './Materials/materials'; 
 import ChallengesPage from './Challenges/challenges';
+import VideosPage from './Videos/videos'; 
 import VideoPage from './Videos/VideoPage';
 import VideoRegister from './AdminPage/Videos/VideosRegister';
 import ForumsPage from './Forums/forums'
