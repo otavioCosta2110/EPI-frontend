@@ -84,6 +84,35 @@ function VideoPage() {
       }
   };
 
+  useEffect(() => {
+    const markVideoAsWatched = async () => {
+      try {
+        const response = await fetch(`${apiURL}/video/play`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            video_id: video.id,
+            user_id: user.data.id,
+          }),
+        });
+        const data = await response.json();
+        if (!response.ok) {
+          console.error("Failed to mark video as watched:", data.message);
+        }
+      } catch (error) {
+        console.error("Error marking video as watched:", error);
+      }
+    };
+  
+    if (video) {
+      markVideoAsWatched();
+      console.log("Ta marcado");
+    }
+  }, [video, user]);
+  
+
   if (!video) {
     return <div>Video not found</div>;
   }
