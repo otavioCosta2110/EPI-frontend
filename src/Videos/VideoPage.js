@@ -1,16 +1,27 @@
 import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
-import "./VideoPage.css";
+import Rating from '@mui/material/Rating';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 import Youtube from "react-youtube";
+import "./VideoPage.css";
+
 
 function VideoPage() {
   const { id } = useParams();
+  const [user, setUser] = useState('');
   const [video, setVideo] = useState();
   const [relatedVideos, setRelatedVideos] = useState([]);
+  const [userRating, setUserRating] = useState(null);
+  const [hoverRating, setHoverRating] = useState(-1);
 
   const apiURL = "http://localhost:3000";
 
   useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+        setUser(JSON.parse(storedUser));
+    }
     const fetchVideo = async () => {
       try {
         const response = await fetch(`${apiURL}/video/getbyid?id=${id}`);
@@ -49,7 +60,58 @@ function VideoPage() {
     fetchVideos();
   }, []);
 
-  console.log(video);
+  const handleUserRatingChange = async (event, newValue) => {
+      try {
+        const body = {
+          videoID: video.id,
+          userID: user.data.id,
+          rating: newValue,
+        };
+        const response = await fetch(`${apiURL}/video/rate`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(body),
+        });
+        if (response.ok) {
+          setUserRating(newValue);
+        } else {
+          console.error("Failed to rate video");
+        }
+      } catch (error) {
+        console.error("Error rating video:", error);
+      }
+  };
+
+  useEffect(() => {
+    const markVideoAsWatched = async () => {
+      try {
+        const response = await fetch(`${apiURL}/video/play`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            video_id: video.id,
+            user_id: user.data.id,
+          }),
+        });
+        const data = await response.json();
+        if (!response.ok) {
+          console.error("Failed to mark video as watched:", data.message);
+        }
+      } catch (error) {
+        console.error("Error marking video as watched:", error);
+      }
+    };
+  
+    if (video) {
+      markVideoAsWatched();
+      console.log("Ta marcado");
+    }
+  }, [video, user]);
+  
 
   if (!video) {
     return <div>Video not found</div>;
@@ -79,7 +141,20 @@ function VideoPage() {
             ? video.description.slice(0, 50) + "..."
             : video.description}
         </p>
-      </div>
+     
+      <Box component="fieldset" mb={3} borderColor="transparent" className="rating-container">
+        <Typography component="legend" className="rating-label">Avalie:</Typography>
+        <Rating
+          name="video-user-rating"
+          value={userRating}
+          precision={0.5}
+          onChange={handleUserRatingChange}
+          onChangeActive={(event, newHover) => {
+            setHoverRating(newHover);
+          }}
+        />
+      </Box>
+    </div>
 
       {relatedVideos.some((relatedVideo) =>
         relatedVideo.tags.some(
