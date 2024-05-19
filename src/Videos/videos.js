@@ -68,7 +68,7 @@ function Videos() {
   return (
     <div className="videos">
       <div className="videos-list">
-      <h2>Unwatched Videos</h2>
+        <h2>Unwatched Videos</h2>
         {videos.length > 0 ? (
           videos.map(video => {
             const match = video.url.match(/(?:https?:\/\/)?(?:www\.)?youtube\.com\/(?:[^/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)([^"&?/ ]{11})/);
@@ -112,15 +112,12 @@ function Videos() {
                   <h2 className="video-title">{video.title}</h2>
                   <p className="video-description">{video.description}</p>
                 </div>
-                <br></br>
               </Link>
             );
           })
         ) : (
           <p>No watched videos available</p>
         )}
-      
-        
       </div>
     </div>
   );
