@@ -9,13 +9,20 @@ import {
 import "./forums.css";
 
 const Thread = ({ id, title, description, username }) => (
-  <div className="thread">
-    <div className="thread-username">{username}</div>
-    <Link to={`/forums/${id}`} className="thread-link">
-      <h2>{title}</h2>
-      <p>{description}</p>
-    </Link>
-  </div>
+  console.log(username),
+  (
+    <div className="thread">
+      <div className="thread-username">{username}</div>
+      <Link
+        to={`/forums/${id}`}
+        className="thread-link"
+        state={{ id, title, description, username }}
+      >
+        <h2>{title}</h2>
+        <p>{description}</p>
+      </Link>
+    </div>
+  )
 );
 
 const ThreadList = ({ threads, loggedInUser }) => (
@@ -31,23 +38,6 @@ const ThreadList = ({ threads, loggedInUser }) => (
     ))}
   </div>
 );
-
-const ThreadDetail = () => {
-  const { id } = useParams();
-  const thread = {
-    id,
-    title: `Thread ${id}`,
-    description: `Descrição da thread ${id}`,
-  };
-
-  return (
-    <div className="thread-detail">
-      <h2>{thread.userName}</h2>
-      <h2>{thread.title}</h2>
-      <p>{thread.description}</p>
-    </div>
-  );
-};
 
 const NewThreadForm = ({ onCreateThread, user }) => {
   const [title, setTitle] = useState("");
