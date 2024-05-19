@@ -13,12 +13,12 @@ body {
   background-color: #f9f9f9; 
 }
 
-/* Layout Principal */
 .video-page {
   display: flex;
   justify-content: space-between;
   max-width: 1200px;
   margin: 20px auto;
+  margin-top: 15%;
   padding: 20px;
   background-color: #fff; 
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
@@ -86,7 +86,6 @@ body {
   transition: background-color 0.3s ease;
 }
 
-/* Responsividade */
 @media (max-width: 768px) {
   .video-page {
     flex-direction: column;

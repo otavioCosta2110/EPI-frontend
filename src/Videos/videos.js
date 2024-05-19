@@ -65,12 +65,23 @@ function Videos() {
 
   const isWatched = (videoId) => watchedVideos.some(video => video.id === videoId);
 
+  const filterAndSortVideos = (videos) => {
+    if (!user || !user.data || !user.data.tags) return videos;
+    const selectedTags = user.data.tags;
+
+    return videos.sort((a, b) => {
+      const aMatches = a.tags.some(tag => selectedTags.includes(tag));
+      const bMatches = b.tags.some(tag => selectedTags.includes(tag));
+      return bMatches - aMatches;
+    });
+  };
+
   return (
     <div className="videos">
       <div className="videos-list">
         <h2>Unwatched Videos</h2>
         {videos.length > 0 ? (
-          videos.map(video => {
+          filterAndSortVideos(videos).map(video => {
             const match = video.url.match(/(?:https?:\/\/)?(?:www\.)?youtube\.com\/(?:[^/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)([^"&?/ ]{11})/);
             const videoId = match && match[1];
 
@@ -97,7 +108,7 @@ function Videos() {
 
         <h2>Watched Videos</h2>
         {watchedVideos.length > 0 ? (
-          watchedVideos.map(video => {
+          filterAndSortVideos(watchedVideos).map(video => {
             const match = video.url.match(/(?:https?:\/\/)?(?:www\.)?youtube\.com\/(?:[^/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)([^"&?/ ]{11})/);
             const videoId = match && match[1];
 

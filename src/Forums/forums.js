@@ -48,7 +48,6 @@ const NewThreadForm = ({ onCreateThread, user }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    // Verifica se os campos obrigatórios estão preenchidos
     if (!title || !description) {
       setError('Por favor, preencha todos os campos obrigatórios.');
       return;
