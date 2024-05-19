@@ -6,7 +6,6 @@ import Typography from '@mui/material/Typography';
 import Youtube from "react-youtube";
 import "./VideoPage.css";
 
-
 function VideoPage() {
   const { id } = useParams();
   const [user, setUser] = useState('');
@@ -111,7 +110,6 @@ function VideoPage() {
       console.log("Ta marcado");
     }
   }, [video, user]);
-  
 
   if (!video) {
     return <div>Video not found</div>;
@@ -141,20 +139,25 @@ function VideoPage() {
             ? video.description.slice(0, 50) + "..."
             : video.description}
         </p>
+
+        <div className="video-tags">
+          <h3>Tags:</h3>
+          <p>{video.tags.join(', ')}</p>
+        </div>
      
-      <Box component="fieldset" mb={3} borderColor="transparent" className="rating-container">
-        <Typography component="legend" className="rating-label">Avalie:</Typography>
-        <Rating
-          name="video-user-rating"
-          value={userRating}
-          precision={0.5}
-          onChange={handleUserRatingChange}
-          onChangeActive={(event, newHover) => {
-            setHoverRating(newHover);
-          }}
-        />
-      </Box>
-    </div>
+        <Box component="fieldset" mb={3} borderColor="transparent" className="rating-container">
+          <Typography component="legend" className="rating-label">Avalie:</Typography>
+          <Rating
+            name="video-user-rating"
+            value={userRating}
+            precision={0.5}
+            onChange={handleUserRatingChange}
+            onChangeActive={(event, newHover) => {
+              setHoverRating(newHover);
+            }}
+          />
+        </Box>
+      </div>
 
       {relatedVideos.some((relatedVideo) =>
         relatedVideo.tags.some(
