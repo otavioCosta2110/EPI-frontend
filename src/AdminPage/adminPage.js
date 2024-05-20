@@ -4,59 +4,71 @@ import { faBook, faFileAlt, faTrophy, faPenToSquare } from '@fortawesome/free-so
 import { Link } from 'react-router-dom';
 import './adminPage.css';
 
-
 function AdminPage() {
   const [user, setUser] = useState('');
-  
+
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
     if (storedUser) {
       setUser(JSON.parse(storedUser));
     }
   }, []);
-  
+
   return (
-      user && user.data && user.data.role =='0' ? (
-        <div>
-          <div className="RegisterButton">
-            <Link to='/register'>
-              <span>Registrar Novo Administrador </span>
-            </Link>
-            <FontAwesomeIcon icon={faPenToSquare} />
-          </div>
-          <div className="container">
+    user && user.data && user.data.role == '0' ? (
+      <div className="admin-page">
+        <div className="container">
+          <Link to='/register'>
             <div className="square">
-            <Link to='/registerVideo'>
-              <a className='square-text'>
+              <span className='square-text'>
+                <FontAwesomeIcon icon={faPenToSquare} size="3x" />
+                <br />
+                Registrar Administrador
+              </span>
+            </div>
+          </Link>
+          <Link to='/registerVideo'>
+            <div className="square">
+              <span className='square-text'>
                 <FontAwesomeIcon icon={faBook} size="3x" />
                 <br />
                 Alterar Aulas
-              </a>
-            </Link>  
+              </span>
             </div>
-    
+          </Link>
+          <Link to='/registerMaterial'>
             <div className="square">
-              <a className='square-text'>
+              <span className='square-text'>
                 <FontAwesomeIcon icon={faFileAlt} size="3x" />
                 <br />
                 Alterar Materiais
-              </a>
+              </span>
             </div>
-    
+          </Link>
+          <Link to='/registerChallenge'>
             <div className="square">
-              <a className='square-text'>
+              <span className='square-text'>
                 <FontAwesomeIcon icon={faTrophy} size="3x" />
                 <br />
                 Alterar Desafios
-              </a>
+              </span>
             </div>
-          </div>
+          </Link>
+          <Link to='/forums'>
+            <div className="square">
+              <span className='square-text'>
+                <FontAwesomeIcon icon={faFileAlt} size="3x" />
+                <br />
+                Forums
+              </span>
+            </div>
+          </Link>
         </div>
-        ) : (
-          <div>Você não possui autorização para essa função.</div>
-      )
-      );
-    };
+      </div>
+    ) : (
+      <div>Você não possui autorização para essa função.</div>
+    )
+  );
+}
 
 export default AdminPage;
-

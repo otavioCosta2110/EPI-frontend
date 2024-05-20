@@ -107,12 +107,20 @@ function VideoPage() {
 
     if (video) {
       markVideoAsWatched();
-      console.log("Ta marcado");
     }
   }, [video, user]);
 
   if (!video) {
-    return <div>Video not found</div>;
+    return <div>Video não encontrado</div>;
+  }
+
+  function getVideoImage(videoUrl) {
+    const match = videoUrl.match(
+      /(?:https?:\/\/)?(?:www\.)?youtube\.com\/(?:[^/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)([^"&?/ ]{11})/
+    );
+    const videoId = match && match[1];
+    const imageUrl = `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
+    return imageUrl;
   }
 
   return (
@@ -172,7 +180,7 @@ function VideoPage() {
         )
       ) && (
         <div className="related-videos">
-          <h2>Related Videos</h2>
+          <h2>Vídeos Relacionados</h2>
           <div className="related-videos-list">
             {relatedVideos
               .filter((relatedVideo) =>
@@ -188,7 +196,7 @@ function VideoPage() {
                   className="video-item"
                 >
                   <img
-                    src={`https://img.youtube.com/vi/${relatedVideo.id}/maxresdefault.jpg`}
+                    src={`${getVideoImage(relatedVideo.url)}`}
                     alt={relatedVideo.title}
                     className="video-thumbnail"
                   />

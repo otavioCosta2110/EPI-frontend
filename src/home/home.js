@@ -45,6 +45,15 @@ const ThreeSquares = () => {
               </a>
             </div>
           </Link>
+          <Link to="/forums">
+            <div className="square">
+              <a className='square-text'>
+                <FontAwesomeIcon icon={faFileAlt} size="3x" />
+                <br />
+                Forums
+              </a>
+            </div>
+          </Link>
         </div>
       </div>
     ) : (

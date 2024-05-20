@@ -82,6 +82,13 @@ function Videos() {
     });
   };
 
+  const truncateText = (text, maxLength) => {
+    if (text.length > maxLength) {
+      return text.slice(0, maxLength) + "...";
+    }
+    return text;
+  };
+
   return (
     <div className="videos">
       <div className="videos-list">
@@ -105,8 +112,13 @@ function Videos() {
                     className="video-thumbnail"
                   />
                   <div className="video-info">
-                    <h2 className="video-title">{video.title}</h2>
-                    <p className="video-description">{video.description}</p>
+                    <h2 className="video-title">
+                      {truncateText(video.title, 10)}
+                    </h2>
+                    <p className="video-description">
+                      {truncateText(video.description, 10)}
+                    </p>
+                    <p>{video.tags.join(", ")}</p>
                   </div>
                 </Link>
               );
@@ -114,7 +126,7 @@ function Videos() {
             return null;
           })
         ) : (
-          <p>No videos avaliable</p>
+          <p>No videos available</p>
         )}
 
         <h2>Vídeos assistidos</h2>
@@ -137,14 +149,19 @@ function Videos() {
                   className="video-thumbnail"
                 />
                 <div className="video-info">
-                  <h2 className="video-title">{video.title}</h2>
-                  <p className="video-description">{video.description}</p>
+                  <h2 className="video-title">
+                    {truncateText(video.title, 10)}
+                  </h2>
+                  <p className="video-description">
+                    {truncateText(video.description, 10)}
+                  </p>
+                  <p>{video.tags.join(", ")}</p>
                 </div>
               </Link>
             );
           })
         ) : (
-          <p>Você não tem videos assistidos</p>
+          <p>Você não tem vídeos assistidos</p>
         )}
       </div>
     </div>
