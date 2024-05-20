@@ -1,19 +1,19 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import './pagesCss.css';
-import { useParams } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import "./pagesCss.css";
+import { useParams } from "react-router-dom";
 
 function Videos() {
-  const [user, setUser] = useState('');
+  const [user, setUser] = useState("");
   const [videos, setVideos] = useState([]);
   const [watchedVideos, setWatchedVideos] = useState([]);
 
-  const apiURL = 'http://localhost:3000';
+  const apiURL = "http://localhost:3000";
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
     if (storedUser) {
-        setUser(JSON.parse(storedUser));
+      setUser(JSON.parse(storedUser));
     }
     const fetchVideo = async () => {
       try {
@@ -22,38 +22,43 @@ function Videos() {
         if (data && data.data) {
           setVideos(data.data);
         } else {
-          console.error('Unexpected response format:', data);
+          console.error("Unexpected response format:", data);
         }
       } catch (error) {
-        console.error('Error fetching video:', error);
+        console.error("Error fetching video:", error);
       }
     };
 
     fetchVideo();
-  }, []); 
-  
+  }, []);
+
   const fetchWatchedVideos = async () => {
     try {
-      const response = await fetch(`${apiURL}/video/watchedvideos?id=${user.data.id}`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
+      const response = await fetch(
+        `${apiURL}/video/watchedvideos?id=${user.data.id}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
       const data = await response.json();
       if (response.ok) {
-        const videosPromises = data.data.map(async video => {
-          const responseVideos = await fetch(`${apiURL}/video/getbyid?id=${video.video_id}`); 
+        const videosPromises = data.data.map(async (video) => {
+          const responseVideos = await fetch(
+            `${apiURL}/video/getbyid?id=${video.video_id}`
+          );
           const videoData = await responseVideos.json();
           return videoData.data;
-        });  
+        });
         const videos = await Promise.all(videosPromises);
         setWatchedVideos(videos);
       } else {
-        console.error('Unexpected response format:', data);
+        console.error("Unexpected response format:", data);
       }
     } catch (error) {
-      console.error('Error fetching watched videos:', error);
+      console.error("Error fetching watched videos:", error);
     }
   };
 
@@ -63,15 +68,16 @@ function Videos() {
     }
   }, [user]);
 
-  const isWatched = (videoId) => watchedVideos.some(video => video.id === videoId);
+  const isWatched = (videoId) =>
+    watchedVideos.some((video) => video.id === videoId);
 
   const filterAndSortVideos = (videos) => {
     if (!user || !user.data || !user.data.tags) return videos;
     const selectedTags = user.data.tags;
 
     return videos.sort((a, b) => {
-      const aMatches = a.tags.some(tag => selectedTags.includes(tag));
-      const bMatches = b.tags.some(tag => selectedTags.includes(tag));
+      const aMatches = a.tags.some((tag) => selectedTags.includes(tag));
+      const bMatches = b.tags.some((tag) => selectedTags.includes(tag));
       return bMatches - aMatches;
     });
   };
@@ -79,15 +85,20 @@ function Videos() {
   return (
     <div className="videos">
       <div className="videos-list">
-        <h2>Unwatched Videos</h2>
         {videos.length > 0 ? (
-          filterAndSortVideos(videos).map(video => {
-            const match = video.url.match(/(?:https?:\/\/)?(?:www\.)?youtube\.com\/(?:[^/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)([^"&?/ ]{11})/);
+          filterAndSortVideos(videos).map((video) => {
+            const match = video.url.match(
+              /(?:https?:\/\/)?(?:www\.)?youtube\.com\/(?:[^/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)([^"&?/ ]{11})/
+            );
             const videoId = match && match[1];
 
             if (!isWatched(video.id)) {
               return (
-                <Link key={video.id} to={`/videos/${video.id}`} className="video-item">
+                <Link
+                  key={video.id}
+                  to={`/videos/${video.id}`}
+                  className="video-item"
+                >
                   <img
                     src={`https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`}
                     alt={video.title}
@@ -103,17 +114,23 @@ function Videos() {
             return null;
           })
         ) : (
-          <p>No unwatched videos available</p>
+          <p>Nenhum vídeo disponível</p>
         )}
 
-        <h2>Watched Videos</h2>
+        <h2>Vídeos assistidos</h2>
         {watchedVideos.length > 0 ? (
-          filterAndSortVideos(watchedVideos).map(video => {
-            const match = video.url.match(/(?:https?:\/\/)?(?:www\.)?youtube\.com\/(?:[^/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)([^"&?/ ]{11})/);
+          filterAndSortVideos(watchedVideos).map((video) => {
+            const match = video.url.match(
+              /(?:https?:\/\/)?(?:www\.)?youtube\.com\/(?:[^/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)([^"&?/ ]{11})/
+            );
             const videoId = match && match[1];
 
             return (
-              <Link key={video.id} to={`/videos/${video.id}`} className="video-item watched">
+              <Link
+                key={video.id}
+                to={`/videos/${video.id}`}
+                className="video-item watched"
+              >
                 <img
                   src={`https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`}
                   alt={video.title}
@@ -127,7 +144,7 @@ function Videos() {
             );
           })
         ) : (
-          <p>No watched videos available</p>
+          <p>Você não assistiu nenhum video</p>
         )}
       </div>
     </div>
