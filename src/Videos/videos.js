@@ -114,7 +114,7 @@ function Videos() {
             return null;
           })
         ) : (
-          <p>Nenhum vídeo disponível</p>
+          <p>No videos avaliable</p>
         )}
 
         <h2>Vídeos assistidos</h2>
@@ -144,7 +144,7 @@ function Videos() {
             );
           })
         ) : (
-          <p>Você não assistiu nenhum vídeo até então</p>
+          <p>Você não tem videos assistidos</p>
         )}
       </div>
     </div>

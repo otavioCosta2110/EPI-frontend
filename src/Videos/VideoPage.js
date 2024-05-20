@@ -140,6 +140,11 @@ function VideoPage() {
             : video.description}
         </p>
 
+        <div className="video-tags">
+          <h3>Tags:</h3>
+          <p>{video.tags.join(", ")}</p>
+        </div>
+
         <Box
           component="fieldset"
           mb={3}
