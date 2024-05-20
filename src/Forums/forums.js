@@ -9,17 +9,20 @@ import {
 import "./forums.css";
 
 const Thread = ({ id, title, description, username }) => (
-  <div className="thread">
-    <div className="thread-username">{username}</div>
-    <Link
-      to={`/forums/${id}`}
-      className="thread-link"
-      state={{ id, title, description, username }}
-    >
-      <h2>{title}</h2>
-      <p>{description}</p>
-    </Link>
-  </div>
+  console.log(username),
+  (
+    <div className="thread">
+      <div className="thread-username">{username}</div>
+      <Link
+        to={`/forums/${id}`}
+        className="thread-link"
+        state={{ id, title, description, username }}
+      >
+        <h2>{title}</h2>
+        <p>{description}</p>
+      </Link>
+    </div>
+  )
 );
 
 const ThreadList = ({ threads, loggedInUser }) => (
@@ -46,6 +49,7 @@ const NewThreadForm = ({ onCreateThread, user }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Verifica se os campos obrigatórios estão preenchidos
     if (!title || !description) {
       setError("Por favor, preencha todos os campos obrigatórios.");
       return;
@@ -86,7 +90,9 @@ const NewThreadForm = ({ onCreateThread, user }) => {
           value={description}
           onChange={(e) => setDescription(e.target.value)}
         />
-        <button type="submit">Criar Thread</button>
+        <button onClick={() => window.location.reload()} type="submit">
+          Criar Thread
+        </button>
       </form>
     </div>
   );
@@ -111,7 +117,7 @@ const App = () => {
   const getThreads = async () => {
     const response = await fetch("http://localhost:3000/thread/get");
     const threadData = await response.json();
-
+    console.log(threadData);
     for (const thread of threadData.data) {
       const responseGetUser = await fetch(
         `http://localhost:3000/user/getuserbyid?id=${thread.user_id}`

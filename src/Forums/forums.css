@@ -3,11 +3,10 @@
   padding: 20px;
   font-family: Arial, sans-serif;
   margin-top: 60vh;
-  margin-bottom: 10vh;
 }
 
 .thread-list {
-  max-height: calc(100vh - 100px); /* Adjust the value as needed */
+  max-height: calc(100vh - 100px);
 }
 
 .thread-list::-webkit-scrollbar {
@@ -50,14 +49,11 @@
   margin-bottom: 10px;
 }
 
-.new-thread-form-container {
-  margin-bottom: 20px;
-}
-
 .new-thread-form {
   background-color: #f9f9f9;
   padding: 20px;
   border: 1px solid #ccc;
+  margin-bottom: 10vh;
 }
 
 .new-thread-form input[type="text"] {
@@ -66,12 +62,19 @@
   margin-bottom: 10px;
 }
 
+.new-thread-form-container {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 2vh;
+}
+
 .new-thread-form button {
   padding: 10px 20px;
-  background-color: #007bff;
+  background-color: #000000;
   color: white;
   border: none;
   cursor: pointer;
+  border-radius: 10px;
 }
 
 .new-thread-form button:hover {
