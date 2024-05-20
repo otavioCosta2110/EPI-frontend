@@ -11,7 +11,11 @@ import "./forums.css";
 const Thread = ({ id, title, description, username }) => (
   <div className="thread">
     <div className="thread-username">{username}</div>
-    <Link to={`/forums/${id}`} className="thread-link">
+    <Link
+      to={`/forums/${id}`}
+      className="thread-link"
+      state={{ id, title, description, username }}
+    >
       <h2>{title}</h2>
       <p>{description}</p>
     </Link>
