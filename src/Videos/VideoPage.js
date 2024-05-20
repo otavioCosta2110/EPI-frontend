@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
-import Rating from '@mui/material/Rating';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
+import Rating from "@mui/material/Rating";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
 import Youtube from "react-youtube";
 import "./VideoPage.css";
 
 function VideoPage() {
   const { id } = useParams();
-  const [user, setUser] = useState('');
+  const [user, setUser] = useState("");
   const [video, setVideo] = useState();
   const [relatedVideos, setRelatedVideos] = useState([]);
   const [userRating, setUserRating] = useState(null);
@@ -19,7 +19,7 @@ function VideoPage() {
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
     if (storedUser) {
-        setUser(JSON.parse(storedUser));
+      setUser(JSON.parse(storedUser));
     }
     const fetchVideo = async () => {
       try {
@@ -60,36 +60,36 @@ function VideoPage() {
   }, []);
 
   const handleUserRatingChange = async (event, newValue) => {
-      try {
-        const body = {
-          videoID: video.id,
-          userID: user.data.id,
-          rating: newValue,
-        };
-        const response = await fetch(`${apiURL}/video/rate`, {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(body),
-        });
-        if (response.ok) {
-          setUserRating(newValue);
-        } else {
-          console.error("Failed to rate video");
-        }
-      } catch (error) {
-        console.error("Error rating video:", error);
+    try {
+      const body = {
+        videoID: video.id,
+        userID: user.data.id,
+        rating: newValue,
+      };
+      const response = await fetch(`${apiURL}/video/rate`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(body),
+      });
+      if (response.ok) {
+        setUserRating(newValue);
+      } else {
+        console.error("Failed to rate video");
       }
+    } catch (error) {
+      console.error("Error rating video:", error);
+    }
   };
 
   useEffect(() => {
     const markVideoAsWatched = async () => {
       try {
         const response = await fetch(`${apiURL}/video/play`, {
-          method: 'POST',
+          method: "POST",
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
           body: JSON.stringify({
             video_id: video.id,
@@ -104,7 +104,7 @@ function VideoPage() {
         console.error("Error marking video as watched:", error);
       }
     };
-  
+
     if (video) {
       markVideoAsWatched();
       console.log("Ta marcado");
@@ -142,11 +142,18 @@ function VideoPage() {
 
         <div className="video-tags">
           <h3>Tags:</h3>
-          <p>{video.tags.join(', ')}</p>
+          <p>{video.tags.join(", ")}</p>
         </div>
-     
-        <Box component="fieldset" mb={3} borderColor="transparent" className="rating-container">
-          <Typography component="legend" className="rating-label">Avalie:</Typography>
+
+        <Box
+          component="fieldset"
+          mb={3}
+          borderColor="transparent"
+          className="rating-container"
+        >
+          <Typography component="legend" className="rating-label">
+            Avalie:
+          </Typography>
           <Rating
             name="video-user-rating"
             value={userRating}
