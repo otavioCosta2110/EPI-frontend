@@ -12,7 +12,7 @@ const Thread = ({ id, title, description, username }) => (
   console.log(username),
   (
     <div className="thread">
-      <div className="thread-username">{username}</div>
+      <div className="thread-username">Publicado por: {username}</div>
       <Link
         to={`/forums/${id}`}
         className="thread-link"
@@ -49,7 +49,6 @@ const NewThreadForm = ({ onCreateThread, user }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Verifica se os campos obrigatórios estão preenchidos
     if (!title || !description) {
       setError("Por favor, preencha todos os campos obrigatórios.");
       return;

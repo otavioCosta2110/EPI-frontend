@@ -84,6 +84,7 @@ function VideoPage() {
   };
 
   useEffect(() => {
+    setUserRating(video ? video.rating : null);
     const markVideoAsWatched = async () => {
       try {
         const response = await fetch(`${apiURL}/video/play`, {
@@ -149,7 +150,7 @@ function VideoPage() {
         </p>
 
         <div className="video-tags">
-          <h3>Tags:</h3>
+          <h3>Assuntos:</h3>
           <p>{video.tags.join(", ")}</p>
         </div>
 

@@ -129,7 +129,7 @@ function Videos() {
           <p>No videos available</p>
         )}
 
-        <h2>Vídeos assistidos</h2>
+        <h2>Histórico</h2>
         {watchedVideos.length > 0 ? (
           filterAndSortVideos(watchedVideos).map((video) => {
             const match = video.url.match(
@@ -161,7 +161,7 @@ function Videos() {
             );
           })
         ) : (
-          <p>Você não tem vídeos assistidos</p>
+          <p>Você não tem Histórico</p>
         )}
       </div>
     </div>
