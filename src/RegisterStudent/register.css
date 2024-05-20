@@ -1,3 +1,7 @@
+.register-container {
+  margin-top: 10vh;
+}
+
 .autocomplete-container {
   width: 300px;
   margin-bottom: 20px;

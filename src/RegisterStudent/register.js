@@ -81,7 +81,7 @@ function Register() {
   };
 
   return (
-    <div>
+    <div className="register-container">
       <form onSubmit={handleSubmit}>
         <label>
           Nome:
