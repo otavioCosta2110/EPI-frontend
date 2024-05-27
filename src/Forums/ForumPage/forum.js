@@ -93,14 +93,21 @@ const ThreadDetail = () => {
         <h2>{title}</h2>
         <p>{description}</p>
       </div>
-      <textarea
-        value={content}
-        onChange={(e) => setContent(e.target.value)}
-        placeholder="Digite sua resposta"
-      />
-      <button onClick={handleCreateResponse} className="create-response-button">
-        Criar Comentário
-      </button>
+      {user && (
+        <textarea
+          value={content}
+          onChange={(e) => setContent(e.target.value)}
+          placeholder="Digite sua resposta"
+        />
+      )}
+      {user && (
+        <button
+          onClick={handleCreateResponse}
+          className="create-response-button"
+        >
+          Criar Comentário
+        </button>
+      )}
       <div className="posts">
         {posts.map((post) => (
           <div key={post.id} className="post">
