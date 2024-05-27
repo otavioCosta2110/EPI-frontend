@@ -99,7 +99,7 @@ const ThreadDetail = () => {
         placeholder="Digite sua resposta"
       />
       <button onClick={handleCreateResponse} className="create-response-button">
-        Create Response
+        Criar Comentário
       </button>
       <div className="posts">
         {posts.map((post) => (

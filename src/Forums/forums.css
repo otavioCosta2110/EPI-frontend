@@ -1,23 +1,40 @@
+body{
+  overflow-y: hidden;
+}
 .app {
-  max-width: 800px;
+  width: 800px;
   padding: 20px;
   font-family: Arial, sans-serif;
-  margin-top: 60vh;
+  margin-top: 20vh;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.thread-container {
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  padding: 20px;
+  margin-top: 20px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 }
 
 .thread-list {
-  max-height: calc(100vh - 100px);
+  max-height: calc(100vh - 200px);
+  overflow-y: auto;
 }
 
 .thread-list::-webkit-scrollbar {
   display: none;
 }
 
+/* Estilos dos threads */
 .thread {
   border: 1px solid #ccc;
   padding: 10px;
   margin-bottom: 10px;
   background-color: #f9f9f9;
+  border-radius: 5px;
 }
 
 .thread-username {
@@ -27,39 +44,30 @@
 .thread-link {
   text-decoration: none;
   color: #333;
+  display: block;
+  padding: 10px;
+  transition: background-color 0.3s ease;
 }
 
 .thread-link:hover {
   background-color: #e0e0e0;
 }
 
-.thread-detail {
-  border: 1px solid #ccc;
-  padding: 20px;
-  margin-top: 20px;
-  background-color: #f9f9f9;
-}
-
-.create-thread-container {
-  margin-bottom: 20px;
-}
-
-.error {
-  color: red;
-  margin-bottom: 10px;
-}
-
+/* Estilos do formulário de nova thread */
 .new-thread-form {
   background-color: #f9f9f9;
   padding: 20px;
   border: 1px solid #ccc;
   margin-bottom: 10vh;
+  border-radius: 5px;
 }
 
 .new-thread-form input[type="text"] {
-  width: 100%;
+  width: calc(100% - 20px);
   padding: 10px;
   margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
 }
 
 .new-thread-form-container {
@@ -70,22 +78,38 @@
 
 .new-thread-form button {
   padding: 10px 20px;
-  background-color: #000000;
+  background-color: #000;
   color: white;
   border: none;
   cursor: pointer;
   border-radius: 10px;
+  transition: background-color 0.3s ease;
 }
 
 .new-thread-form button:hover {
   background-color: #0056b3;
 }
 
+/* Estilos de detalhes de thread */
+.thread-detail {
+  border: 1px solid #ccc;
+  padding: 20px;
+  margin-top: 20px;
+  background-color: #f9f9f9;
+  border-radius: 5px;
+}
+
+/* Estilos de mensagens de erro */
+.error {
+  color: red;
+  margin-bottom: 10px;
+}
+
+/* Estilos de texto com quebra de linha */
 .thread h2,
 .thread p,
 .thread-detail h2,
 .thread-detail p {
   white-space: nowrap;
-  overflow: hidden;
   text-overflow: ellipsis;
 }

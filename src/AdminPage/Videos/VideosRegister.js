@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { TextField } from "@mui/material";
 import Autocomplete from "@mui/material/Autocomplete";
+import "./VideosRegister.css";
 
 function VideoRegister() {
   const [title, setTitle] = useState("");
@@ -77,6 +78,7 @@ function VideoRegister() {
   };
 
   return user && user.data && user.data.role == "0" ? (
+    <div className="card-container">
     <form onSubmit={handleSubmit}>
       <label>
         Título:
@@ -127,6 +129,7 @@ function VideoRegister() {
       <input type="submit" value="Registrar Vídeo" />
       {error && <div className="error">{error}</div>}
     </form>
+    </div>
   ) : (
     <div>Você não possui autorização para essa função.</div>
   );
