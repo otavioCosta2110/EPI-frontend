@@ -1,88 +1,105 @@
-body{
-  overflow-y: hidden;
-}
 .app {
-  width: 800px;
+  max-width: 800px;
   padding: 20px;
   font-family: Arial, sans-serif;
-  margin-top: 20vh;
-  background-color: #fff;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-.thread-container {
-  background-color: #f9f9f9;
-  border-radius: 10px;
-  padding: 20px;
-  margin-top: 20px;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  margin-top: 60vh;
 }
 
 .thread-list {
-  max-height: calc(100vh - 200px);
-  overflow-y: auto;
+  max-height: calc(100vh - 100px);
 }
 
 .thread-list::-webkit-scrollbar {
   display: none;
 }
 
-/* Estilos dos threads */
 .thread {
-  border: 1px solid #ccc;
-  padding: 10px;
-  margin-bottom: 10px;
-  background-color: #f9f9f9;
-  border-radius: 5px;
+  border: 1px solid #ddd;
+  padding: 15px;
+  margin-bottom: 15px;
+  background-color: #ffffff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.thread:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
 }
 
 .thread-username {
   font-weight: bold;
+  color: #555;
+  margin-bottom: 10px;
 }
 
 .thread-link {
   text-decoration: none;
   color: #333;
-  display: block;
-  padding: 10px;
-  transition: background-color 0.3s ease;
+  transition: color 0.2s ease;
 }
 
 .thread-link:hover {
-  background-color: #e0e0e0;
+  color: #007bff;
 }
 
-/* Estilos do formulário de nova thread */
+.create-thread-container {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.create-thread-container button {
+  padding: 12px 24px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 8px;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.create-thread-container button:hover {
+  background-color: #0056b3;
+}
+
+.error {
+  color: red;
+  margin-bottom: 10px;
+}
+
 .new-thread-form {
-  background-color: #f9f9f9;
+  background-color: #ffffff;
   padding: 20px;
-  border: 1px solid #ccc;
-  margin-bottom: 10vh;
-  border-radius: 5px;
+  border: 1px solid #ddd;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  border-radius: 8px;
 }
 
 .new-thread-form input[type="text"] {
-  width: calc(100% - 20px);
-  padding: 10px;
-  margin-bottom: 10px;
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 15px;
   border: 1px solid #ccc;
-  border-radius: 5px;
+  border-radius: 8px;
+  font-size: 16px;
 }
 
 .new-thread-form-container {
   width: 100%;
   padding: 10px;
-  margin-bottom: 2vh;
+  margin-bottom: 20px;
 }
 
 .new-thread-form button {
-  padding: 10px 20px;
-  background-color: #000;
+  padding: 12px 24px;
+  background-color: #007bff;
   color: white;
   border: none;
   cursor: pointer;
-  border-radius: 10px;
+  border-radius: 8px;
+  font-size: 16px;
   transition: background-color 0.3s ease;
 }
 
@@ -90,26 +107,11 @@ body{
   background-color: #0056b3;
 }
 
-/* Estilos de detalhes de thread */
-.thread-detail {
-  border: 1px solid #ccc;
-  padding: 20px;
-  margin-top: 20px;
-  background-color: #f9f9f9;
-  border-radius: 5px;
-}
-
-/* Estilos de mensagens de erro */
-.error {
-  color: red;
-  margin-bottom: 10px;
-}
-
-/* Estilos de texto com quebra de linha */
 .thread h2,
 .thread p,
 .thread-detail h2,
 .thread-detail p {
   white-space: nowrap;
+  overflow: hidden;
   text-overflow: ellipsis;
 }

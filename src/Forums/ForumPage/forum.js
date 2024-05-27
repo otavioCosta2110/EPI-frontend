@@ -113,7 +113,7 @@ const ThreadDetail = () => {
                 onClick={() => handleDeletePost(post.id)}
                 className="delete-post-button"
               >
-                Delete
+                Apagar
               </button>
             )}
           </div>

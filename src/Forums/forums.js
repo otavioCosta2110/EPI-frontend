@@ -73,6 +73,15 @@ const NewThreadForm = ({ onCreateThread, user }) => {
     }
   };
 
+  const handleButtonClick = () => {
+    if (!title || !description) {
+      setError("Por favor, preencha todos os campos antes de enviar.");
+      return;
+    } else {
+      window.location.reload();
+    }
+  };
+
   return (
     <div className="new-thread-form-container">
       <form className="new-thread-form" onSubmit={handleSubmit}>
@@ -89,7 +98,7 @@ const NewThreadForm = ({ onCreateThread, user }) => {
           value={description}
           onChange={(e) => setDescription(e.target.value)}
         />
-        <button onClick={() => window.location.reload()} type="submit">
+        <button onClick={handleButtonClick} type="submit">
           Criar Thread
         </button>
       </form>
