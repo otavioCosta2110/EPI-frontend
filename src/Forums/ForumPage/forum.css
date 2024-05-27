@@ -1,5 +1,5 @@
 .thread-detail {
-  width: 40vw;
+  width: 70vw;
   margin: 0 auto;
   padding: 20px;
   font-family: Arial, sans-serif;
@@ -67,6 +67,10 @@
   border-radius: 4px;
 }
 
+.post .content {
+  margin-left: 20px;
+}
+
 .post p {
   margin: 0;
 }
@@ -75,4 +79,30 @@
   display: block;
   margin-bottom: 5px;
   color: #333;
+}
+
+.reply-section {
+  margin-top: 10px;
+  margin-left: 20px;
+}
+
+.reply-post-button,
+.create-reply-button,
+.delete-post-button {
+  margin-top: 10px;
+  display: inline-block;
+  padding: 5px 10px;
+  font-size: 0.9em;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.reply-post-button:hover,
+.create-reply-button:hover,
+.delete-post-button:hover {
+  background-color: #0056b3;
 }
