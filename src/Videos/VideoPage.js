@@ -132,7 +132,6 @@ function VideoPage() {
             ? video.title.slice(0, 30) + "..."
             : video.title}
         </h1>
-
         <Youtube
           videoId={getYouTubeVideoId(video.url)}
           opts={{
@@ -148,31 +147,32 @@ function VideoPage() {
             ? video.description.slice(0, 50) + "..."
             : video.description}
         </p>
-
         <div className="video-tags">
           <h3>Assuntos:</h3>
           <p>{video.tags.join(", ")}</p>
         </div>
+        {user && (
+          <Box
+            component="fieldset"
+            mb={3}
+            borderColor="transparent"
+            className="rating-container"
+          >
+            <Typography component="legend" className="rating-label">
+              Avalie:
+            </Typography>
 
-        <Box
-          component="fieldset"
-          mb={3}
-          borderColor="transparent"
-          className="rating-container"
-        >
-          <Typography component="legend" className="rating-label">
-            Avalie:
-          </Typography>
-          <Rating
-            name="video-user-rating"
-            value={userRating}
-            precision={0.5}
-            onChange={handleUserRatingChange}
-            onChangeActive={(event, newHover) => {
-              setHoverRating(newHover);
-            }}
-          />
-        </Box>
+            <Rating
+              name="video-user-rating"
+              value={userRating}
+              precision={0.5}
+              onChange={handleUserRatingChange}
+              onChangeActive={(event, newHover) => {
+                setHoverRating(newHover);
+              }}
+            />
+          </Box>
+        )}
       </div>
 
       {relatedVideos.some((relatedVideo) =>
