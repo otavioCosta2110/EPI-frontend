@@ -13,6 +13,7 @@ import VideoPage from "./Videos/VideoPage";
 import VideoRegister from "./AdminPage/Videos/VideosRegister";
 import ForumsPage from "./Forums/forums";
 import ForumPage from "./Forums/ForumPage/forum";
+import RegisterMaterial from "./AdminPage/RegisterMaterial/RegisterMaterial";
 
 const AppRoutes = () => {
   return (
@@ -29,6 +30,7 @@ const AppRoutes = () => {
       <Route path="/registerstudent" element={<RegisterStudent />} />
       <Route path="/forums" element={<ForumsPage />} />
       <Route path="/forums/:id" element={<ForumPage />} />
+      <Route path="/registermaterial" element={<RegisterMaterial />} />
     </Routes>
   );
 };
