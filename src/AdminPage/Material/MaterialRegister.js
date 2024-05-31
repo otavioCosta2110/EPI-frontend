@@ -1,57 +1,65 @@
 import React, { useState } from "react";
-import "./RegisterMaterial.css";
+import { useParams } from "react-router-dom";
+import "./MaterialRegister.css";
 
 function MaterialForm() {
+  const { id } = useParams();
   const [title, setTitle] = useState("");
   const [type, setType] = useState("");
   const [description, setDescription] = useState("");
   const [file, setFile] = useState(null);
   const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
+  const [video_id, setVideoId] = useState(id);
 
   const apiURL = "http://localhost:3000";
 
+  const handleFileChange = (e) => {
+    const selectedFile = e.target.files[0];
+    console.log(selectedFile);
+    if (selectedFile) {
+      setFile(selectedFile);
+      setType(selectedFile.type);
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     if (!title || !type || !file) {
       setError("Título, Tipo e Arquivo são obrigatórios");
       return;
     }
-
-    const formData = new FormData();
-    formData.append("title", title);
-    formData.append("type", type);
-    formData.append("description", description);
-    formData.append("file_url", file);
-
+  
     try {
+      const formData = new FormData();
+      formData.set("title", title);
+      formData.set("type", type);
+      formData.set("description", description);
+      formData.set("videoID", video_id);
+      formData.set("file_url", file); 
+            
       const response = await fetch(`${apiURL}/material/create`, {
         method: "POST",
         body: formData,
       });
 
       if (response.ok) {
-        setTitle("");
-        setType("");
-        setDescription("");
-        setFile(null);
-        setError("");
-        setSuccess("Material criado com sucesso");
+        const responseData = await response.json();
+        const createdMaterialId = responseData.data.id;
+        console.log("ID do material criado:", createdMaterialId);
+        window.location.reload();
       } else {
         setError("Erro ao criar material");
-        setSuccess("");
       }
     } catch (error) {
       setError("Erro ao criar material");
-      setSuccess("");
     }
-  };
+  };  
 
   return (
     <form onSubmit={handleSubmit} className="form">
       <div>
-        <div>Título:</div>
+        Título:
         <input
           id="title"
           type="text"
@@ -62,18 +70,7 @@ function MaterialForm() {
         />
       </div>
       <div>
-        <div>Tipo:</div>
-        <input
-          id="type"
-          type="text"
-          name="type"
-          value={type}
-          onChange={(e) => setType(e.target.value)}
-          className="input-field"
-        />
-      </div>
-      <div>
-        <div>Descrição:</div>
+        Descrição:
         <input
           id="description"
           name="description"
@@ -83,18 +80,17 @@ function MaterialForm() {
         />
       </div>
       <div>
-        <div>Arquivo:</div>
+        Arquivo:
         <input
           id="file_url"
           type="file"
           name="file_url"
-          onChange={(e) => setFile(e.target.files[0])}
+          onChange={handleFileChange}
           className="input-field"
         />
       </div>
       <input type="submit" value="Criar Material" className="submit-button" />
       {error && <p className="error-message">{error}</p>}
-      {success && <p className="success-message">{success}</p>}
     </form>
   );
 }
