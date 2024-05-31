@@ -36,7 +36,7 @@ function AdminPage() {
               </span>
             </div>
           </Link>
-          <Link to='/registerMaterial'>
+          <Link to='/RegisterMaterial'>
             <div className="square">
               <span className='square-text'>
                 <FontAwesomeIcon icon={faFileAlt} size="3x" />

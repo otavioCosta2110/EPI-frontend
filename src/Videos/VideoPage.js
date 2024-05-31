@@ -216,6 +216,13 @@ function VideoPage() {
                 </Link>
               ))}
           </div>
+      <div>
+        <Link to={`/videos/${id}/registermaterial`}>
+          <div>
+            <span className="square-text">Adicionar Materiais</span>
+          </div>
+        </Link>
+      </div>
         </div>
       )}
     </div>
