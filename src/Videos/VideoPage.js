@@ -13,6 +13,8 @@ function VideoPage() {
   const [relatedVideos, setRelatedVideos] = useState([]);
   const [userRating, setUserRating] = useState(null);
   const [hoverRating, setHoverRating] = useState(-1);
+  const [materials, setMaterials] = useState([]);
+  const [showAllMaterials, setShowAllMaterials] = useState(false);
 
   const apiURL = "http://localhost:3000";
 
@@ -31,7 +33,20 @@ function VideoPage() {
       }
     };
 
+    const fetchMaterials = async () => {
+      try {
+        const response = await fetch(
+          `${apiURL}/material/getmaterialbyvideo/${id}`
+        );
+        const data = await response.json();
+        setMaterials(data.data);
+      } catch (error) {
+        console.error("Error fetching materials:", error);
+      }
+    };
+
     fetchVideo();
+    fetchMaterials();
   }, [id]);
 
   function getYouTubeVideoId(url) {
@@ -124,6 +139,10 @@ function VideoPage() {
     return imageUrl;
   }
 
+  const handleShowAllMaterials = () => {
+    setShowAllMaterials(!showAllMaterials);
+  };
+
   return (
     <div className="video-page">
       <div className="video-container">
@@ -163,14 +182,16 @@ function VideoPage() {
             </Typography>
 
             <Rating
-              name="video-user-rating"
-              value={userRating}
-              precision={0.5}
-              onChange={handleUserRatingChange}
-              onChangeActive={(event, newHover) => {
-                setHoverRating(newHover);
-              }}
-            />
+  name="video-user-rating"
+  value={userRating}
+  precision={0.5}
+  onChange={handleUserRatingChange}
+  onChangeActive={(event, newHover) => {
+    setHoverRating(newHover);
+  }}
+  icon={<span style={{ color: "#FFD700", fontSize: "36px" }}>★</span>}
+  emptyIcon={<span style={{ color: "#ccc", fontSize: "36px" }}>★</span>}
+/>
           </Box>
         )}
       </div>
@@ -216,13 +237,46 @@ function VideoPage() {
                 </Link>
               ))}
           </div>
-      <div>
-        <Link to={`/videos/${id}/registermaterial`}>
           <div>
-            <span className="square-text">Adicionar Materiais</span>
+            <Link to={`/videos/${id}/registermaterial`}>
+              <div>
+                <span className="square-text">Adicionar Materiais</span>
+              </div>
+            </Link>
           </div>
-        </Link>
-      </div>
+          {materials.length > 0 && (
+            <div className="materials-section">
+              <h2>Materiais Relacionados</h2>
+              <div className="materials-list">
+                {materials.map(
+                  (material, index) =>
+                    (index < 2 || showAllMaterials) && (
+                      <div key={material.id} className="material-item">
+                        <h3>{material.title}</h3>
+                        <p>{material.description}</p>
+                        <p>{material.id}</p>
+                        <a
+                          href={`http://localhost:3000/material/download/${material.file_url}`}
+                          download
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          Baixar
+                        </a>
+                      </div>
+                    )
+                )}
+              </div>
+              {materials.length > 2 && (
+                <input
+                  type="button"
+                  value={showAllMaterials ? "Mostrar menos" : "Mostrar mais"}
+                  onClick={handleShowAllMaterials}
+                  style={{ opacity: 0.5, color: "gray" }}
+                />
+              )}
+            </div>
+          )}
         </div>
       )}
     </div>

@@ -21,8 +21,8 @@ function AdminPage() {
           <Link to='/register'>
             <div className="square">
               <span className='square-text'>
-                <FontAwesomeIcon icon={faPenToSquare} size="3x" />
-                <br />
+                <FontAwesomeIcon icon={faPenToSquare} size="3x" className="fa-icon"/>
+                <br /><br />
                 Registrar Administrador
               </span>
             </div>
@@ -30,8 +30,8 @@ function AdminPage() {
           <Link to='/registerVideo'>
             <div className="square">
               <span className='square-text'>
-                <FontAwesomeIcon icon={faBook} size="3x" />
-                <br />
+                <FontAwesomeIcon icon={faBook} size="3x" className="fa-icon"/>
+                <br /><br />
                 Alterar Aulas
               </span>
             </div>
@@ -39,8 +39,8 @@ function AdminPage() {
           <Link to='/RegisterMaterial'>
             <div className="square">
               <span className='square-text'>
-                <FontAwesomeIcon icon={faFileAlt} size="3x" />
-                <br />
+                <FontAwesomeIcon icon={faFileAlt} size="3x" className="fa-icon"/>
+                <br /><br />
                 Alterar Materiais
               </span>
             </div>
@@ -48,8 +48,8 @@ function AdminPage() {
           <Link to='/registerChallenge'>
             <div className="square">
               <span className='square-text'>
-                <FontAwesomeIcon icon={faTrophy} size="3x" />
-                <br />
+                <FontAwesomeIcon icon={faTrophy} size="3x" className="fa-icon"/>
+                <br /><br />
                 Alterar Desafios
               </span>
             </div>
@@ -57,8 +57,8 @@ function AdminPage() {
           <Link to='/forums'>
             <div className="square">
               <span className='square-text'>
-                <FontAwesomeIcon icon={faFileAlt} size="3x" />
-                <br />
+                <FontAwesomeIcon icon={faFileAlt} size="3x" className="fa-icon"/>
+                <br /><br />
                 Forums
               </span>
             </div>

@@ -26,6 +26,7 @@ function Header({ style }) {
   return (
     <header className="header" style={style}>
       <div className="header-column left-section">
+        <FontAwesomeIcon icon={faUser} style={{ marginRight: "0.5rem" }}/>
         {user ? (
           <div className="user-info">
             {user.data.role === "0" ? (
@@ -35,7 +36,6 @@ function Header({ style }) {
             ) : (
               <span>{user.data.name}</span>
             )}
-            <FontAwesomeIcon icon={faUser} />
           </div>
         ) : (
           <div className="login">

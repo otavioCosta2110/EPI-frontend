@@ -7,16 +7,15 @@
 body {
   font-family: Arial, sans-serif;
   color: #333;
-  line-height: 1.6;
   background-color: #f9f9f9; 
 }
 
 .video-page {
   display: flex;
   justify-content: space-between;
-  max-width: 1200px;
+  width: 80vw;
   margin: 20px auto;
-  margin-top: 20%;
+  margin-top: 60vh;
   padding: 20px;
   background-color: #fff; 
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
@@ -71,7 +70,7 @@ body {
 }
 
 .related-videos-list {
-  max-height: 400px;
+  height: 400px;
   overflow-y: auto;
 }
 
@@ -82,6 +81,42 @@ body {
   text-decoration: none;
   color: inherit;
   transition: background-color 0.3s ease;
+}
+
+.materials-section {
+  margin-top: 20px;
+}
+
+.materials-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.material-item {
+  background-color: #fff;
+  padding: 15px;
+  
+}
+
+.material-item h3 {
+  font-size: 18px;
+  margin-bottom: 5px;
+}
+
+.material-item p {
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+.material-item a {
+  font-size: 14px;
+  color: #007bff;
+  text-decoration: none;
+}
+
+.material-item a:hover {
+  text-decoration: underline;
 }
 
 @media (max-width: 768px) {
