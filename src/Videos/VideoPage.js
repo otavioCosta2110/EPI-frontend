@@ -4,6 +4,9 @@ import Rating from "@mui/material/Rating";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Youtube from "react-youtube";
+import Modal from "@mui/material/Modal";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
 import "./VideoPage.css";
 
 function VideoPage() {
@@ -13,10 +16,42 @@ function VideoPage() {
   const [relatedVideos, setRelatedVideos] = useState([]);
   const [userRating, setUserRating] = useState(null);
   const [hoverRating, setHoverRating] = useState(-1);
+  const [open, setOpen] = useState(false);
+  const [message, setMessage] = useState("");
   const [materials, setMaterials] = useState([]);
   const [showAllMaterials, setShowAllMaterials] = useState(false);
 
   const apiURL = "http://localhost:3000";
+
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
+  const handleQuestionChange = (event) => setMessage(event.target.value);
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    try {
+      const response = await fetch(`${apiURL}/mail/send`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          videoid: video.id,
+          userid: user.data.id,
+          message,
+        }),
+      });
+      if (response.ok) {
+        setMessage("");
+        handleClose();
+      } else {
+        console.error("Failed to submit question");
+      }
+    } catch (error) {
+      console.error("Error submitting question:", error);
+    }
+  };
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
@@ -129,6 +164,17 @@ function VideoPage() {
   if (!video) {
     return <div>Video não encontrado</div>;
   }
+
+  const getUserById = async (userId) => {
+    try {
+      const response = await fetch(`${apiURL}/user/getuserbyid?id=${userId}`);
+      const data = await response.json();
+      return data.data;
+    } catch (error) {
+      console.error("Error fetching user:", error);
+      return null;
+    }
+  };
 
   function getVideoImage(videoUrl) {
     const match = videoUrl.match(
@@ -279,6 +325,32 @@ function VideoPage() {
           )}
         </div>
       )}
+
+      <Button variant="contained" color="primary" onClick={handleOpen}>
+        Tenho uma dúvida
+      </Button>
+      <Modal open={open} onClose={handleClose}>
+        <Box className="modal-container">
+          <Typography variant="h6" component="h2">
+            Envie sua dúvida
+          </Typography>
+          <form onSubmit={handleSubmit}>
+            <TextField
+              label="Sua dúvida"
+              variant="outlined"
+              fullWidth
+              multiline
+              rows={4}
+              value={message}
+              onChange={handleQuestionChange}
+              required
+            />
+            <Button type="submit" variant="contained" color="primary">
+              Enviar
+            </Button>
+          </form>
+        </Box>
+      </Modal>
     </div>
   );
 }

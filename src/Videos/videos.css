@@ -28,7 +28,7 @@ body {
 
 .video-item {
   flex: 1 1 calc(23% - 40px);
-  max-width: calc(23% - 40px);
+  width: calc(23% - 40px);
   margin: 20px;
   text-decoration: none;
   color: #333;
@@ -60,7 +60,8 @@ body {
   color: #333;
 }
 
-.video-description, .video-tags {
+.video-description,
+.video-tags {
   font-size: 1rem;
   color: #666;
 }
