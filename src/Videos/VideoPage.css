@@ -119,6 +119,36 @@ body {
   text-decoration: underline;
 }
 
+.text{
+  font-size: 16px;
+  color: #333;
+}
+
+.button {
+  background-color: #68affc;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: background-color 0.3s, transform 0.3s;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  margin: 20px 0;
+}
+
+.button:hover {
+  transform: scale(1.05);
+}
+
+.button:active {
+  background-color: #007bff;
+  transform: scale(1);
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+
 @media (max-width: 768px) {
   .video-page {
     flex-direction: column;

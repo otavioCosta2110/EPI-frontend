@@ -207,7 +207,7 @@ function VideoPage() {
             },
           }}
         />
-        <p>
+        <p className="text">
           {video.description.length > 50
             ? video.description.slice(0, 50) + "..."
             : video.description}
@@ -228,18 +228,47 @@ function VideoPage() {
             </Typography>
 
             <Rating
-  name="video-user-rating"
-  value={userRating}
-  precision={0.5}
-  onChange={handleUserRatingChange}
-  onChangeActive={(event, newHover) => {
-    setHoverRating(newHover);
-  }}
-  icon={<span style={{ color: "#FFD700", fontSize: "36px" }}>★</span>}
-  emptyIcon={<span style={{ color: "#ccc", fontSize: "36px" }}>★</span>}
-/>
+              name="video-user-rating"
+              value={userRating}
+              precision={0.5}
+              onChange={handleUserRatingChange}
+              onChangeActive={(event, newHover) => {
+                setHoverRating(newHover);
+              }}
+              icon={
+                <span style={{ color: "#FFD700", fontSize: "36px" }}>★</span>
+              }
+              emptyIcon={
+                <span style={{ color: "#ccc", fontSize: "36px" }}>★</span>
+              }
+            />
           </Box>
         )}
+        <button color="primary" onClick={handleOpen} className="button">
+          Tenho uma dúvida
+        </button>
+        <Modal open={open} onClose={handleClose}>
+          <Box className="modal-container">
+            <form onSubmit={handleSubmit}>
+              <Typography variant="h6" component="h2">
+                Envie sua dúvida
+              </Typography>
+              <TextField
+                label="Sua dúvida"
+                variant="outlined"
+                fullWidth
+                multiline
+                rows={4}
+                value={message}
+                onChange={handleQuestionChange}
+                required
+              />
+              <Button type="submit" variant="contained" color="primary">
+                Enviar
+              </Button>
+            </form>
+          </Box>
+        </Modal>
       </div>
 
       {relatedVideos.some((relatedVideo) =>
@@ -284,11 +313,13 @@ function VideoPage() {
               ))}
           </div>
           <div>
-            <Link to={`/videos/${id}/registermaterial`}>
-              <div>
-                <span className="square-text">Adicionar Materiais</span>
-              </div>
-            </Link>
+            {user && user.data && user.data.role == "0" && (
+              <Link to={`/videos/${id}/registermaterial`}>
+                <div>
+                  <span className="square-text">Adicionar Materiais</span>
+                </div>
+              </Link>
+            )}
           </div>
           {materials.length > 0 && (
             <div className="materials-section">
@@ -299,8 +330,7 @@ function VideoPage() {
                     (index < 2 || showAllMaterials) && (
                       <div key={material.id} className="material-item">
                         <h3>{material.title}</h3>
-                        <p>{material.description}</p>
-                        <p>{material.id}</p>
+                        <p className="text">{material.description}</p>
                         <a
                           href={`http://localhost:3000/material/download/${material.file_url}`}
                           download
@@ -318,39 +348,13 @@ function VideoPage() {
                   type="button"
                   value={showAllMaterials ? "Mostrar menos" : "Mostrar mais"}
                   onClick={handleShowAllMaterials}
-                  style={{ opacity: 0.5, color: "gray" }}
+                  className="button"
                 />
               )}
             </div>
           )}
         </div>
       )}
-
-      <Button variant="contained" color="primary" onClick={handleOpen}>
-        Tenho uma dúvida
-      </Button>
-      <Modal open={open} onClose={handleClose}>
-        <Box className="modal-container">
-          <Typography variant="h6" component="h2">
-            Envie sua dúvida
-          </Typography>
-          <form onSubmit={handleSubmit}>
-            <TextField
-              label="Sua dúvida"
-              variant="outlined"
-              fullWidth
-              multiline
-              rows={4}
-              value={message}
-              onChange={handleQuestionChange}
-              required
-            />
-            <Button type="submit" variant="contained" color="primary">
-              Enviar
-            </Button>
-          </form>
-        </Box>
-      </Modal>
     </div>
   );
 }

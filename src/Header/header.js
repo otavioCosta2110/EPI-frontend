@@ -42,7 +42,6 @@ function Header({ style }) {
             <Link to="/login">
               <span>Login/Registro</span>
             </Link>
-            <FontAwesomeIcon icon={faUser} />
           </div>
         )}
       </div>
