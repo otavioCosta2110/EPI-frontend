@@ -26,7 +26,7 @@
   color: #666;
 }
 
-.thread-detail textarea {
+textarea {
   width: 100%;
   height: 100px;
   padding: 10px;
@@ -67,6 +67,10 @@
   border-radius: 4px;
 }
 
+.post-actions {
+  margin-top: 10px;
+}
+
 .post .content {
   margin-left: 20px;
 }
@@ -88,8 +92,8 @@
 
 .reply-post-button,
 .create-reply-button,
+.edit-post-button,
 .delete-post-button {
-  margin-top: 10px;
   display: inline-block;
   padding: 5px 10px;
   font-size: 0.9em;
@@ -99,10 +103,72 @@
   border-radius: 4px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  margin-right: 5px;
 }
-
 .reply-post-button:hover,
 .create-reply-button:hover,
 .delete-post-button:hover {
-  background-color: #0056b3;
+  background-color: #074b94;
+}
+
+.modal-forum {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+
+  max-width: 80%;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+}
+
+.save-edit-button,
+.cancel-edit-button {
+  display: inline-block;
+  padding: 10px 20px;
+  font-size: 1em;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 10px;
+}
+
+.save-edit-button:hover,
+.cancel-edit-button:hover {
+  background-color: #074b94;
+}
+
+/* Scrollbar Styling */
+.modal::-webkit-scrollbar,
+.overlay::-webkit-scrollbar {
+  width: 10px;
+}
+
+.modal::-webkit-scrollbar-thumb,
+.overlay::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+}
+
+.modal::-webkit-scrollbar-track,
+.overlay::-webkit-scrollbar-track {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+button {
+  margin-right: 5px;
 }

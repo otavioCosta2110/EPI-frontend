@@ -24,20 +24,20 @@ function MaterialForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     if (!title || !type || !file) {
       setError("Título, Tipo e Arquivo são obrigatórios");
       return;
     }
-  
+
     try {
       const formData = new FormData();
       formData.set("title", title);
       formData.set("type", type);
       formData.set("description", description);
       formData.set("videoID", video_id);
-      formData.set("file_url", file); 
-            
+      formData.set("file_url", file);
+
       const response = await fetch(`${apiURL}/material/create`, {
         method: "POST",
         body: formData,
@@ -54,7 +54,7 @@ function MaterialForm() {
     } catch (error) {
       setError("Erro ao criar material");
     }
-  };  
+  };
 
   return (
     <form onSubmit={handleSubmit} className="form">
@@ -62,7 +62,6 @@ function MaterialForm() {
         Título:
         <input
           id="title"
-          type="text"
           name="title"
           value={title}
           onChange={(e) => setTitle(e.target.value)}

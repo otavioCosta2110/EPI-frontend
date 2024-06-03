@@ -20,8 +20,9 @@ const ThreeSquares = () => {
         <Link to="/videos">
           <div className="square">
             <a className="square-text">
-              <FontAwesomeIcon icon={faBook} size="3x" className="fa-icon"/>
-              <br /><br />
+              <FontAwesomeIcon icon={faBook} size="3x" className="fa-icon" />
+              <br />
+              <br />
               Aulas
             </a>
           </div>
@@ -29,9 +30,10 @@ const ThreeSquares = () => {
         <Link to="/forums">
           <div className="square">
             <a className="square-text">
-              <FontAwesomeIcon icon={faFileAlt} size="3x" className="fa-icon"/>
-              <br /><br />
-              Forums
+              <FontAwesomeIcon icon={faFileAlt} size="3x" className="fa-icon" />
+              <br />
+              <br />
+              Fóruns
             </a>
           </div>
         </Link>

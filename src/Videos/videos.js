@@ -99,28 +99,28 @@ function Videos() {
             );
             const videoId = match && match[1];
 
-              return (
-                <Link
-                  key={video.id}
-                  to={`/videos/${video.id}`}
-                  className="video-item"
-                >
-                  <img
-                    src={`https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`}
-                    alt={video.title}
-                    className="video-thumbnail"
-                  />
-                  <div className="video-info">
-                    <h2 className="video-title">
-                      {truncateText(video.title, 10)}
-                    </h2>
-                    <p className="video-description">
-                      {truncateText(video.description, 10)}
-                    </p>
-                    <p>{video.tags.join(", ")}</p>
-                  </div>
-                </Link>
-              );
+            return (
+              <Link
+                key={video.id}
+                to={`/videos/${video.id}`}
+                className="video-item"
+              >
+                <img
+                  src={`https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`}
+                  alt={video.title}
+                  className="video-thumbnail"
+                />
+                <div className="video-info">
+                  <h2 className="video-title">
+                    {truncateText(video.title, 10)}
+                  </h2>
+                  <p className="video-description">
+                    {truncateText(video.description, 10)}
+                  </p>
+                  <p>{video.tags.join(", ")}</p>
+                </div>
+              </Link>
+            );
             return null;
           })
         ) : (

@@ -1,12 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
+import Modal from "react-modal";
 import "./forum.css";
+
+Modal.setAppElement("#root");
 
 const ThreadDetail = () => {
   const location = useLocation();
   const [posts, setPosts] = useState([]);
   const [user, setUser] = useState("");
   const [content, setContent] = useState("");
+  const [editContent, setEditContent] = useState("");
+  const [editPostId, setEditPostId] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const { id, title, description, username } = location.state;
   const apiURL = "http://localhost:3000";
@@ -44,9 +50,8 @@ const ThreadDetail = () => {
         })
       );
 
-      // Sort posts by createdAt in descending order
       const sortedPosts = postsWithUsernames.sort(
-        (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+        (a, b) => new Date(b.created_at) - new Date(a.created_at)
       );
 
       setPosts(sortedPosts);
@@ -54,7 +59,6 @@ const ThreadDetail = () => {
 
     getPostsByThread();
   }, [thread.id]);
-  console.log(thread.id);
 
   const handleCreateResponse = async () => {
     const response = await fetch(`${apiURL}/post/create`, {
@@ -70,7 +74,7 @@ const ThreadDetail = () => {
     });
     if (response.ok) {
       const newPost = await response.json();
-      setPosts([{ ...newPost, userName: user.name }, ...posts]);
+      setPosts([{ ...newPost.data, userName: user.name }, ...posts]);
       setContent("");
     }
   };
@@ -90,7 +94,41 @@ const ThreadDetail = () => {
     }
   };
 
-  console.log(posts);
+  const handleEditPost = async () => {
+    const response = await fetch(`${apiURL}/post/edit`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        postID: editPostId,
+        content: editContent,
+      }),
+    });
+    if (response.ok) {
+      const updatedPost = await response.json();
+      setPosts(
+        posts.map((post) =>
+          post.id === editPostId
+            ? { ...updatedPost.data, userName: post.userName }
+            : post
+        )
+      );
+      setIsModalOpen(false);
+    }
+  };
+
+  const openEditModal = (post) => {
+    setEditContent(post.content);
+    setEditPostId(post.id);
+    setIsModalOpen(true);
+  };
+
+  const closeEditModal = () => {
+    setIsModalOpen(false);
+    setEditContent("");
+    setEditPostId(null);
+  };
 
   return (
     <div className="thread-detail">
@@ -121,17 +159,47 @@ const ThreadDetail = () => {
               <strong>{post.userName}</strong>
             </p>
             <p>{post.content}</p>
-            {user.id === post.user_id && (
-              <button
-                onClick={() => handleDeletePost(post.id)}
-                className="delete-post-button"
-              >
-                Apagar
-              </button>
-            )}
+            <div className="post-actions">
+              {user.id === post.user_id && (
+                <>
+                  <button
+                    onClick={() => openEditModal(post)}
+                    className="edit-post-button"
+                  >
+                    Editar
+                  </button>
+                  <button
+                    onClick={() => handleDeletePost(post.id)}
+                    className="delete-post-button"
+                  >
+                    Apagar
+                  </button>
+                </>
+              )}
+            </div>
           </div>
         ))}
       </div>
+      <Modal
+        isOpen={isModalOpen}
+        onRequestClose={closeEditModal}
+        contentLabel="Edit Post"
+        className="modal-forum"
+        overlayClassName="overlay"
+      >
+        <h2>Editar Post</h2>
+        <textarea
+          value={editContent}
+          onChange={(e) => setEditContent(e.target.value)}
+          placeholder="Edite seu comentário"
+        />
+        <button onClick={handleEditPost} className="save-edit-button">
+          Salvar
+        </button>
+        <button onClick={closeEditModal} className="cancel-edit-button">
+          Cancelar
+        </button>
+      </Modal>
     </div>
   );
 };

@@ -40,7 +40,7 @@
 }
 
 .thread-link:hover {
-  color: #007bff;
+  color: #074b94;
 }
 
 .create-thread-container {
@@ -52,7 +52,7 @@
 
 .create-thread-container button {
   padding: 12px 24px;
-  background-color: #68affc;
+  background-color: #074b94;
   color: white;
   border: none;
   cursor: pointer;
@@ -62,7 +62,7 @@
 }
 
 .create-thread-container button:hover {
-  background-color: #68affc;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .error {
@@ -96,17 +96,13 @@
 
 .new-thread-form button {
   padding: 12px 24px;
-  background-color: #68affc;
+  background-color: #074b94;
   color: white;
   border: none;
   cursor: pointer;
   border-radius: 8px;
   font-size: 16px;
   transition: background-color 0.3s ease;
-}
-
-.new-thread-form button:hover {
-  background-color: #007bff;
 }
 
 .thread h2,

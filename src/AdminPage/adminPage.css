@@ -4,12 +4,12 @@ body {
   align-items: center;
   height: 100vh;
   margin: 0;
-  font-family: 'Montserrat', sans-serif;
-    background: linear-gradient(90deg, #d1d1d1, #d1d1d1);
-    color: #f0f0f0;
+  font-family: "Montserrat", sans-serif;
+  background: linear-gradient(90deg, #d1d1d1, #d1d1d1);
+  color: #f0f0f0;
 }
 
-.admin-page{
+.admin-page {
   margin-top: 10vh;
 }
 
@@ -47,11 +47,11 @@ body {
   color: #525252;
   font-weight: bold;
   font-size: 16px;
-  font-family: 'Lato', sans-serif;
+  font-family: "Lato", sans-serif;
 }
 
 .square-text .fa-icon {
-  color: #68affc;
+  color: #074b94;
 }
 
 @media (max-width: 390px) {

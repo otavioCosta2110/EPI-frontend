@@ -313,7 +313,7 @@ function VideoPage() {
         {user && user.data && user.data.role == "0" && (
           <Link to={`/videos/${id}/registermaterial`}>
             <div>
-              <span className="square-text">Adicionar Materiais</span>
+              <button className="button">Adicionar Materiais</button>
             </div>
           </Link>
         )}

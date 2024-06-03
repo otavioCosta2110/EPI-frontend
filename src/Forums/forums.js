@@ -139,7 +139,7 @@ const App = () => {
   };
 
   const handleCreateThread = (newThread) => {
-    setThreads([newThread, ...threads]); // add newThread to the beginning of the array
+    setThreads([newThread, ...threads]);
     setShowForm(false);
   };
 
@@ -147,7 +147,7 @@ const App = () => {
     <div className="app">
       {user && user.data && user.data.id && (
         <div className="create-thread-container">
-          <button onClick={() => setShowForm(true)}>Criar uma tópico</button>
+          <button onClick={() => setShowForm(true)}>Criar um tópico</button>
         </div>
       )}
       <Modal
