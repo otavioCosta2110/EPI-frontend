@@ -18,6 +18,8 @@ function VideoPage() {
   const [hoverRating, setHoverRating] = useState(-1);
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState("");
+  const [materials, setMaterials] = useState([]);
+  const [showAllMaterials, setShowAllMaterials] = useState(false);
 
   const apiURL = "http://localhost:3000";
 
@@ -66,7 +68,20 @@ function VideoPage() {
       }
     };
 
+    const fetchMaterials = async () => {
+      try {
+        const response = await fetch(
+          `${apiURL}/material/getmaterialbyvideo/${id}`
+        );
+        const data = await response.json();
+        setMaterials(data.data);
+      } catch (error) {
+        console.error("Error fetching materials:", error);
+      }
+    };
+
     fetchVideo();
+    fetchMaterials();
   }, [id]);
 
   function getYouTubeVideoId(url) {
@@ -170,6 +185,10 @@ function VideoPage() {
     return imageUrl;
   }
 
+  const handleShowAllMaterials = () => {
+    setShowAllMaterials(!showAllMaterials);
+  };
+
   return (
     <div className="video-page">
       <div className="video-container">
@@ -188,7 +207,7 @@ function VideoPage() {
             },
           }}
         />
-        <p>
+        <p className="text">
           {video.description.length > 50
             ? video.description.slice(0, 50) + "..."
             : video.description}
@@ -216,9 +235,40 @@ function VideoPage() {
               onChangeActive={(event, newHover) => {
                 setHoverRating(newHover);
               }}
+              icon={
+                <span style={{ color: "#FFD700", fontSize: "36px" }}>★</span>
+              }
+              emptyIcon={
+                <span style={{ color: "#ccc", fontSize: "36px" }}>★</span>
+              }
             />
           </Box>
         )}
+        <button color="primary" onClick={handleOpen} className="button">
+          Tenho uma dúvida
+        </button>
+        <Modal open={open} onClose={handleClose}>
+          <Box className="modal-container">
+            <form onSubmit={handleSubmit}>
+              <Typography variant="h6" component="h2">
+                Envie sua dúvida
+              </Typography>
+              <TextField
+                label="Sua dúvida"
+                variant="outlined"
+                fullWidth
+                multiline
+                rows={4}
+                value={message}
+                onChange={handleQuestionChange}
+                required
+              />
+              <Button type="submit" variant="contained" color="primary">
+                Enviar
+              </Button>
+            </form>
+          </Box>
+        </Modal>
       </div>
 
       {relatedVideos.some((relatedVideo) =>
@@ -263,40 +313,48 @@ function VideoPage() {
               ))}
           </div>
           <div>
-            <Link to={`/videos/${id}/registermaterial`}>
-              <div>
-                <span className="square-text">Adicionar Materiais</span>
-              </div>
-            </Link>
+            {user && user.data && user.data.role == "0" && (
+              <Link to={`/videos/${id}/registermaterial`}>
+                <div>
+                  <span className="square-text">Adicionar Materiais</span>
+                </div>
+              </Link>
+            )}
           </div>
+          {materials.length > 0 && (
+            <div className="materials-section">
+              <h2>Materiais Relacionados</h2>
+              <div className="materials-list">
+                {materials.map(
+                  (material, index) =>
+                    (index < 2 || showAllMaterials) && (
+                      <div key={material.id} className="material-item">
+                        <h3>{material.title}</h3>
+                        <p className="text">{material.description}</p>
+                        <a
+                          href={`http://localhost:3000/material/download/${material.file_url}`}
+                          download
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          Baixar
+                        </a>
+                      </div>
+                    )
+                )}
+              </div>
+              {materials.length > 2 && (
+                <input
+                  type="button"
+                  value={showAllMaterials ? "Mostrar menos" : "Mostrar mais"}
+                  onClick={handleShowAllMaterials}
+                  className="button"
+                />
+              )}
+            </div>
+          )}
         </div>
       )}
-
-      <Button variant="contained" color="primary" onClick={handleOpen}>
-        Tenho uma dúvida
-      </Button>
-      <Modal open={open} onClose={handleClose}>
-        <Box className="modal-container">
-          <Typography variant="h6" component="h2">
-            Envie sua dúvida
-          </Typography>
-          <form onSubmit={handleSubmit}>
-            <TextField
-              label="Sua dúvida"
-              variant="outlined"
-              fullWidth
-              multiline
-              rows={4}
-              value={message}
-              onChange={handleQuestionChange}
-              required
-            />
-            <Button type="submit" variant="contained" color="primary">
-              Enviar
-            </Button>
-          </form>
-        </Box>
-      </Modal>
     </div>
   );
 }

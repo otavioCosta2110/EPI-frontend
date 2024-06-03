@@ -20,35 +20,17 @@ const ThreeSquares = () => {
         <Link to="/videos">
           <div className="square">
             <a className="square-text">
-              <FontAwesomeIcon icon={faBook} size="3x" />
-              <br />
+              <FontAwesomeIcon icon={faBook} size="3x" className="fa-icon"/>
+              <br /><br />
               Aulas
-            </a>
-          </div>
-        </Link>
-        <Link to="/materials">
-          <div className="square">
-            <a className="square-text">
-              <FontAwesomeIcon icon={faFileAlt} size="3x" />
-              <br />
-              Materiais
-            </a>
-          </div>
-        </Link>
-        <Link to="/challenges">
-          <div className="square">
-            <a className="square-text">
-              <FontAwesomeIcon icon={faTrophy} size="3x" />
-              <br />
-              Desafios
             </a>
           </div>
         </Link>
         <Link to="/forums">
           <div className="square">
             <a className="square-text">
-              <FontAwesomeIcon icon={faFileAlt} size="3x" />
-              <br />
+              <FontAwesomeIcon icon={faFileAlt} size="3x" className="fa-icon"/>
+              <br /><br />
               Forums
             </a>
           </div>

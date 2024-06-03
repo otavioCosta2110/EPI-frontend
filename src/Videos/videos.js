@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import "./pagesCss.css";
+import "./videos.css";
 import { useParams } from "react-router-dom";
 
 function Videos() {
@@ -99,7 +99,6 @@ function Videos() {
             );
             const videoId = match && match[1];
 
-            if (!isWatched(video.id)) {
               return (
                 <Link
                   key={video.id}
@@ -122,11 +121,10 @@ function Videos() {
                   </div>
                 </Link>
               );
-            }
             return null;
           })
         ) : (
-          <p>No videos available</p>
+          <p>Não há videos disponíveis</p>
         )}
 
         <h2>Histórico</h2>

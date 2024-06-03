@@ -27,8 +27,8 @@ body {
 }
 
 .video-item {
-  flex: 1 1 calc(23% - 40px);
-  width: calc(23% - 40px);
+  width: 20vw;
+  padding: 10px;
   margin: 20px;
   text-decoration: none;
   color: #333;
@@ -77,4 +77,92 @@ h2 {
   color: #333;
   margin-top: 20px;
   margin-bottom: 10px;
+}
+
+@media screen and (max-width: 1024px) {
+  .video-item {
+    width: 25vw;
+    padding: 2.5vw;
+    margin: 2.5vw;
+  }
+
+  .video-info {
+    padding: 2.5vw;
+  }
+
+  .video-title {
+    font-size: 4vw;
+    margin-bottom: 2vw;
+  }
+
+  .video-description,
+  .video-tags {
+    font-size: 2.5vw;
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .video-item {
+    width: 30vw;
+    padding: 3vw;
+    margin: 3vw;
+  }
+
+  .video-info {
+    padding: 3vw;
+  }
+
+  .video-title {
+    font-size: 5vw;
+    margin-bottom: 2vw;
+  }
+
+  .video-description,
+  .video-tags {
+    font-size: 3vw;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .video-item {
+    width: 45vw;
+    padding: 4vw;
+    margin: 4vw;
+  }
+
+  .video-info {
+    padding: 4vw;
+  }
+
+  .video-title {
+    font-size: 6vw;
+    margin-bottom: 2vw;
+  }
+
+  .video-description,
+  .video-tags {
+    font-size: 4vw;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .video-item {
+    width: 90vw;
+    padding: 6vw;
+    margin: 6vw;
+  }
+
+  .video-info {
+    padding: 6vw;
+  }
+
+  .video-title {
+    font-size: 8vw;
+    margin-bottom: 3vw;
+  }
+
+  .video-description,
+  .video-tags {
+    font-size: 6vw;
+  }
 }

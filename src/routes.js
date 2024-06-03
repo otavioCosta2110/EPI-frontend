@@ -6,7 +6,6 @@ import HomePage from "./home/home";
 import AdminPage from "./AdminPage/adminPage";
 import RegisterPage from "./RegisterPage/register";
 import RegisterStudent from "./RegisterStudent/register";
-import MaterialsPage from "./Materials/materials";
 import ChallengesPage from "./Challenges/challenges";
 import VideosPage from "./Videos/videos";
 import VideoPage from "./Videos/VideoPage";
@@ -23,7 +22,6 @@ const AppRoutes = () => {
       <Route path="/adminpage" element={<AdminPage />} />
       <Route path="/registervideo" element={<VideoRegister />} />
       <Route path="/register" element={<RegisterPage />} />
-      <Route path="/materials" element={<MaterialsPage />} />
       <Route path="/challenges" element={<ChallengesPage />} />
       <Route path="/videos" element={<VideosPage />} />
       <Route path="/videos/:id" element={<VideoPage />} />
