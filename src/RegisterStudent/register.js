@@ -11,6 +11,7 @@ function Register() {
   const [tags, setTags] = useState([]);
   const [selectedTags, setSelectedTags] = useState([]);
   const [isPasswordValid, setIsPasswordValid] = useState(false);
+  const [isButtonClicked, setIsButtonClicked] = useState(false);
 
   const apiURL = "http://localhost:3000";
 
@@ -48,11 +49,10 @@ function Register() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsButtonClicked(true);
 
     if (!isPasswordValid) {
-      setError(
-        "Senha deve conter pelo menos oito caracteres, entre letras, números e um caractere especial."
-      );
+      setError();
       return;
     }
 
@@ -78,6 +78,28 @@ function Register() {
     } catch (error) {
       setError("Erro ao enviar dados");
     }
+  };
+
+  const renderPasswordRules = () => {
+    const rules = [
+      { text: "Pelo menos 8 caracteres", isValid: password.length >= 8 },
+      { text: "Pelo menos um número", isValid: /\d/.test(password) },
+      { text: "Pelo menos uma letra", isValid: /[A-Za-z]/.test(password) },
+      { text: "Pelo menos um caractere especial: #, $, %, &", isValid: /[@#%&*$!]/.test(password) }
+    ];
+
+    return (
+      <div className="password-rules">
+        <ul>
+          <li>A senha deve conter:</li>
+          {rules.map((rule, index) => (
+            !rule.isValid && (
+              <li key={index} className="invalid">{rule.text}</li>
+            )
+          ))}
+        </ul>
+      </div>
+    );
   };
 
   return (
@@ -111,23 +133,7 @@ function Register() {
             className={isPasswordValid ? "" : "invalid"}
           />
         </label>
-        <div className="password-rules">
-          <ul>
-            <li>A senha deve conter: </li>
-            <li className={password.length >= 8 ? "valid" : "invalid"}>
-              Pelo menos 8 caracteres
-            </li>
-            <li className={/\d/.test(password) ? "valid" : "invalid"}>
-              Pelo menos um número
-            </li>
-            <li className={/[A-Za-z]/.test(password) ? "valid" : "invalid"}>
-              Pelo menos uma letra
-            </li>
-            <li className={/[@#%&*$!]/.test(password) ? "valid" : "invalid"}>
-              Pelo menos um caractere especial: #, $, %, &
-            </li>
-          </ul>
-        </div>
+        {isButtonClicked && !isPasswordValid && renderPasswordRules()}
         {error && <p className="error">{error}</p>}
         <label>
           <Autocomplete

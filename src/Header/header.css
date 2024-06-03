@@ -39,6 +39,11 @@ a {
   margin: 0;
 }
 
+.user-info span,
+.login span {
+  color: #ffffff;
+}
+
 .header-column .center-section h1 {
   color: #ffffff;
 }
