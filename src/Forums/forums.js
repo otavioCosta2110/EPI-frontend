@@ -5,6 +5,7 @@ import {
   Switch,
   Link,
   useParams,
+  useLocation,
 } from "react-router-dom";
 import Modal from "react-modal";
 import { FaTrash } from "react-icons/fa";
@@ -29,8 +30,8 @@ const Thread = ({
       <h2>{title}</h2>
       <p>{description}</p>
     </Link>
-    <br></br>
-    {(user.data.role === "0" || user.data.id === threadUserId) && (
+    <br />
+    {(user?.data?.role === "0" || user?.data?.id === threadUserId) && (
       <FaTrash onClick={() => onDelete(id)} className="delete-icon" />
     )}
   </div>
@@ -131,10 +132,10 @@ const NewThreadForm = ({ onCreateThread, user, onClose }) => {
 };
 
 const App = () => {
-  const [user, setUser] = useState("");
+  const [user, setUser] = useState(null);
   const [threads, setThreads] = useState([]);
   const [showForm, setShowForm] = useState(false);
-  const [deleteThreadId, setDeleteThreadId] = useState(null); 
+  const [deleteThreadId, setDeleteThreadId] = useState(null);
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
@@ -185,7 +186,7 @@ const App = () => {
         console.error("Erro ao apagar thread");
       }
     }
-    setDeleteThreadId(null); 
+    setDeleteThreadId(null);
   };
 
   return (
