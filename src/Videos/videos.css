@@ -82,6 +82,7 @@ h2 {
 @media screen and (max-width: 1024px) {
   .video-item {
     width: 30vw;
+    height: 20vh;
     padding: 2.5vw;
     margin: 2.5vw;
   }

@@ -22,10 +22,6 @@
   justify-content: flex-start;
 }
 
-.center-section {
-  justify-content: center;
-}
-
 .right-section {
   justify-content: flex-end;
 }
