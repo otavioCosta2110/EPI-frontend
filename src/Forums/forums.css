@@ -121,7 +121,6 @@
   transform: translate(-50%, -50%);
   border-radius: 5px;
   padding: 20px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   max-width: 400px;
   width: 100%;
   z-index: 9999;
@@ -186,12 +185,8 @@
   margin-right: 0;
 }
 
-.modal button:hover {
-  background-color: #ddd;
-}
-
 .delete-button {
-  background-color: #ff4d4d;
+  background-color: #074b94;
   color: white;
   border: none;
   padding: 5px 10px;
