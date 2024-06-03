@@ -168,6 +168,7 @@ const ThreadDetail = () => {
                   >
                     Editar
                   </button>
+
                   <button
                     onClick={() => handleDeletePost(post.id)}
                     className="delete-post-button"
