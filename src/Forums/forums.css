@@ -47,12 +47,12 @@
   position: fixed;
   bottom: 20px;
   right: 20px;
-  z-index: 1000; /* Ensures the button is above other elements */
+  z-index: 1000;
 }
 
 .create-thread-container button {
   padding: 12px 24px;
-  background-color: #007bff;
+  background-color: #68affc;
   color: white;
   border: none;
   cursor: pointer;
@@ -62,7 +62,7 @@
 }
 
 .create-thread-container button:hover {
-  background-color: #0056b3;
+  background-color: #68affc;
 }
 
 .error {
@@ -96,7 +96,7 @@
 
 .new-thread-form button {
   padding: 12px 24px;
-  background-color: #007bff;
+  background-color: #68affc;
   color: white;
   border: none;
   cursor: pointer;
@@ -106,7 +106,7 @@
 }
 
 .new-thread-form button:hover {
-  background-color: #0056b3;
+  background-color: #007bff;
 }
 
 .thread h2,
