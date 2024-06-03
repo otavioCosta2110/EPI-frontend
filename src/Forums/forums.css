@@ -2,7 +2,7 @@
   width: 60vw;
   padding: 20px;
   font-family: Arial, sans-serif;
-  margin-top: 60vh;
+  margin-top: 20vh;
 }
 
 .thread-list {
@@ -44,8 +44,10 @@
 }
 
 .create-thread-container {
-  text-align: center;
-  margin-bottom: 20px;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000; /* Ensures the button is above other elements */
 }
 
 .create-thread-container button {
@@ -114,4 +116,26 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  right: auto;
+  bottom: auto;
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
+  border-radius: 8px;
+  width: 40vw;
+  max-width: 80%;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.75);
 }

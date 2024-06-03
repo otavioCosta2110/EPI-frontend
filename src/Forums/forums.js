@@ -6,6 +6,7 @@ import {
   Link,
   useParams,
 } from "react-router-dom";
+import Modal from "react-modal";
 import "./forums.css";
 
 const Thread = ({ id, title, description, username }) => (
@@ -55,30 +56,28 @@ const NewThreadForm = ({ onCreateThread, user }) => {
     }
 
     const userId = user.data.id;
+    const createdAt = new Date().toISOString(); // Add current date
     const response = await fetch(`${apiURL}/thread/create`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ title, description, user_id: userId }),
+      body: JSON.stringify({ title, description, user_id: userId, createdAt }),
     });
 
     if (response.ok) {
-      onCreateThread({ title, description, user_id: userId });
+      const newThread = await response.json();
+      onCreateThread({
+        title,
+        description,
+        user_id: userId,
+        createdAt: newThread.createdAt,
+      });
       setTitle("");
       setDescription("");
       setError("");
     } else {
       console.error("Erro ao criar thread");
-    }
-  };
-
-  const handleButtonClick = () => {
-    if (!title || !description) {
-      setError("Por favor, preencha todos os campos antes de enviar.");
-      return;
-    } else {
-      window.location.reload();
     }
   };
 
@@ -98,9 +97,7 @@ const NewThreadForm = ({ onCreateThread, user }) => {
           value={description}
           onChange={(e) => setDescription(e.target.value)}
         />
-        <button onClick={handleButtonClick} type="submit">
-          Criar Thread
-        </button>
+        <button type="submit">Criar Tópico</button>
       </form>
     </div>
   );
@@ -108,6 +105,8 @@ const NewThreadForm = ({ onCreateThread, user }) => {
 
 const App = () => {
   const [user, setUser] = useState("");
+  const [threads, setThreads] = useState([]);
+  const [showForm, setShowForm] = useState(false);
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
@@ -118,9 +117,6 @@ const App = () => {
     getThreads();
     console.log(user);
   }, []);
-
-  const [threads, setThreads] = useState([]);
-  const [showForm, setShowForm] = useState(false);
 
   const getThreads = async () => {
     const response = await fetch("http://localhost:3000/thread/get");
@@ -134,12 +130,16 @@ const App = () => {
       thread.userName = dataUser.data.name;
     }
 
-    setThreads(threadData.data);
-    console.log(threadData.data);
+    const sortedThreads = threadData.data.sort(
+      (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+    );
+
+    setThreads(sortedThreads);
+    console.log(sortedThreads);
   };
 
   const handleCreateThread = (newThread) => {
-    setThreads([...threads, { id: threads.length + 1, ...newThread }]);
+    setThreads([newThread, ...threads]); // add newThread to the beginning of the array
     setShowForm(false);
   };
 
@@ -147,12 +147,18 @@ const App = () => {
     <div className="app">
       {user && user.data && user.data.id && (
         <div className="create-thread-container">
-          <button onClick={() => setShowForm(true)}>Criar uma discussão</button>
+          <button onClick={() => setShowForm(true)}>Criar uma tópico</button>
         </div>
       )}
-      {showForm && (
+      <Modal
+        isOpen={showForm}
+        onRequestClose={() => setShowForm(false)}
+        contentLabel="Criar Nova Thread"
+        className="modal"
+        overlayClassName="modal-overlay"
+      >
         <NewThreadForm onCreateThread={handleCreateThread} user={user} />
-      )}
+      </Modal>
       <ThreadList threads={threads} user={user} />
     </div>
   );
