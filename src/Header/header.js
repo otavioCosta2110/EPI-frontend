@@ -25,7 +25,12 @@ function Header({ style }) {
 
   return (
     <header className="header" style={style}>
-      <div className="header-column left-section">
+      <div className="header-column center-section">
+        <Link to="/">
+          <h1>EPI</h1>
+        </Link>
+      </div>
+      <div className="header-column right-section">
         <FontAwesomeIcon icon={faUser} style={{ marginRight: "0.5rem" }}/>
         {user ? (
           <div className="user-info">
@@ -34,35 +39,17 @@ function Header({ style }) {
                 <span>{user.data.name}</span>
               </Link>
             ) : (
-              <span>{user.data.name}</span>
+              <span onClick={handleLogout}>
+                <Link to="/">       
+                  {user.data.name}
+                </Link>
+              </span>
             )}
           </div>
         ) : (
           <div className="login">
             <Link to="/login">
               <span>Login/Registro</span>
-            </Link>
-          </div>
-        )}
-      </div>
-
-      <div className="header-column center-section">
-        <Link to="/">
-          <h1>EPI</h1>
-        </Link>
-      </div>
-
-      <div className="header-column right-section">
-        {user && (
-          <div className="Logout" onClick={handleLogout}>
-            <Link to="/">
-              <h3>
-                <FontAwesomeIcon
-                  icon={faArrowRightFromBracket}
-                  style={{ marginRight: "0.5rem" }}
-                />
-                Sair
-              </h3>
             </Link>
           </div>
         )}
