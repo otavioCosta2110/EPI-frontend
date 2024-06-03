@@ -43,7 +43,13 @@ const ThreadDetail = () => {
           };
         })
       );
-      setPosts(postsWithUsernames);
+
+      // Sort posts by createdAt in descending order
+      const sortedPosts = postsWithUsernames.sort(
+        (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+      );
+
+      setPosts(sortedPosts);
     };
 
     getPostsByThread();
@@ -51,7 +57,7 @@ const ThreadDetail = () => {
   console.log(thread.id);
 
   const handleCreateResponse = async () => {
-    const response = fetch(`${apiURL}/post/create`, {
+    const response = await fetch(`${apiURL}/post/create`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -64,7 +70,7 @@ const ThreadDetail = () => {
     });
     if (response.ok) {
       const newPost = await response.json();
-      setPosts([...posts, newPost]);
+      setPosts([{ ...newPost, userName: user.name }, ...posts]);
       setContent("");
     }
   };
