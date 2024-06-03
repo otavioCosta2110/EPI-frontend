@@ -31,7 +31,7 @@ function Login() {
       console.log(token);
       fetchUserData(token);
     } catch (error) {
-      setError("Erro ao enviar dados");
+      setError("Login/senha inválida");
     }
   };
 
