@@ -235,12 +235,15 @@ function VideoPage() {
               onChangeActive={(event, newHover) => {
                 setHoverRating(newHover);
               }}
-              icon={
-                <span style={{ color: "#FFD700", fontSize: "36px" }}>★</span>
-              }
-              emptyIcon={
-                <span style={{ color: "#ccc", fontSize: "36px" }}>★</span>
-              }
+              size="large"
+              sx={{
+                "& .MuiRating-iconFilled": {
+                  color: "#FFD700",
+                },
+                "& .MuiRating-iconHover": {
+                  color: "#FFD700",
+                },
+              }}
             />
           </Box>
         )}
@@ -271,90 +274,83 @@ function VideoPage() {
         </Modal>
       </div>
 
-      {relatedVideos.some((relatedVideo) =>
-        relatedVideo.tags.some(
-          (tag) => video.tags.includes(tag) && video.id !== relatedVideo.id
-        )
-      ) && (
-        <div className="related-videos">
-          <h2>Vídeos Relacionados</h2>
-          <div className="related-videos-list">
-            {relatedVideos
-              .filter((relatedVideo) =>
-                relatedVideo.tags.some(
-                  (tag) =>
-                    video.tags.includes(tag) && video.id !== relatedVideo.id
-                )
+      <div className="related-videos">
+        <h2>Vídeos Relacionados</h2>
+        <div className="related-videos-list">
+          {relatedVideos
+            .filter((relatedVideo) =>
+              relatedVideo.tags.some(
+                (tag) =>
+                  video.tags.includes(tag) && video.id !== relatedVideo.id
               )
-              .map((relatedVideo) => (
-                <Link
-                  key={relatedVideo.id}
-                  to={`/videos/${relatedVideo.id}`}
-                  className="video-item"
-                >
-                  <img
-                    src={`${getVideoImage(relatedVideo.url)}`}
-                    alt={relatedVideo.title}
-                    className="video-thumbnail"
-                  />
-                  <div className="video-info">
-                    <h2 className="video-title">
-                      {relatedVideo.title.length > 25
-                        ? relatedVideo.title.slice(0, 25) + "..."
-                        : relatedVideo.title}
-                    </h2>
-                    <p className="video-description">
-                      {relatedVideo.description.length > 25
-                        ? relatedVideo.description.slice(0, 25) + "..."
-                        : relatedVideo.description}
-                    </p>
-                  </div>
-                </Link>
-              ))}
-          </div>
-          <div>
-            {user && user.data && user.data.role == "0" && (
-              <Link to={`/videos/${id}/registermaterial`}>
-                <div>
-                  <span className="square-text">Adicionar Materiais</span>
+            )
+            .map((relatedVideo) => (
+              <Link
+                key={relatedVideo.id}
+                to={`/videos/${relatedVideo.id}`}
+                className="video-item"
+              >
+                <img
+                  src={`${getVideoImage(relatedVideo.url)}`}
+                  alt={relatedVideo.title}
+                  className="video-thumbnail"
+                />
+                <div className="video-info">
+                  <h2 className="video-title">
+                    {relatedVideo.title.length > 25
+                      ? relatedVideo.title.slice(0, 25) + "..."
+                      : relatedVideo.title}
+                  </h2>
+                  <p className="video-description">
+                    {relatedVideo.description.length > 25
+                      ? relatedVideo.description.slice(0, 25) + "..."
+                      : relatedVideo.description}
+                  </p>
                 </div>
               </Link>
-            )}
-          </div>
-          {materials.length > 0 && (
-            <div className="materials-section">
-              <h2>Materiais Relacionados</h2>
-              <div className="materials-list">
-                {materials.map(
-                  (material, index) =>
-                    (index < 2 || showAllMaterials) && (
-                      <div key={material.id} className="material-item">
-                        <h3>{material.title}</h3>
-                        <p className="text">{material.description}</p>
-                        <a
-                          href={`http://localhost:3000/material/download/${material.file_url}`}
-                          download
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          Baixar
-                        </a>
-                      </div>
-                    )
-                )}
-              </div>
-              {materials.length > 2 && (
-                <input
-                  type="button"
-                  value={showAllMaterials ? "Mostrar menos" : "Mostrar mais"}
-                  onClick={handleShowAllMaterials}
-                  className="button"
-                />
+            ))}
+        </div>
+        {user && user.data && user.data.role == "0" && (
+          <Link to={`/videos/${id}/registermaterial`}>
+            <div>
+              <span className="square-text">Adicionar Materiais</span>
+            </div>
+          </Link>
+        )}
+
+        {materials.length > 0 && (
+          <div className="materials-section">
+            <h2>Materiais Relacionados</h2>
+            <div className="materials-list">
+              {materials.map(
+                (material, index) =>
+                  (index < 2 || showAllMaterials) && (
+                    <div key={material.id} className="material-item">
+                      <h3>{material.title}</h3>
+                      <p className="text">{material.description}</p>
+                      <a
+                        href={`http://localhost:3000/material/download/${material.file_url}`}
+                        download
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        Baixar
+                      </a>
+                    </div>
+                  )
               )}
             </div>
-          )}
-        </div>
-      )}
+            {materials.length > 2 && (
+              <input
+                type="button"
+                value={showAllMaterials ? "Mostrar menos" : "Mostrar mais"}
+                onClick={handleShowAllMaterials}
+                className="button"
+              />
+            )}
+          </div>
+        )}
+      </div>
     </div>
   );
 }
