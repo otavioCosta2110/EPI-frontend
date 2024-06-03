@@ -12,7 +12,8 @@ const ThreadDetail = () => {
   const [content, setContent] = useState("");
   const [editContent, setEditContent] = useState("");
   const [editPostId, setEditPostId] = useState(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [deletePostId, setDeletePostId] = useState(null);
 
   const { id, title, description, username } = location.state;
   const apiURL = "http://localhost:3000";
@@ -79,18 +80,21 @@ const ThreadDetail = () => {
     }
   };
 
-  const handleDeletePost = async (postId) => {
-    const response = await fetch(`${apiURL}/post/delete`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        id: postId,
-      }),
-    });
-    if (response.ok) {
-      setPosts(posts.filter((post) => post.id !== postId));
+  const handleDeletePost = async () => {
+    if (deletePostId) {
+      const response = await fetch(`${apiURL}/post/delete`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          id: deletePostId,
+        }),
+      });
+      if (response.ok) {
+        setPosts(posts.filter((post) => post.id !== deletePostId));
+      }
+      setDeletePostId(null);
     }
   };
 
@@ -114,18 +118,18 @@ const ThreadDetail = () => {
             : post
         )
       );
-      setIsModalOpen(false);
+      setIsEditModalOpen(false);
     }
   };
 
   const openEditModal = (post) => {
     setEditContent(post.content);
     setEditPostId(post.id);
-    setIsModalOpen(true);
+    setIsEditModalOpen(true);
   };
 
   const closeEditModal = () => {
-    setIsModalOpen(false);
+    setIsEditModalOpen(false);
     setEditContent("");
     setEditPostId(null);
   };
@@ -170,7 +174,7 @@ const ThreadDetail = () => {
                   </button>
 
                   <button
-                    onClick={() => handleDeletePost(post.id)}
+                    onClick={() => setDeletePostId(post.id)}
                     className="delete-post-button"
                   >
                     Apagar
@@ -182,7 +186,7 @@ const ThreadDetail = () => {
         ))}
       </div>
       <Modal
-        isOpen={isModalOpen}
+        isOpen={isEditModalOpen}
         onRequestClose={closeEditModal}
         contentLabel="Edit Post"
         className="modal-forum"
@@ -200,6 +204,19 @@ const ThreadDetail = () => {
         <button onClick={closeEditModal} className="cancel-edit-button">
           Cancelar
         </button>
+      </Modal>
+      <Modal
+        isOpen={!!deletePostId}
+        onRequestClose={() => setDeletePostId(null)}
+        contentLabel="Excluir Comentário"
+        className="modal-delete"
+        overlayClassName="overlay"
+      >
+        <div className="modal-delete-content">
+          <p>Tem certeza que deseja apagar?</p>
+          <button onClick={handleDeletePost}>Sim</button>
+          <button onClick={() => setDeletePostId(null)}>Não</button>
+        </div>
       </Modal>
     </div>
   );

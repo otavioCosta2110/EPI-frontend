@@ -151,13 +151,13 @@
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  background-color: #074b94;
+  background-color: #ff0000;
   color: #fff;
 }
 
 .modal-delete-content button:last-child {
   margin-right: 0;
-  background-color: #ff0000;
+  background-color: #074b94;
 }
 
 .modal-overlay {

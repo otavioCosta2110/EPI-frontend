@@ -134,7 +134,7 @@ const App = () => {
   const [user, setUser] = useState("");
   const [threads, setThreads] = useState([]);
   const [showForm, setShowForm] = useState(false);
-  const [deleteThreadId, setDeleteThreadId] = useState(null); // Track thread id for deletion
+  const [deleteThreadId, setDeleteThreadId] = useState(null); 
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
@@ -185,7 +185,7 @@ const App = () => {
         console.error("Erro ao apagar thread");
       }
     }
-    setDeleteThreadId(null); // Reset delete thread id
+    setDeleteThreadId(null); 
   };
 
   return (
