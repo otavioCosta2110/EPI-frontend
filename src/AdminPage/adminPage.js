@@ -31,6 +31,7 @@ function AdminPage() {
   return user && user.data && user.data.role == "0" ? (
     <div className="admin-page">
       <div className="Logout" onClick={handleLogout}>
+      <Link to="/">
         <button className="logout-button">
           <FontAwesomeIcon
             icon={faArrowRightFromBracket}
@@ -38,6 +39,7 @@ function AdminPage() {
           />
           Sair
         </button>
+      </Link>
       </div>
       <div className="container">
         <Link to="/register">
