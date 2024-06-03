@@ -67,11 +67,6 @@ input[type="submit"]:hover {
   background-color: #4f4f4f;
 }
 
-p {
-  color: #d9534f;
-  font-weight: bold;
-}
-
 .autocomplete-input {
   border: none;
 }

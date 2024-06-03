@@ -129,7 +129,6 @@ function MaterialForm() {
           Link:
           <input
             id="link_url"
-            type="text"
             name="link_url"
             value={link}
             onChange={handleInputChange}
