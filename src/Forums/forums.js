@@ -7,26 +7,36 @@ import {
   useParams,
 } from "react-router-dom";
 import Modal from "react-modal";
+import { FaTrash } from "react-icons/fa";
 import "./forums.css";
 
-const Thread = ({ id, title, description, username }) => (
-  console.log(username),
-  (
-    <div className="thread">
-      <div className="thread-username">Publicado por: {username}</div>
-      <Link
-        to={`/forums/${id}`}
-        className="thread-link"
-        state={{ id, title, description, username }}
-      >
-        <h2>{title}</h2>
-        <p>{description}</p>
-      </Link>
-    </div>
-  )
+const Thread = ({
+  id,
+  title,
+  description,
+  username,
+  user,
+  onDelete,
+  threadUserId,
+}) => (
+  <div className="thread">
+    <div className="thread-username">Publicado por: {username}</div>
+    <Link
+      to={`/forums/${id}`}
+      className="thread-link"
+      state={{ id, title, description, username }}
+    >
+      <h2>{title}</h2>
+      <p>{description}</p>
+    </Link>
+    <br></br>
+    {(user.data.role === "0" || user.data.id === threadUserId) && (
+      <FaTrash onClick={() => onDelete(id)} className="delete-icon" />
+    )}
+  </div>
 );
 
-const ThreadList = ({ threads, loggedInUser }) => (
+const ThreadList = ({ threads, user, onDelete }) => (
   <div className="thread-list">
     {threads.map((thread) => (
       <Thread
@@ -35,12 +45,15 @@ const ThreadList = ({ threads, loggedInUser }) => (
         title={thread.title}
         description={thread.description}
         username={thread.userName}
+        user={user}
+        onDelete={onDelete}
+        threadUserId={thread.user_id}
       />
     ))}
   </div>
 );
 
-const NewThreadForm = ({ onCreateThread, user }) => {
+const NewThreadForm = ({ onCreateThread, user, onClose }) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [error, setError] = useState("");
@@ -56,26 +69,34 @@ const NewThreadForm = ({ onCreateThread, user }) => {
     }
 
     const userId = user.data.id;
-    const createdAt = new Date().toISOString(); // Add current date
+    const createdAt = new Date().toISOString();
     const response = await fetch(`${apiURL}/thread/create`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ title, description, user_id: userId, createdAt }),
+      body: JSON.stringify({
+        title,
+        description,
+        user_id: userId,
+        createdAt,
+      }),
     });
 
     if (response.ok) {
       const newThread = await response.json();
       onCreateThread({
+        id: newThread.id,
         title,
         description,
         user_id: userId,
+        userName: user.data.name,
         createdAt: newThread.createdAt,
       });
       setTitle("");
       setDescription("");
       setError("");
+      onClose();
     } else {
       console.error("Erro ao criar thread");
     }
@@ -97,7 +118,13 @@ const NewThreadForm = ({ onCreateThread, user }) => {
           value={description}
           onChange={(e) => setDescription(e.target.value)}
         />
-        <button type="submit">Criar Tópico</button>
+
+        <div className="form-buttons">
+          <button type="submit">Criar Tópico</button>
+          <button type="button" onClick={onClose} className="close-button">
+            Cancelar
+          </button>
+        </div>
       </form>
     </div>
   );
@@ -107,21 +134,19 @@ const App = () => {
   const [user, setUser] = useState("");
   const [threads, setThreads] = useState([]);
   const [showForm, setShowForm] = useState(false);
+  const [deleteThreadId, setDeleteThreadId] = useState(null); // Track thread id for deletion
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
     if (storedUser) {
-      console.log("User:", storedUser);
       setUser(JSON.parse(storedUser));
     }
     getThreads();
-    console.log(user);
   }, []);
 
   const getThreads = async () => {
     const response = await fetch("http://localhost:3000/thread/get");
     const threadData = await response.json();
-    console.log(threadData);
     for (const thread of threadData.data) {
       const responseGetUser = await fetch(
         `http://localhost:3000/user/getuserbyid?id=${thread.user_id}`
@@ -135,12 +160,32 @@ const App = () => {
     );
 
     setThreads(sortedThreads);
-    console.log(sortedThreads);
   };
 
   const handleCreateThread = (newThread) => {
     setThreads([newThread, ...threads]);
     setShowForm(false);
+  };
+
+  const handleDeleteThread = async () => {
+    if (deleteThreadId) {
+      const response = await fetch(`http://localhost:3000/thread/delete`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          id: deleteThreadId,
+        }),
+      });
+
+      if (response.ok) {
+        setThreads(threads.filter((thread) => thread.id !== deleteThreadId));
+      } else {
+        console.error("Erro ao apagar thread");
+      }
+    }
+    setDeleteThreadId(null); // Reset delete thread id
   };
 
   return (
@@ -157,9 +202,31 @@ const App = () => {
         className="modal"
         overlayClassName="modal-overlay"
       >
-        <NewThreadForm onCreateThread={handleCreateThread} user={user} />
+        <NewThreadForm
+          onCreateThread={handleCreateThread}
+          user={user}
+          onClose={() => setShowForm(false)}
+        />
       </Modal>
-      <ThreadList threads={threads} user={user} />
+      <ThreadList
+        threads={threads}
+        user={user}
+        onDelete={(id) => setDeleteThreadId(id)}
+      />
+
+      <Modal
+        isOpen={!!deleteThreadId}
+        onRequestClose={() => setDeleteThreadId(null)}
+        contentLabel="Excluir Tópico"
+        className="modal-delete"
+        overlayClassName="modal-overlay"
+      >
+        <div className="modal-delete-content">
+          <p>Tem certeza que deseja apagar?</p>
+          <button onClick={handleDeleteThread}>Sim</button>
+          <button onClick={() => setDeleteThreadId(null)}>Não</button>
+        </div>
+      </Modal>
     </div>
   );
 };
