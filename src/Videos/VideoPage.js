@@ -328,14 +328,26 @@ function VideoPage() {
                     <div key={material.id} className="material-item">
                       <h3>{material.title}</h3>
                       <p className="text">{material.description}</p>
-                      <a
-                        href={`http://localhost:3000/material/download/${material.file_url}`}
-                        download
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        Baixar
-                      </a>
+                      {material.type === "link" ? (
+                        <a
+                          href={material.file_url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="material-link"
+                        >
+                          Acessar
+                        </a>
+                      ) : (
+                        <a
+                          href={`http://localhost:3000/material/download/${material.file_url}`}
+                          download
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="material-link"
+                        >
+                          Baixar
+                        </a>
+                      )}
                     </div>
                   )
               )}
