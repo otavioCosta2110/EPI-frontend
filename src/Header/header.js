@@ -25,6 +25,21 @@ function Header({ style }) {
 
   return (
     <header className="header" style={style}>
+      <div className="header-column left-section">
+        {user && (
+          <div className="Logout" onClick={handleLogout}>
+            <Link to="/">
+              <h3>
+                <FontAwesomeIcon
+                  icon={faArrowRightFromBracket}
+                  style={{ marginRight: "0.5rem" }}
+                />
+                Sair
+              </h3>
+            </Link>
+          </div>
+        )}
+      </div>
       <div className="header-column center-section">
         <Link to="/">
           <h1>EPI</h1>

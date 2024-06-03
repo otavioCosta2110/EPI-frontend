@@ -5,8 +5,10 @@ import {
   faFileAlt,
   faTrophy,
   faPenToSquare,
+  faArrowRightFromBracket,
 } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
+import Cookies from "js-cookie";
 import "./adminPage.css";
 
 function AdminPage() {
@@ -19,8 +21,24 @@ function AdminPage() {
     }
   }, []);
 
+  const handleLogout = () => {
+    Cookies.remove("jwt");
+    setUser(null);
+    localStorage.removeItem("user");
+    window.location.reload();
+  };
+
   return user && user.data && user.data.role == "0" ? (
     <div className="admin-page">
+      <div className="Logout" onClick={handleLogout}>
+        <button className="logout-button">
+          <FontAwesomeIcon
+            icon={faArrowRightFromBracket}
+            style={{ marginRight: "0.5rem" }}
+          />
+          Sair
+        </button>
+      </div>
       <div className="container">
         <Link to="/register">
           <div className="square">
