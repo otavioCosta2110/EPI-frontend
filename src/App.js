@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Header from "./Header/header";
-import Home from "./home/home.js";
+import Videos from "./Videos/videos";
 import AppRoutes from "./routes.js";
 
 const App = () => {
@@ -10,7 +10,7 @@ const App = () => {
       <div>
         <Header />
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/videos" element={<Videos />} />
           <Route path="/*" element={<AppRoutes />} />
         </Routes>
       </div>

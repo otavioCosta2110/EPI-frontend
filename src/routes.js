@@ -1,8 +1,7 @@
 import React from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 
 import LoginPage from "./LoginPage/login";
-import HomePage from "./home/home";
 import AdminPage from "./AdminPage/adminPage";
 import RegisterPage from "./RegisterPage/register";
 import RegisterStudent from "./RegisterStudent/register";
@@ -17,7 +16,7 @@ import MaterialRegister from "./AdminPage/Material/MaterialRegister";
 const AppRoutes = () => {
   return (
     <Routes>
-      <Route path="/" element={<HomePage />} />
+      <Route path="/" element={<Navigate to="/videos" />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/adminpage" element={<AdminPage />} />
       <Route path="/registervideo" element={<VideoRegister />} />
@@ -28,7 +27,10 @@ const AppRoutes = () => {
       <Route path="/registerstudent" element={<RegisterStudent />} />
       <Route path="/forums" element={<ForumsPage />} />
       <Route path="/forums/:id" element={<ForumPage />} />
-      <Route path="/videos/:id/registermaterial" element={<MaterialRegister />} />
+      <Route
+        path="/videos/:id/registermaterial"
+        element={<MaterialRegister />}
+      />
     </Routes>
   );
 };

@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser, faArrowRightFromBracket } from "@fortawesome/free-solid-svg-icons";
+import {
+  faUser,
+  faArrowRightFromBracket,
+} from "@fortawesome/free-solid-svg-icons";
 import "./header.css";
 import Cookies from "js-cookie";
 
@@ -26,21 +29,19 @@ function Header({ style }) {
   return (
     <header className="header" style={style}>
       <div className="header-column center-section">
-        <Link to="/">
-          <h1>EPI</h1>
-        </Link>
-        <div className="header-links">
-        <Link to="/videos">
-          <h3>🞄 Videos</h3>
-        </Link>
-        <Link to="/forums">
-          <h3>🞄 Foruns</h3>
-        </Link>
+        <h1>EPI</h1>
 
+        <div className="header-links">
+          <Link to="/">
+            <h3>🞄 Videos</h3>
+          </Link>
+          <Link to="/forums">
+            <h3>🞄 Foruns</h3>
+          </Link>
         </div>
       </div>
       <div className="header-column right-section">
-        <FontAwesomeIcon icon={faUser} style={{ marginRight: "0.5rem" }}/>
+        <FontAwesomeIcon icon={faUser} style={{ marginRight: "0.5rem" }} />
         {user ? (
           <div className="user-info">
             {user.data.role === "0" ? (
@@ -49,9 +50,7 @@ function Header({ style }) {
               </Link>
             ) : (
               <span onClick={handleLogout}>
-                <Link to="/">       
-                  {user.data.name}
-                </Link>
+                <Link to="/">{user.data.name}</Link>
               </span>
             )}
           </div>

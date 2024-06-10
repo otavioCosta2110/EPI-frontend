@@ -20,9 +20,21 @@ function VideoPage() {
   const [message, setMessage] = useState("");
   const [materials, setMaterials] = useState([]);
   const [showAllMaterials, setShowAllMaterials] = useState(false);
+  const [showFullDescription, setShowFullDescription] = useState(false);
+  const [ratingSuccessAlert, setRatingSuccessAlert] = useState(false);
 
   const apiURL = "http://localhost:3000";
 
+  const showRatingSuccessAlert = () => {
+    setRatingSuccessAlert(true);
+    setTimeout(() => {
+      setRatingSuccessAlert(false);
+    }, 3000); // Define o tempo que o alerta será exibido (3 segundos)
+  };
+
+  const handleToggleDescription = () => {
+    setShowFullDescription(!showFullDescription);
+  };
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
@@ -125,6 +137,7 @@ function VideoPage() {
       });
       if (response.ok) {
         setUserRating(newValue);
+        showRatingSuccessAlert();
       } else {
         console.error("Failed to rate video");
       }
@@ -207,14 +220,30 @@ function VideoPage() {
             },
           }}
         />
-        <p className="text">
-          {video.description.length > 50
-            ? video.description.slice(0, 50) + "..."
-            : video.description}
-        </p>
+        <div className="description-card">
+          <p className="text">
+            {showFullDescription
+              ? video.description
+              : video.description.length > 90
+              ? video.description.slice(0, 90) + "..."
+              : video.description}
+            <br></br>
+            {video.description.length > 90 && (
+              <button onClick={handleToggleDescription}>
+                {showFullDescription ? "Mostrar menos" : "Mostrar mais"}
+              </button>
+            )}
+          </p>
+        </div>
         <div className="video-tags">
           <h3>Assuntos:</h3>
-          <p>{video.tags.join(", ")}</p>
+          <div className="tag-container">
+            {video.tags.map((tag, index) => (
+              <span key={index} className="tag">
+                {tag}
+              </span>
+            ))}
+          </div>
         </div>
         {user && (
           <Box
@@ -361,6 +390,9 @@ function VideoPage() {
               />
             )}
           </div>
+        )}
+        {ratingSuccessAlert && (
+          <div className="success-alert show">Avaliado com sucesso</div>
         )}
       </div>
     </div>
