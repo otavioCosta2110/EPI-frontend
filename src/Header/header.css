@@ -60,3 +60,18 @@ a {
     margin-left: 10px;
   }
 }
+
+.header-links{
+  display: flex;
+  align-items: center;
+  width: 30%;
+  gap: 10px;
+  margin: auto;
+  margin-left: 30px;
+  align-items: center;
+}
+
+.header-links h3{
+  font-weight: normal;
+  font-size: 0.9rem;
+}

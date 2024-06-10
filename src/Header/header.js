@@ -29,6 +29,15 @@ function Header({ style }) {
         <Link to="/">
           <h1>EPI</h1>
         </Link>
+        <div className="header-links">
+        <Link to="/videos">
+          <h3>🞄 Videos</h3>
+        </Link>
+        <Link to="/forums">
+          <h3>🞄 Foruns</h3>
+        </Link>
+
+        </div>
       </div>
       <div className="header-column right-section">
         <FontAwesomeIcon icon={faUser} style={{ marginRight: "0.5rem" }}/>
