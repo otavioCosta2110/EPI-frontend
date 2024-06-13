@@ -14,6 +14,9 @@ const ThreadDetail = () => {
   const [editPostId, setEditPostId] = useState(null);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [deletePostId, setDeletePostId] = useState(null);
+  const [answerContent, setAnswerContent] = useState("");
+  const [isAnswerModalOpen, setIsAnswerModalOpen] = useState(false);
+  const [answerPostId, setAnswerPostId] = useState(null);
 
   const { id, title, description, username } = location.state;
   const apiURL = "http://localhost:3000";
@@ -51,11 +54,7 @@ const ThreadDetail = () => {
         })
       );
 
-      const sortedPosts = postsWithUsernames.sort(
-        (a, b) => new Date(b.created_at) - new Date(a.created_at)
-      );
-
-      setPosts(sortedPosts);
+      setPosts(postsWithUsernames);
     };
 
     getPostsByThread();
@@ -80,6 +79,27 @@ const ThreadDetail = () => {
     }
   };
 
+  const handleAnswerPost = async () => {
+    const response = await fetch(`${apiURL}/post/create`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        thread_id: thread.id,
+        user_id: user.id,
+        content: answerContent,
+        post_id: answerPostId,
+      }),
+    });
+    if (response.ok) {
+      const newPost = await response.json();
+      setPosts([...posts, { ...newPost.data, userName: user.name }]);
+      setAnswerContent("");
+      setIsAnswerModalOpen(false);
+    }
+  };
+
   const handleDeletePost = async () => {
     if (deletePostId) {
       const response = await fetch(`${apiURL}/post/delete`, {
@@ -93,8 +113,8 @@ const ThreadDetail = () => {
       });
       if (response.ok) {
         setPosts(posts.filter((post) => post.id !== deletePostId));
+        setDeletePostId(null);
       }
-      setDeletePostId(null);
     }
   };
 
@@ -134,6 +154,80 @@ const ThreadDetail = () => {
     setEditPostId(null);
   };
 
+  const openAnswerModal = (post) => {
+    setAnswerContent("");
+    setAnswerPostId(post.id);
+    setIsAnswerModalOpen(true);
+  };
+
+  const closeAnswerModal = () => {
+    setIsAnswerModalOpen(false);
+    setAnswerContent("");
+    setAnswerPostId(null);
+  };
+
+  const buildPostHierarchy = (posts) => {
+    const postMap = {};
+    const rootPosts = [];
+
+    posts.forEach((post) => {
+      post.responses = [];
+      postMap[post.id] = post;
+    });
+
+    posts.forEach((post) => {
+      if (post.post_id) {
+        if (postMap[post.post_id]) {
+          postMap[post.post_id].responses.push(post);
+        }
+      } else {
+        rootPosts.push(post);
+      }
+    });
+
+    return rootPosts;
+  };
+
+  const renderPosts = (posts) => {
+    return posts.map((post) => (
+      <div key={post.id} className="post">
+        <p>
+          <strong>{post.userName}</strong>
+        </p>
+        <p>{post.content}</p>
+        <div className="post-actions">
+          {user.id === post.user_id && (
+            <>
+              <button
+                onClick={() => openEditModal(post)}
+                className="edit-post-button"
+              >
+                Editar
+              </button>
+              <button
+                onClick={() => setDeletePostId(post.id)}
+                className="delete-post-button"
+              >
+                Apagar
+              </button>
+            </>
+          )}
+          <button
+            onClick={() => openAnswerModal(post)}
+            className="edit-post-button"
+          >
+            Responder
+          </button>
+        </div>
+        {post.responses && post.responses.length > 0 && (
+          <div className="responses">{renderPosts(post.responses)}</div>
+        )}
+      </div>
+    ));
+  };
+
+  const rootPosts = buildPostHierarchy(posts);
+
   return (
     <div className="thread-detail">
       <div>
@@ -156,39 +250,11 @@ const ThreadDetail = () => {
           Criar Comentário
         </button>
       )}
-      <div className="posts">
-        {posts.map((post) => (
-          <div key={post.id} className="post">
-            <p>
-              <strong>{post.userName}</strong>
-            </p>
-            <p>{post.content}</p>
-            <div className="post-actions">
-              {user.id === post.user_id && (
-                <>
-                  <button
-                    onClick={() => openEditModal(post)}
-                    className="edit-post-button"
-                  >
-                    Editar
-                  </button>
-
-                  <button
-                    onClick={() => setDeletePostId(post.id)}
-                    className="delete-post-button"
-                  >
-                    Apagar
-                  </button>
-                </>
-              )}
-            </div>
-          </div>
-        ))}
-      </div>
+      <div className="posts">{renderPosts(rootPosts)}</div>
       <Modal
         isOpen={isEditModalOpen}
         onRequestClose={closeEditModal}
-        contentLabel="Edit Post"
+        contentLabel="Editar Post"
         className="modal-forum"
         overlayClassName="overlay"
       >
@@ -217,6 +283,26 @@ const ThreadDetail = () => {
           <button onClick={handleDeletePost}>Sim</button>
           <button onClick={() => setDeletePostId(null)}>Não</button>
         </div>
+      </Modal>
+      <Modal
+        isOpen={isAnswerModalOpen}
+        onRequestClose={closeAnswerModal}
+        contentLabel="Responder Post"
+        className="modal-forum"
+        overlayClassName="overlay"
+      >
+        <h2>Responder Post</h2>
+        <textarea
+          value={answerContent}
+          onChange={(e) => setAnswerContent(e.target.value)}
+          placeholder="Digite sua resposta"
+        />
+        <button onClick={handleAnswerPost} className="save-edit-button">
+          Responder
+        </button>
+        <button onClick={closeAnswerModal} className="cancel-edit-button">
+          Cancelar
+        </button>
       </Modal>
     </div>
   );
