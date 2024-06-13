@@ -94,7 +94,7 @@ function Videos() {
 
   return (
     <div className="videos">
-      <div className="materials-challenges-toggle">
+      <div className="video-history-tabs">
         <button
           className={`toggle-button ${activeTab === "Videos" ? "active" : ""}`}
           onClick={() => setActiveTab("Videos")}
