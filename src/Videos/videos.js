@@ -7,6 +7,8 @@ function Videos() {
   const [user, setUser] = useState("");
   const [videos, setVideos] = useState([]);
   const [watchedVideos, setWatchedVideos] = useState([]);
+  const [activeTab, setActiveTab] = useState("Histórico"); 
+  const [allVideos, setAllVideos] = useState([]); 
 
   const apiURL = "http://localhost:3000";
 
@@ -21,6 +23,7 @@ function Videos() {
         const data = await response.json();
         if (data && data.data) {
           setVideos(data.data);
+          setAllVideos(data.data); // Set all videos initially
         } else {
           console.error("Unexpected response format:", data);
         }
@@ -91,75 +94,96 @@ function Videos() {
 
   return (
     <div className="videos">
-      <div className="videos-list">
-        {videos.length > 0 ? (
-          filterAndSortVideos(videos).map((video) => {
-            const match = video.url.match(
-              /(?:https?:\/\/)?(?:www\.)?youtube\.com\/(?:[^/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)([^"&?/ ]{11})/
-            );
-            const videoId = match && match[1];
+      <div className="materials-challenges-toggle">
+        <button
+          className={`toggle-button ${activeTab === "Videos" ? "active" : ""}`}
+          onClick={() => setActiveTab("Videos")}
+        >
+          Videos
+        </button>
+        <button
+          className={`toggle-button ${
+            activeTab === "Histórico" ? "active" : ""
+          }`}
+          onClick={() => setActiveTab("Histórico")}
+        >
+          Histórico
+        </button>
+      </div>
 
-            return (
-              <Link
-                key={video.id}
-                to={`/videos/${video.id}`}
-                className="video-item"
-              >
-                <img
-                  src={`https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`}
-                  alt={video.title}
-                  className="video-thumbnail"
-                />
-                <div className="video-info">
-                  <h2 className="video-title">
-                    {truncateText(video.title, 10)}
-                  </h2>
-                  <p className="video-description">
-                    {truncateText(video.description, 10)}
-                  </p>
-                  <p>{video.tags.join(", ")}</p>
-                </div>
-              </Link>
-            );
-            return null;
-          })
-        ) : (
-          <p>Não há videos disponíveis</p>
+      <div className="videos-list">
+        {activeTab === "Histórico" && (
+          <>
+            <h2>Histórico</h2>
+            {watchedVideos.length > 0 ? (
+              filterAndSortVideos(watchedVideos).map((video) => {
+                const match = video.url.match(
+                  /(?:https?:\/\/)?(?:www\.)?youtube\.com\/(?:[^/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)([^"&?/ ]{11})/
+                );
+                const videoId = match && match[1];
+
+                return (
+                  <Link
+                    key={video.id}
+                    to={`/videos/${video.id}`}
+                    className="video-item watched"
+                  >
+                    <img
+                      src={`https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`}
+                      alt={video.title}
+                      className="video-thumbnail"
+                    />
+                    <div className="video-info">
+                      <h2 className="video-title">
+                        {truncateText(video.title, 10)}
+                      </h2>
+                      <p className="video-description">
+                        {truncateText(video.description, 10)}
+                      </p>
+                      <p>{video.tags.join(", ")}</p>
+                    </div>
+                  </Link>
+                );
+              })
+            ) : (
+              <p>Você não tem Histórico</p>
+            )}
+          </>
         )}
 
-        <h2>Histórico</h2>
-        {watchedVideos.length > 0 ? (
-          filterAndSortVideos(watchedVideos).map((video) => {
-            const match = video.url.match(
-              /(?:https?:\/\/)?(?:www\.)?youtube\.com\/(?:[^/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)([^"&?/ ]{11})/
-            );
-            const videoId = match && match[1];
+        {activeTab === "Videos" && (
+          <>
+            <h2>Todos os Vídeos</h2>
+            {filterAndSortVideos(allVideos).map((video) => {
+              const match = video.url.match(
+                /(?:https?:\/\/)?(?:www\.)?youtube\.com\/(?:[^/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)([^"&?/ ]{11})/
+              );
+              const videoId = match && match[1];
 
-            return (
-              <Link
-                key={video.id}
-                to={`/videos/${video.id}`}
-                className="video-item watched"
-              >
-                <img
-                  src={`https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`}
-                  alt={video.title}
-                  className="video-thumbnail"
-                />
-                <div className="video-info">
-                  <h2 className="video-title">
-                    {truncateText(video.title, 10)}
-                  </h2>
-                  <p className="video-description">
-                    {truncateText(video.description, 10)}
-                  </p>
-                  <p>{video.tags.join(", ")}</p>
-                </div>
-              </Link>
-            );
-          })
-        ) : (
-          <p>Você não tem Histórico</p>
+              return (
+                <Link
+                  key={video.id}
+                  to={`/videos/${video.id}`}
+                  className="video-item"
+                >
+                  <img
+                    src={`https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`}
+                    alt={video.title}
+                    className="video-thumbnail"
+                  />
+                  <div className="video-info">
+                    <h2 className="video-title">
+                      {truncateText(video.title, 10)}
+                    </h2>
+                    <p className="video-description">
+                      {truncateText(video.description, 10)}
+                    </p>
+                    <p>{video.tags.join(", ")}</p>
+                  </div>
+                </Link>
+              );
+            })}
+          </>
         )}
       </div>
     </div>
