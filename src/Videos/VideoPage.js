@@ -7,6 +7,8 @@ import Youtube from "react-youtube";
 import Modal from "@mui/material/Modal";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowsRotate } from "@fortawesome/free-solid-svg-icons";
 import "./VideoPage.css";
 
 function VideoPage() {
@@ -19,9 +21,11 @@ function VideoPage() {
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState("");
   const [materials, setMaterials] = useState([]);
+  const [challenges, setChallenges] = useState([]); // State for challenges
   const [showAllMaterials, setShowAllMaterials] = useState(false);
   const [showFullDescription, setShowFullDescription] = useState(false);
   const [ratingSuccessAlert, setRatingSuccessAlert] = useState(false);
+  const [showChallenges, setShowChallenges] = useState(false); // State to toggle between materials and challenges
 
   const apiURL = "http://localhost:3000";
 
@@ -92,8 +96,21 @@ function VideoPage() {
       }
     };
 
+    const fetchChallenges = async () => {
+      try {
+        const response = await fetch(
+          `${apiURL}/challenge/getchallengebyvideo/${id}`
+        );
+        const data = await response.json();
+        setChallenges(data.data);
+      } catch (error) {
+        console.error("Error fetching challenges:", error);
+      }
+    };
+
     fetchVideo();
     fetchMaterials();
+    fetchChallenges();
   }, [id]);
 
   function getYouTubeVideoId(url) {
@@ -202,6 +219,10 @@ function VideoPage() {
     setShowAllMaterials(!showAllMaterials);
   };
 
+  const handleToggleContent = (contentType) => {
+    setShowChallenges(contentType === "challenges");
+  };
+
   return (
     <div className="video-page">
       <div className="video-container">
@@ -268,6 +289,7 @@ function VideoPage() {
               sx={{
                 "& .MuiRating-iconFilled": {
                   color: "#FFD700",
+                  fontSize: "2rem", // Increase the icon size
                 },
                 "& .MuiRating-iconHover": {
                   color: "#FFD700",
@@ -347,49 +369,93 @@ function VideoPage() {
           </Link>
         )}
 
-        {materials.length > 0 && (
-          <div className="materials-section">
-            <h2>Materiais Relacionados</h2>
-            <div className="materials-list">
-              {materials.map(
-                (material, index) =>
-                  (index < 2 || showAllMaterials) && (
-                    <div key={material.id} className="material-item">
-                      <h3>{material.title}</h3>
-                      <p className="text">{material.description}</p>
-                      {material.type === "link" ? (
+        <div className="materials-challenges-toggle">
+          <button
+            className={`toggle-button ${
+              !showChallenges ? "active" : ""
+            }`}
+            onClick={() => handleToggleContent("materials")}
+          >
+            Materiais
+          </button>
+          <button
+            className={`toggle-button ${showChallenges ? "active" : ""}`}
+            onClick={() => handleToggleContent("challenges")}
+          >
+            Desafios
+          </button>
+        </div>
+
+        {showChallenges ? (
+          <div className="challenges-section">
+            {challenges.length > 0 ? (
+              <div className="challenges-list">
+                {challenges.map(
+                  (challenge, index) =>
+                    (index < 2 || showAllMaterials) && (
+                      <div key={challenge.id} className="challenge-item">
+                        <h3>{challenge.title}</h3>
+                        <p className="text">{challenge.description}</p>
                         <a
-                          href={material.file_url}
+                          href={challenge.file_url}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="material-link"
+                          className="challenge-link"
                         >
                           Acessar
                         </a>
-                      ) : (
-                        <a
-                          href={`http://localhost:3000/material/download/${material.file_url}`}
-                          download
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="material-link"
-                        >
-                          Baixar
-                        </a>
-                      )}
-                    </div>
-                  )
-              )}
-            </div>
-            {materials.length > 2 && (
-              <input
-                type="button"
-                value={showAllMaterials ? "Mostrar menos" : "Mostrar mais"}
-                onClick={handleShowAllMaterials}
-                className="button"
-              />
+                      </div>
+                    )
+                )}
+              </div>
+            ) : (
+              <p>Não há desafios relacionados.</p>
             )}
           </div>
+        ) : (
+          materials.length > 0 && (
+            <div className="materials-section">
+              <div className="materials-list">
+                {materials.map(
+                  (material, index) =>
+                    (index < 2 || showAllMaterials) && (
+                      <div key={material.id} className="material-item">
+                        <h3>{material.title}</h3>
+                        <p className="text">{material.description}</p>
+                        {material.type === "link" ? (
+                          <a
+                            href={material.file_url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="material-link"
+                          >
+                            Acessar
+                          </a>
+                        ) : (
+                          <a
+                            href={`http://localhost:3000/material/download/${material.file_url}`}
+                            download
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="material-link"
+                          >
+                            Baixar
+                          </a>
+                        )}
+                      </div>
+                    )
+                )}
+              </div>
+              {materials.length > 2 && (
+                <input
+                  type="button"
+                  value={showAllMaterials ? "Mostrar menos" : "Mostrar mais"}
+                  onClick={handleShowAllMaterials}
+                  className="button"
+                />
+              )}
+            </div>
+          )
         )}
         {ratingSuccessAlert && (
           <div className="success-alert show">Avaliado com sucesso</div>

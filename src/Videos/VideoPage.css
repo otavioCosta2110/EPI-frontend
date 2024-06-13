@@ -347,3 +347,65 @@ body {
     gap: 15px;
   }
 }
+
+/* Toggle button styles */
+.materials-challenges-toggle {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.toggle-button {
+  padding: 10px 20px;
+  margin: 0 5px; /* Adjusted margin to bring buttons closer */
+  cursor: pointer;
+  background-color: transparent; /* Transparent background for inactive tabs */
+  border: none;
+  border-bottom: 2px solid transparent; /* Invisible underline */
+  font-size: 1rem;
+  color: #666; /* Inactive tab color */
+  transition: color 0.3s, border-bottom 0.3s;
+}
+
+.toggle-button:hover {
+  color: #333; /* Darker text on hover */
+}
+
+.toggle-button.active {
+  color: #007bff; /* Blue color for active tab */
+  border-bottom: 2px solid #007bff; /* Blue underline for active tab */
+}
+
+/* Container for content sections */
+.challenges-section,
+.materials-section {
+  margin-top: 20px;
+}
+
+/* List styles */
+.challenges-list,
+.materials-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.challenge-item,
+.material-item {
+  background-color: #f9f9f9;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.challenge-link,
+.material-link {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.challenge-link:hover,
+.material-link:hover {
+  text-decoration: underline;
+}
+
+
