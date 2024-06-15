@@ -12,6 +12,7 @@ import VideoRegister from "./AdminPage/Videos/VideosRegister";
 import ForumsPage from "./Forums/forums";
 import ForumPage from "./Forums/ForumPage/forum";
 import MaterialRegister from "./AdminPage/Material/MaterialRegister";
+import ChallengeRegister from "./AdminPage/Challenge/ChallengeRegister";
 
 const AppRoutes = () => {
   return (
@@ -31,6 +32,10 @@ const AppRoutes = () => {
         path="/videos/:id/registermaterial"
         element={<MaterialRegister />}
       />
+      <Route
+        path="/videos/:id/registerchallenge"
+        element={<ChallengeRegister />}
+      />  
     </Routes>
   );
 };

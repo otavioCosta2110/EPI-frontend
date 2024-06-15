@@ -348,7 +348,6 @@ body {
   }
 }
 
-/* Toggle button styles */
 .materials-challenges-toggle {
   display: flex;
   justify-content: center;
@@ -357,32 +356,30 @@ body {
 
 .toggle-button {
   padding: 10px 20px;
-  margin: 0 5px; /* Adjusted margin to bring buttons closer */
+  margin: 0 5px;
   cursor: pointer;
-  background-color: transparent; /* Transparent background for inactive tabs */
+  background-color: transparent; 
   border: none;
-  border-bottom: 2px solid transparent; /* Invisible underline */
+  border-bottom: 2px solid transparent; 
   font-size: 1rem;
-  color: #666; /* Inactive tab color */
+  color: #666; 
   transition: color 0.3s, border-bottom 0.3s;
 }
 
 .toggle-button:hover {
-  color: #333; /* Darker text on hover */
+  color: #333; 
 }
 
 .toggle-button.active {
-  color: #007bff; /* Blue color for active tab */
-  border-bottom: 2px solid #007bff; /* Blue underline for active tab */
+  color: #007bff; 
+  border-bottom: 2px solid #007bff; 
 }
 
-/* Container for content sections */
 .challenges-section,
 .materials-section {
   margin-top: 20px;
 }
 
-/* List styles */
 .challenges-list,
 .materials-list {
   display: flex;
