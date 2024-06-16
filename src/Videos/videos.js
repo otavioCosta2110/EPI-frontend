@@ -7,8 +7,8 @@ function Videos() {
   const [user, setUser] = useState("");
   const [videos, setVideos] = useState([]);
   const [watchedVideos, setWatchedVideos] = useState([]);
-  const [activeTab, setActiveTab] = useState("Histórico"); 
-  const [allVideos, setAllVideos] = useState([]); 
+  const [activeTab, setActiveTab] = useState("Videos"); 
+  const [allVideos, setAllVideos] = useState([]);
 
   const apiURL = "http://localhost:3000";
 
@@ -23,7 +23,7 @@ function Videos() {
         const data = await response.json();
         if (data && data.data) {
           setVideos(data.data);
-          setAllVideos(data.data); // Set all videos initially
+          setAllVideos(data.data); 
         } else {
           console.error("Unexpected response format:", data);
         }
@@ -112,6 +112,41 @@ function Videos() {
       </div>
 
       <div className="videos-list">
+        {activeTab === "Videos" && (
+          <>
+            <h2>Todos os Vídeos</h2>
+            {filterAndSortVideos(allVideos).map((video) => {
+              const match = video.url.match(
+                /(?:https?:\/\/)?(?:www\.)?youtube\.com\/(?:[^/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)([^"&?/ ]{11})/
+              );
+              const videoId = match && match[1];
+
+              return (
+                <Link
+                  key={video.id}
+                  to={`/videos/${video.id}`}
+                  className="video-item"
+                >
+                  <img
+                    src={`https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`}
+                    alt={video.title}
+                    className="video-thumbnail"
+                  />
+                  <div className="video-info">
+                    <h2 className="video-title">
+                      {truncateText(video.title, 10)}
+                    </h2>
+                    <p className="video-description">
+                      {truncateText(video.description, 10)}
+                    </p>
+                    <p>{video.tags.join(", ")}</p>
+                  </div>
+                </Link>
+              );
+            })}
+          </>
+        )}
+
         {activeTab === "Histórico" && (
           <>
             <h2>Histórico</h2>
@@ -148,41 +183,6 @@ function Videos() {
             ) : (
               <p>Você não tem Histórico</p>
             )}
-          </>
-        )}
-
-        {activeTab === "Videos" && (
-          <>
-            <h2>Todos os Vídeos</h2>
-            {filterAndSortVideos(allVideos).map((video) => {
-              const match = video.url.match(
-                /(?:https?:\/\/)?(?:www\.)?youtube\.com\/(?:[^/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)([^"&?/ ]{11})/
-              );
-              const videoId = match && match[1];
-
-              return (
-                <Link
-                  key={video.id}
-                  to={`/videos/${video.id}`}
-                  className="video-item"
-                >
-                  <img
-                    src={`https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`}
-                    alt={video.title}
-                    className="video-thumbnail"
-                  />
-                  <div className="video-info">
-                    <h2 className="video-title">
-                      {truncateText(video.title, 10)}
-                    </h2>
-                    <p className="video-description">
-                      {truncateText(video.description, 10)}
-                    </p>
-                    <p>{video.tags.join(", ")}</p>
-                  </div>
-                </Link>
-              );
-            })}
           </>
         )}
       </div>
