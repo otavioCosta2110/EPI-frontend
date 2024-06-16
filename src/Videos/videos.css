@@ -66,10 +66,6 @@ body {
   color: #666;
 }
 
-.watched .video-thumbnail {
-  opacity: 0.6;
-}
-
 .video-history-tabs {
   display: flex;
   justify-content: center;

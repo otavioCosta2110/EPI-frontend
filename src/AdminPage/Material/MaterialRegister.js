@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import "./MaterialRegister.css";
 
 function MaterialForm() {
   const { id } = useParams();
+  const [user, setUser] = useState(null);
   const [title, setTitle] = useState("");
   const [type, setType] = useState("");
   const [description, setDescription] = useState("");
@@ -14,6 +15,13 @@ function MaterialForm() {
   const [video_id, setVideoId] = useState(id);
 
   const apiURL = "http://localhost:3000";
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
+  }, []);
 
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
@@ -71,7 +79,9 @@ function MaterialForm() {
         const responseData = await response.json();
         const createdMaterialId = responseData.data.id;
         console.log("ID do material criado:", createdMaterialId);
-        window.location.reload();
+        
+        // Redirect to the video page associated with video_id
+        window.location.href = `/videos/${video_id}`;
       } else {
         setError("Erro ao criar material");
       }
@@ -81,64 +91,68 @@ function MaterialForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="form">
-      <div>
-        Título:
-        <input
-          id="title"
-          name="title"
-          value={title}
-          onChange={handleInputChange}
-          className="input-field"
-        />
-      </div>
-      <div>
-        Descrição:
-        <input
-          id="description"
-          name="description"
-          value={description}
-          onChange={handleInputChange}
-          className="input-field"
-        />
-      </div>
-      <div>
-        Tipo de Entrada:
-        <select
-          onChange={handleSelectChange}
-          value={inputType}
-          className="input-field"
-        >
-          <option value="file">Arquivo</option>
-          <option value="link">Link</option>
-        </select>
-      </div>
-      {inputType === "file" ? (
+    user && user.data && user.data.role === '0' ? (
+      <form onSubmit={handleSubmit} className="form">
         <div>
-          Arquivo:
+          Título:
           <input
-            id="file_url"
-            type="file"
-            name="file_url"
-            onChange={handleFileChange}
-            className="input-field"
-          />
-        </div>
-      ) : (
-        <div>
-          Link:
-          <input
-            id="link_url"
-            name="link_url"
-            value={link}
+            id="title"
+            name="title"
+            value={title}
             onChange={handleInputChange}
             className="input-field"
           />
         </div>
-      )}
-      <input type="submit" value="Criar Material" className="submit-button" />
-      {error && <p className="error-message">{error}</p>}
-    </form>
+        <div>
+          Descrição:
+          <input
+            id="description"
+            name="description"
+            value={description}
+            onChange={handleInputChange}
+            className="input-field"
+          />
+        </div>
+        <div>
+          Tipo de Entrada:
+          <select
+            onChange={handleSelectChange}
+            value={inputType}
+            className="input-field"
+          >
+            <option value="file">Arquivo</option>
+            <option value="link">Link</option>
+          </select>
+        </div>
+        {inputType === "file" ? (
+          <div>
+            Arquivo:
+            <input
+              id="file_url"
+              type="file"
+              name="file_url"
+              onChange={handleFileChange}
+              className="input-field"
+            />
+          </div>
+        ) : (
+          <div>
+            Link:
+            <input
+              id="link_url"
+              name="link_url"
+              value={link}
+              onChange={handleInputChange}
+              className="input-field"
+            />
+          </div>
+        )}
+        <input type="submit" value="Criar Material" className="submit-button" />
+        {error && <p className="error-message">{error}</p>}
+      </form>
+    ) : (
+      <div>Você não possui autorização para essa função.</div>
+    )
   );
 }
 
