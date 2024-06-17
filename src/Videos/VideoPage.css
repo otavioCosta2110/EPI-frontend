@@ -205,6 +205,41 @@ body {
   bottom: 20px;
 }
 
+.MuiModal-root {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-container {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  width: 400px;
+  max-width: 90%;
+}
+
+.modal-container form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.modal-container h2 {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.modal-container .MuiTextField-root {
+  width: 100%;
+}
+
+.modal-container .MuiButton-root {
+  width: 100%;
+  padding: 12px 0;
+  margin-top: 10px;
+}
+
 @media (max-width: 768px) {
   .video-page {
     flex-direction: column;
@@ -358,21 +393,21 @@ body {
   padding: 10px 20px;
   margin: 0 5px;
   cursor: pointer;
-  background-color: transparent; 
+  background-color: transparent;
   border: none;
-  border-bottom: 2px solid transparent; 
+  border-bottom: 2px solid transparent;
   font-size: 1rem;
-  color: #666; 
+  color: #666;
   transition: color 0.3s, border-bottom 0.3s;
 }
 
 .toggle-button:hover {
-  color: #333; 
+  color: #333;
 }
 
 .toggle-button.active {
-  color: #007bff; 
-  border-bottom: 2px solid #007bff; 
+  color: #007bff;
+  border-bottom: 2px solid #007bff;
 }
 
 .challenges-section,
@@ -404,5 +439,3 @@ body {
 .material-link:hover {
   text-decoration: underline;
 }
-
-

@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import Modal from "react-modal";
+import Modal from "@mui/material/Modal";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import Button from "@mui/material/Button";
 import "./forum.css";
-
-Modal.setAppElement("#root");
 
 const ThreadDetail = () => {
   const location = useLocation();
@@ -13,10 +14,11 @@ const ThreadDetail = () => {
   const [editContent, setEditContent] = useState("");
   const [editPostId, setEditPostId] = useState(null);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  const [deletePostId, setDeletePostId] = useState(null);
+  const [deletePostId, setDeletePostId] = useState(null); 
   const [answerContent, setAnswerContent] = useState("");
   const [isAnswerModalOpen, setIsAnswerModalOpen] = useState(false);
   const [answerPostId, setAnswerPostId] = useState(null);
+  const [confirmDeleteModalOpen, setConfirmDeleteModalOpen] = useState(false);
 
   const { id, title, description, username } = location.state;
   const apiURL = "http://localhost:3000";
@@ -114,6 +116,7 @@ const ThreadDetail = () => {
       if (response.ok) {
         setPosts(posts.filter((post) => post.id !== deletePostId));
         setDeletePostId(null);
+        setConfirmDeleteModalOpen(false); 
       }
     }
   };
@@ -205,7 +208,10 @@ const ThreadDetail = () => {
                 Editar
               </button>
               <button
-                onClick={() => setDeletePostId(post.id)}
+                onClick={() => {
+                  setDeletePostId(post.id);
+                  setConfirmDeleteModalOpen(true); 
+                }}
                 className="delete-post-button"
               >
                 Apagar
@@ -252,57 +258,71 @@ const ThreadDetail = () => {
       )}
       <div className="posts">{renderPosts(rootPosts)}</div>
       <Modal
-        isOpen={isEditModalOpen}
-        onRequestClose={closeEditModal}
-        contentLabel="Editar Post"
-        className="modal-forum"
-        overlayClassName="overlay"
+        open={isEditModalOpen}
+        onClose={closeEditModal}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
       >
-        <h2>Editar Post</h2>
-        <textarea
-          value={editContent}
-          onChange={(e) => setEditContent(e.target.value)}
-          placeholder="Edite seu comentário"
-        />
-        <button onClick={handleEditPost} className="save-edit-button">
-          Salvar
-        </button>
-        <button onClick={closeEditModal} className="cancel-edit-button">
-          Cancelar
-        </button>
+        <Box className="modal-container">
+          <Typography variant="h6" component="h2">
+            Editar Post
+          </Typography>
+          <textarea
+            value={editContent}
+            onChange={(e) => setEditContent(e.target.value)}
+            placeholder="Edite seu comentário"
+          />
+          <Button onClick={handleEditPost} variant="contained" color="primary">
+            Salvar
+          </Button>
+          <Button onClick={closeEditModal} variant="contained" color="secondary">
+            Cancelar
+          </Button>
+        </Box>
       </Modal>
       <Modal
-        isOpen={!!deletePostId}
-        onRequestClose={() => setDeletePostId(null)}
-        contentLabel="Excluir Comentário"
-        className="modal-delete"
-        overlayClassName="overlay"
+        open={confirmDeleteModalOpen}
+        onClose={() => setConfirmDeleteModalOpen(false)}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
       >
-        <div className="modal-delete-content">
-          <p>Tem certeza que deseja apagar?</p>
-          <button onClick={handleDeletePost}>Sim</button>
-          <button onClick={() => setDeletePostId(null)}>Não</button>
-        </div>
+        <Box className="modal-container">
+          <Typography variant="h6" component="h2">
+            Confirmar Exclusão
+          </Typography>
+          <Typography>
+            Tem certeza que deseja apagar este tópico?
+          </Typography>
+          <Button onClick={handleDeletePost} variant="contained" style={{ backgroundColor: "red", color: "#fff"}}>
+            Confirmar
+          </Button>
+          <Button onClick={() => setConfirmDeleteModalOpen(false)} variant="contained" style={{ backgroundColor: "#074b94", color : "#fff"}}>
+            Cancelar
+          </Button>
+        </Box>
       </Modal>
       <Modal
-        isOpen={isAnswerModalOpen}
-        onRequestClose={closeAnswerModal}
-        contentLabel="Responder Post"
-        className="modal-forum"
-        overlayClassName="overlay"
+        open={isAnswerModalOpen}
+        onClose={closeAnswerModal}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
       >
-        <h2>Responder Post</h2>
-        <textarea
-          value={answerContent}
-          onChange={(e) => setAnswerContent(e.target.value)}
-          placeholder="Digite sua resposta"
-        />
-        <button onClick={handleAnswerPost} className="save-edit-button">
-          Responder
-        </button>
-        <button onClick={closeAnswerModal} className="cancel-edit-button">
-          Cancelar
-        </button>
+        <Box className="modal-container">
+          <Typography variant="h6" component="h2">
+            Responder ao Comentário
+          </Typography>
+          <textarea
+            value={answerContent}
+            onChange={(e) => setAnswerContent(e.target.value)}
+            placeholder="Digite sua resposta"
+          />
+          <Button onClick={handleAnswerPost} variant="contained" color="primary">
+            Responder
+          </Button>
+          <Button onClick={closeAnswerModal} variant="contained" color="secondary">
+            Cancelar
+          </Button>
+        </Box>
       </Modal>
     </div>
   );
