@@ -3,16 +3,15 @@
 }
 
 .autocomplete-container {
-  width: 300px;
-  margin-bottom: 20px;
+  width: 100%;
 }
 
 .autocomplete-input {
   width: 100%;
+  background-color: #fff;
 }
 
 .autocomplete-listbox {
-  background-color: #ffffff;
   border: 1px solid #ced4da;
   border-radius: 4px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -54,4 +53,8 @@ input[type="password"].invalid {
 
 .password-rules li.invalid {
   color: red;
+}
+
+#combo-box-demo {
+  border: none;
 }

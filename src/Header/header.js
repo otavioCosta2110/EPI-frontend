@@ -36,7 +36,7 @@ function Header({ style }) {
             <h3>🞄 Videos</h3>
           </Link>
           <Link to="/forums">
-            <h3>🞄 Foruns</h3>
+            <h3>🞄 Fóruns</h3>
           </Link>
         </div>
       </div>

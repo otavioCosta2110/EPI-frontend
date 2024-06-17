@@ -79,7 +79,11 @@ function Videos() {
     watchedVideos.some((video) => video.id === videoId);
 
   const filterAndSortVideos = (videos) => {
-    if (!user || !user.data || !user.data.tags) return videos;
+    if (!user || !user.data || !user.data.tags) {
+      return videos.filter((video) =>
+        selectedTag ? video.tags.includes(selectedTag) : true
+      );
+    }
     const selectedTags = user.data.tags;
 
     return videos
@@ -125,6 +129,7 @@ function Videos() {
   const handleFilterChange = (e) => {
     setSelectedTag(e.target.value);
     setCurrentPage(1);
+    console.log(e.target.value);
   };
 
   return (
@@ -132,7 +137,7 @@ function Videos() {
       <div className="video-history-tabs">
         <div className="left">
           <div className="filter">
-            <label htmlFor="tagFilter">Filtrar por tag:</label>
+            <label htmlFor="tagFilter">Filtrar por:</label>
             <select
               id="tagFilter"
               value={selectedTag}

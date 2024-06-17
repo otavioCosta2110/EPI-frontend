@@ -109,6 +109,45 @@ h2 {
   margin-bottom: 10px;
 }
 
+.filter {
+  flex-direction: column;
+}
+
+select {
+  appearance: none;
+  background-color: white;
+  border: 2px solid #4d4d4d;
+  border-radius: 4px;
+  padding: 8px 12px;
+  font-size: 16px;
+  line-height: 1.5;
+  width: 100%;
+  cursor: pointer;
+}
+
+select::-ms-expand {
+  display: none;
+}
+
+select:focus {
+  outline: none;
+  box-shadow: 0 0 2px 1px rgba(68, 150, 243, 0.5);
+}
+
+select::-ms-expand {
+  display: none;
+}
+
+select:focus::-ms-value {
+  color: #4d4d4d;
+  background: white;
+}
+
+select:-moz-focusring {
+  color: transparent;
+  text-shadow: 0 0 0 #4d4d4d;
+}
+
 .pagination {
   display: flex;
   justify-content: center;
@@ -144,7 +183,7 @@ h2 {
 
 @media screen and (max-width: 1024px) {
   .videos {
-    margin-top: 130vh;
+    margin-top: 135vh;
   }
   .video-item {
     width: 30vw;
