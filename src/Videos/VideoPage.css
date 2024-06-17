@@ -439,18 +439,24 @@ body {
   margin: 0 5px;
   cursor: pointer;
   background-color: transparent;
+  background-color: transparent;
   border: none;
   border-bottom: 2px solid transparent;
+  border-bottom: 2px solid transparent;
   font-size: 1rem;
+  color: #666;
   color: #666;
   transition: color 0.3s, border-bottom 0.3s;
 }
 
 .toggle-button:hover {
   color: #333;
+  color: #333;
 }
 
 .toggle-button.active {
+  color: #007bff;
+  border-bottom: 2px solid #007bff;
   color: #007bff;
   border-bottom: 2px solid #007bff;
 }
@@ -478,6 +484,7 @@ body {
 .material-link {
   color: #007bff;
   text-decoration: none;
+  margin-right: auto;
 }
 
 .challenge-link:hover,

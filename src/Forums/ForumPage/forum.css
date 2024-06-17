@@ -106,10 +106,19 @@ textarea {
   transition: background-color 0.3s ease;
   margin-right: 5px;
 }
+
+.delete-post-button {
+  background-color: #ff0000;
+}
+
 .reply-post-button:hover,
 .create-reply-button:hover,
 .delete-post-button:hover {
   background-color: #074b94;
+}
+
+.delete-post-button:hover {
+  background-color: #ff0000;
 }
 
 .modal-forum {
@@ -153,7 +162,6 @@ textarea {
   background-color: #074b94;
 }
 
-/* Scrollbar Styling */
 .modal::-webkit-scrollbar,
 .overlay::-webkit-scrollbar {
   width: 10px;

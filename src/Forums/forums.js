@@ -7,7 +7,10 @@ import {
   useParams,
   useLocation,
 } from "react-router-dom";
-import Modal from "react-modal";
+import Modal from "@mui/material/Modal";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
+import Box from "@mui/material/Box";
 import { FaTrash } from "react-icons/fa";
 import "./forums.css";
 
@@ -32,7 +35,7 @@ const Thread = ({
     </Link>
     <br />
     {(user?.data?.role === "0" || user?.data?.id === threadUserId) && (
-      <FaTrash onClick={() => onDelete(id)} className="delete-icon" />
+      <FaTrash onClick={() => onDelete(id)} />
     )}
   </div>
 );
@@ -136,6 +139,7 @@ const App = () => {
   const [threads, setThreads] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [deleteThreadId, setDeleteThreadId] = useState(null);
+  const [confirmDeleteModalOpen, setConfirmDeleteModalOpen] = useState(false);
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
@@ -189,6 +193,34 @@ const App = () => {
     setDeleteThreadId(null);
   };
 
+  const handleDelete = (id) => {
+    setDeleteThreadId(id);
+    setConfirmDeleteModalOpen(true);
+  };
+
+  const confirmDelete = async () => {
+    try {
+      const response = await fetch(`http://localhost:3000/thread/delete`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          id: deleteThreadId,
+        }),
+      });
+
+      if (response.ok) {
+        setThreads(threads.filter((thread) => thread.id !== deleteThreadId));
+        setConfirmDeleteModalOpen(false);
+      } else {
+        console.error("Erro ao apagar thread");
+      }
+    } catch (error) {
+      console.error("Erro ao apagar thread:", error);
+    }
+  };
+
   return (
     <div className="app">
       {user && user.data && user.data.id && (
@@ -197,36 +229,56 @@ const App = () => {
         </div>
       )}
       <Modal
-        isOpen={showForm}
-        onRequestClose={() => setShowForm(false)}
-        contentLabel="Criar Nova Thread"
-        className="modal"
-        overlayClassName="modal-overlay"
+        open={showForm}
+        onClose={() => setShowForm(false)}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
       >
-        <NewThreadForm
-          onCreateThread={handleCreateThread}
-          user={user}
-          onClose={() => setShowForm(false)}
-        />
+        <Box className="modal-container">
+          <Typography variant="h6" component="h2">
+            Criar Novo Tópico
+          </Typography>
+          <NewThreadForm
+            onCreateThread={handleCreateThread}
+            user={user}
+            onClose={() => setShowForm(false)}
+          />
+        </Box>
       </Modal>
       <ThreadList
         threads={threads}
         user={user}
-        onDelete={(id) => setDeleteThreadId(id)}
+        onDelete={(id) => handleDelete(id)}
       />
 
       <Modal
-        isOpen={!!deleteThreadId}
-        onRequestClose={() => setDeleteThreadId(null)}
-        contentLabel="Excluir Tópico"
-        className="modal-delete"
-        overlayClassName="modal-overlay"
+        open={confirmDeleteModalOpen}
+        onClose={() => setConfirmDeleteModalOpen(false)}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
       >
-        <div className="modal-delete-content">
-          <p>Tem certeza que deseja apagar?</p>
-          <button onClick={handleDeleteThread}>Sim</button>
-          <button onClick={() => setDeleteThreadId(null)}>Não</button>
-        </div>
+        <Box className="modal-container">
+          <Typography variant="h6" component="h2">
+            Confirmar Exclusão
+          </Typography>
+          <Typography>
+            Tem certeza que deseja apagar este tópico?
+          </Typography>
+          <Button
+            onClick={confirmDelete}
+            variant="contained"
+            style={{ backgroundColor: "red", color: "#fff"}}
+          >
+            Confirmar
+          </Button>
+          <Button
+            onClick={() => setConfirmDeleteModalOpen(false)}
+            variant="contained"
+            style={{ backgroundColor: "#074b94", color : "#fff"}}
+          >
+            Cancelar
+          </Button>
+        </Box>
       </Modal>
     </div>
   );

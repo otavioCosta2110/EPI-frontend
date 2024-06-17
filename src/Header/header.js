@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faUser,
-  faArrowRightFromBracket,
-} from "@fortawesome/free-solid-svg-icons";
+import { faUser } from "@fortawesome/free-solid-svg-icons";
 import "./header.css";
 import Cookies from "js-cookie";
 
@@ -24,6 +21,14 @@ function Header({ style }) {
     setUser(null);
     localStorage.removeItem("user");
     window.location.reload();
+  };
+
+  const handleMouseEnter = (event) => {
+    event.target.textContent = "Sair";
+  };
+
+  const handleMouseLeave = (event) => {
+    event.target.textContent = user.data.name;
   };
 
   return (
@@ -49,8 +54,12 @@ function Header({ style }) {
                 <span>{user.data.name}</span>
               </Link>
             ) : (
-              <span onClick={handleLogout}>
-                <Link to="/">{user.data.name}</Link>
+              <span
+                onMouseEnter={handleMouseEnter}
+                onMouseLeave={handleMouseLeave}
+                onClick={handleLogout}
+              >
+                {user.data.name}
               </span>
             )}
           </div>
