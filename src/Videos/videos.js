@@ -1,23 +1,23 @@
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import "./videos.css";
-import { useParams } from "react-router-dom";
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import './videos.css';
+import { useParams } from 'react-router-dom';
 
 const VIDEOS_PER_PAGE = 12;
 
 function Videos() {
-  const [user, setUser] = useState("");
+  const [user, setUser] = useState('');
   const [videos, setVideos] = useState([]);
   const [watchedVideos, setWatchedVideos] = useState([]);
-  const [activeTab, setActiveTab] = useState("Videos");
+  const [activeTab, setActiveTab] = useState('Videos');
   const [allVideos, setAllVideos] = useState([]);
-  const [selectedTag, setSelectedTag] = useState("");
+  const [selectedTag, setSelectedTag] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
 
-  const apiURL = "http://localhost:3000";
+  const apiURL = 'http://localhost:3000';
 
   useEffect(() => {
-    const storedUser = localStorage.getItem("user");
+    const storedUser = localStorage.getItem('user');
     if (storedUser) {
       setUser(JSON.parse(storedUser));
     }
@@ -29,10 +29,10 @@ function Videos() {
           setVideos(data.data);
           setAllVideos(data.data);
         } else {
-          console.error("Unexpected response format:", data);
+          console.error('Unexpected response format:', data);
         }
       } catch (error) {
-        console.error("Error fetching video:", error);
+        console.error('Error fetching video:', error);
       }
     };
 
@@ -44,9 +44,9 @@ function Videos() {
       const response = await fetch(
         `${apiURL}/video/watchedvideos?id=${user.data.id}`,
         {
-          method: "GET",
+          method: 'GET',
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
           },
         }
       );
@@ -62,10 +62,10 @@ function Videos() {
         const videos = await Promise.all(videosPromises);
         setWatchedVideos(videos);
       } else {
-        console.error("Unexpected response format:", data);
+        console.error('Unexpected response format:', data);
       }
     } catch (error) {
-      console.error("Error fetching watched videos:", error);
+      console.error('Error fetching watched videos:', error);
     }
   };
 
@@ -99,7 +99,7 @@ function Videos() {
 
   const truncateText = (text, maxLength) => {
     if (text.length > maxLength) {
-      return text.slice(0, maxLength) + "...";
+      return text.slice(0, maxLength) + '...';
     }
     return text;
   };
@@ -132,6 +132,10 @@ function Videos() {
     console.log(e.target.value);
   };
 
+  const uniqueTags = Array.from(
+    new Set(allVideos.flatMap((video) => video.tags))
+  );
+
   return (
     <div className="videos">
       <div className="video-history-tabs">
@@ -144,27 +148,28 @@ function Videos() {
               onChange={handleFilterChange}
             >
               <option value="">Todos</option>
-              <option value="html">HTML</option>
-              <option value="css">CSS</option>
-              <option value="javascript">JavaScript</option>
-              <option value="python">Python</option>
+              {uniqueTags.map((tag) => (
+                <option key={tag} value={tag}>
+                  {tag}
+                </option>
+              ))}
             </select>
           </div>
         </div>
         <div className="center">
           <button
             className={`toggle-button ${
-              activeTab === "Videos" ? "active" : ""
+              activeTab === 'Videos' ? 'active' : ''
             }`}
-            onClick={() => setActiveTab("Videos")}
+            onClick={() => setActiveTab('Videos')}
           >
             Videos
           </button>
           <button
             className={`toggle-button ${
-              activeTab === "Histórico" ? "active" : ""
+              activeTab === 'Histórico' ? 'active' : ''
             }`}
-            onClick={() => setActiveTab("Histórico")}
+            onClick={() => setActiveTab('Histórico')}
           >
             Histórico
           </button>
@@ -173,7 +178,7 @@ function Videos() {
       </div>
 
       <div className="videos-list">
-        {activeTab === "Videos" && (
+        {activeTab === 'Videos' && (
           <>
             {paginatedVideos(filterAndSortVideos(allVideos)).map((video) => {
               const match = video.url.match(
@@ -199,7 +204,7 @@ function Videos() {
                     <p className="video-description">
                       {truncateText(video.description, 10)}
                     </p>
-                    <p>{video.tags.join(", ")}</p>
+                    <p>{video.tags.join(', ')}</p>
                   </div>
                 </Link>
               );
@@ -207,7 +212,7 @@ function Videos() {
           </>
         )}
 
-        {activeTab === "Histórico" && (
+        {activeTab === 'Histórico' && (
           <>
             <h2>Histórico</h2>
             {watchedVideos.length > 0 ? (
@@ -236,7 +241,7 @@ function Videos() {
                         <p className="video-description">
                           {truncateText(video.description, 10)}
                         </p>
-                        <p>{video.tags.join(", ")}</p>
+                        <p>{video.tags.join(', ')}</p>
                       </div>
                     </Link>
                   );
