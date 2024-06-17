@@ -2,7 +2,7 @@
   width: 100%;
   background-color: #074b94;
   color: #ffffff;
-  padding: 3vh;
+  padding: 24px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -61,7 +61,7 @@ a {
   }
 }
 
-.header-links{
+.header-links {
   display: flex;
   align-items: center;
   width: 30%;
@@ -71,7 +71,7 @@ a {
   align-items: center;
 }
 
-.header-links h3{
+.header-links h3 {
   font-weight: normal;
   font-size: 0.9rem;
 }
