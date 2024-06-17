@@ -205,6 +205,11 @@ body {
   bottom: 20px;
 }
 
+.delete-icon {
+  cursor: pointer;
+  float: right;
+}
+
 .MuiModal-root {
   display: flex;
   align-items: center;
@@ -433,6 +438,7 @@ body {
 .material-link {
   color: #007bff;
   text-decoration: none;
+  margin-right: auto;
 }
 
 .challenge-link:hover,
