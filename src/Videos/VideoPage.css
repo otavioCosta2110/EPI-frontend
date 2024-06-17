@@ -71,6 +71,7 @@ body {
 
 .related-videos-list {
   height: 400px;
+  max-height: 400px;
   overflow-y: auto;
 }
 
@@ -187,6 +188,26 @@ body {
   background-color: #0056b3;
 }
 
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+  background-color: #f1f1f1;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #666;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #555;
+}
+
+::-webkit-scrollbar-corner {
+  background-color: #f1f1f1;
+}
+
 .success-alert {
   position: fixed;
   bottom: -50px;
@@ -205,44 +226,63 @@ body {
   bottom: 20px;
 }
 
-.delete-icon {
-  cursor: pointer;
-  float: right;
+.materials-section {
+  height: 300px;
+  max-height: 300px;
+  overflow-y: auto;
 }
 
-.MuiModal-root {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.challenges-section {
+  height: 300px;
+  max-height: 300px;
+  overflow-y: auto;
 }
 
-.modal-container {
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  width: 400px;
-  max-width: 90%;
-}
+@media (max-width: 1024px) {
+  .video-page {
+    overflow-y: auto;
+    margin-top: 200%;
+    flex-direction: column;
+  }
 
-.modal-container form {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-}
+  .video-container,
+  .related-videos {
+    width: 100%;
+    margin-right: 0;
+    margin-bottom: 20px;
+  }
 
-.modal-container h2 {
-  font-size: 20px;
-  margin-bottom: 10px;
-}
+  .video-container h1 {
+    font-size: 20px;
+  }
 
-.modal-container .MuiTextField-root {
-  width: 100%;
-}
+  .video-container p {
+    font-size: 14px;
+  }
 
-.modal-container .MuiButton-root {
-  width: 100%;
-  padding: 12px 0;
-  margin-top: 10px;
+  .video-thumbnail {
+    width: 100px;
+    height: 75px;
+  }
+
+  .video-title {
+    font-size: 16px;
+  }
+
+  .video-description {
+    font-size: 12px;
+  }
+  .related-videos-list {
+    height: 400px;
+    max-height: 400px;
+    overflow-y: auto;
+  }
+
+  .materials-section {
+    height: 300px;
+    max-height: 300px;
+    overflow-y: auto;
+  }
 }
 
 @media (max-width: 768px) {
@@ -399,18 +439,24 @@ body {
   margin: 0 5px;
   cursor: pointer;
   background-color: transparent;
+  background-color: transparent;
   border: none;
   border-bottom: 2px solid transparent;
+  border-bottom: 2px solid transparent;
   font-size: 1rem;
+  color: #666;
   color: #666;
   transition: color 0.3s, border-bottom 0.3s;
 }
 
 .toggle-button:hover {
   color: #333;
+  color: #333;
 }
 
 .toggle-button.active {
+  color: #007bff;
+  border-bottom: 2px solid #007bff;
   color: #007bff;
   border-bottom: 2px solid #007bff;
 }

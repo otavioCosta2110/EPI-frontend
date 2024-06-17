@@ -76,6 +76,10 @@ body {
   background-color: #003f7f;
 }
 
+.Logout {
+  padding: 16px;
+}
+
 @media (max-width: 390px) {
   .square {
     width: 70vw;
