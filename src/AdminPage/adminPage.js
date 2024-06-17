@@ -66,16 +66,6 @@ function AdminPage() {
             </span>
           </div>
         </Link>
-        <Link to="/registerChallenge">
-          <div className="square">
-            <span className="square-text">
-              <FontAwesomeIcon icon={faTrophy} size="3x" className="fa-icon" />
-              <br />
-              <br />
-              Alterar Desafios
-            </span>
-          </div>
-        </Link>
         <Link to="/forums">
           <div className="square">
             <span className="square-text">

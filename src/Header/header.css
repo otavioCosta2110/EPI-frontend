@@ -10,6 +10,7 @@
   position: fixed;
   top: 0;
   left: 0;
+  z-index: 999;
 }
 
 .header-column {
@@ -38,6 +39,11 @@ a {
 .user-info span,
 .login span {
   color: #ffffff;
+  cursor: pointer;
+}
+
+.user-info span:hover {
+  text-decoration: underline;
 }
 
 .header-column .center-section h1 {

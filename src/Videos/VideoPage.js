@@ -8,13 +8,13 @@ import Modal from "@mui/material/Modal";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowsRotate } from "@fortawesome/free-solid-svg-icons";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import "./VideoPage.css";
 
 function VideoPage() {
   const { id } = useParams();
-  const [user, setUser] = useState("");
-  const [video, setVideo] = useState();
+  const [user, setUser] = useState(null);
+  const [video, setVideo] = useState(null);
   const [relatedVideos, setRelatedVideos] = useState([]);
   const [userRating, setUserRating] = useState(null);
   const [hoverRating, setHoverRating] = useState(-1);
@@ -27,22 +27,80 @@ function VideoPage() {
   const [showFullDescription, setShowFullDescription] = useState(false);
   const [ratingSuccessAlert, setRatingSuccessAlert] = useState(false);
   const [showChallenges, setShowChallenges] = useState(false);
+  const [deleteItemId, setDeleteItemId] = useState(null);
+  const [deleteItemType, setDeleteItemType] = useState(null);
+  const [confirmDeleteModalOpen, setConfirmDeleteModalOpen] = useState(false);
 
   const apiURL = "http://localhost:3000";
 
-  const showRatingSuccessAlert = () => {
-    setRatingSuccessAlert(true);
-    setTimeout(() => {
-      setRatingSuccessAlert(false);
-    }, 3000);
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
+
+    const fetchVideoData = async () => {
+      try {
+        const [
+          videoResponse,
+          materialsResponse,
+          challengesResponse,
+          relatedVideosResponse,
+        ] = await Promise.all([
+          fetch(`${apiURL}/video/getbyid?id=${id}`),
+          fetch(`${apiURL}/material/getmaterialbyvideo/${id}`),
+          fetch(`${apiURL}/challenge/getchallengebyvideo/${id}`),
+          fetch(`${apiURL}/video/getvideos`),
+        ]);
+
+        const videoData = await videoResponse.json();
+        const materialsData = await materialsResponse.json();
+        const challengesData = await challengesResponse.json();
+        const relatedVideosData = await relatedVideosResponse.json();
+
+        setVideo(videoData.data);
+        setMaterials(materialsData.data);
+        setChallenges(challengesData.data);
+        setRelatedVideos(relatedVideosData.data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchVideoData();
+  }, [id]);
+
+  useEffect(() => {
+    if (video) {
+      setUserRating(video.rating);
+      markVideoAsWatched();
+    }
+  }, [video]);
+
+  const markVideoAsWatched = async () => {
+    try {
+      const response = await fetch(`${apiURL}/video/play`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          video_id: video.id,
+          user_id: user.data.id,
+        }),
+      });
+      if (!response.ok) {
+        console.error("Failed to mark video as watched");
+      }
+    } catch (error) {
+      console.error("Error marking video as watched:", error);
+    }
   };
 
-  const handleToggleDescription = () => {
+  const handleToggleDescription = () =>
     setShowFullDescription(!showFullDescription);
-  };
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-
   const handleQuestionChange = (event) => setMessage(event.target.value);
 
   const handleSubmit = async (event) => {
@@ -70,74 +128,12 @@ function VideoPage() {
     }
   };
 
-  useEffect(() => {
-    const storedUser = localStorage.getItem("user");
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
-    }
-    const fetchVideo = async () => {
-      try {
-        const response = await fetch(`${apiURL}/video/getbyid?id=${id}`);
-        const data = await response.json();
-        setVideo(data.data);
-      } catch (error) {
-        console.error("Error fetching video:", error);
-      }
-    };
-
-    const fetchMaterials = async () => {
-      try {
-        const response = await fetch(
-          `${apiURL}/material/getmaterialbyvideo/${id}`
-        );
-        const data = await response.json();
-        setMaterials(data.data);
-      } catch (error) {
-        console.error("Error fetching materials:", error);
-      }
-    };
-
-    const fetchChallenges = async () => {
-      try {
-        const response = await fetch(
-          `${apiURL}/challenge/getchallengebyvideo/${id}`
-        );
-        const data = await response.json();
-        setChallenges(data.data);
-      } catch (error) {
-        console.error("Error fetching challenges:", error);
-      }
-    };
-
-    fetchVideo();
-    fetchMaterials();
-    fetchChallenges();
-  }, [id]);
-
-  function getYouTubeVideoId(url) {
+  const getYouTubeVideoId = (url) => {
     const regex =
       /(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^&\n?#]+)/;
     const match = url.match(regex);
     return match && match[1] ? match[1] : null;
-  }
-
-  useEffect(() => {
-    const fetchVideos = async () => {
-      try {
-        const response = await fetch(`${apiURL}/video/getvideos`);
-        const data = await response.json();
-        if (data && data.data) {
-          setRelatedVideos(data.data);
-        } else {
-          console.error("Unexpected response format:", data);
-        }
-      } catch (error) {
-        console.error("Error fetching video:", error);
-      }
-    };
-
-    fetchVideos();
-  }, []);
+  };
 
   const handleUserRatingChange = async (event, newValue) => {
     try {
@@ -164,69 +160,70 @@ function VideoPage() {
     }
   };
 
-  useEffect(() => {
-    setUserRating(video ? video.rating : null);
-    const markVideoAsWatched = async () => {
-      try {
-        const response = await fetch(`${apiURL}/video/play`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            video_id: video.id,
-            user_id: user.data.id,
-          }),
-        });
-        const data = await response.json();
-        if (!response.ok) {
-          console.error("Failed to mark video as watched:", data.message);
-        }
-      } catch (error) {
-        console.error("Error marking video as watched:", error);
-      }
-    };
-
-    if (video) {
-      markVideoAsWatched();
-    }
-  }, [video, user]);
-
-  if (!video) {
-    return <div>Video não encontrado</div>;
-  }
-
-  const getUserById = async (userId) => {
-    try {
-      const response = await fetch(`${apiURL}/user/getuserbyid?id=${userId}`);
-      const data = await response.json();
-      return data.data;
-    } catch (error) {
-      console.error("Error fetching user:", error);
-      return null;
-    }
+  const showRatingSuccessAlert = () => {
+    setRatingSuccessAlert(true);
+    setTimeout(() => {
+      setRatingSuccessAlert(false);
+    }, 3000);
   };
 
-  function getVideoImage(videoUrl) {
+  const getVideoImage = (videoUrl) => {
     const match = videoUrl.match(
       /(?:https?:\/\/)?(?:www\.)?youtube\.com\/(?:[^/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)([^"&?/ ]{11})/
     );
     const videoId = match && match[1];
-    const imageUrl = `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
-    return imageUrl;
-  }
-
-  const handleShowAllMaterials = () => {
-    setShowAllMaterials(!showAllMaterials);
+    return `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
   };
 
-  const handleShowAllChallenges = () => {
+  const handleShowAllMaterials = () => setShowAllMaterials(!showAllMaterials);
+  const handleShowAllChallenges = () =>
     setShowAllChallenges(!showAllChallenges);
+  const handleToggleContent = (contentType) =>
+    setShowChallenges(contentType === "challenges");
+
+  const handleDelete = (type, id) => {
+    setDeleteItemType(type);
+    setDeleteItemId(id);
+    setConfirmDeleteModalOpen(true);
+  };
+  const confirmDelete = async () => {
+    try {
+      let endpoint;
+      if (deleteItemType === "material") {
+        endpoint = `${apiURL}/material/deletematerial/${deleteItemId}`;
+      } else if (deleteItemType === "challenge") {
+        endpoint = `${apiURL}/challenge/deletechallenge/${deleteItemId}`;
+      } else {
+        console.error("Invalid deleteItemType");
+        return;
+      }
+
+      const response = await fetch(endpoint, {
+        method: "DELETE",
+      });
+
+      if (response.ok) {
+        if (deleteItemType === "material") {
+          setMaterials(
+            materials.filter((material) => material.id !== deleteItemId)
+          );
+        } else if (deleteItemType === "challenge") {
+          setChallenges(
+            challenges.filter((challenge) => challenge.id !== deleteItemId)
+          );
+        }
+        setConfirmDeleteModalOpen(false);
+      } else {
+        console.error("Failed to delete item");
+      }
+    } catch (error) {
+      console.error("Error deleting item:", error);
+    }
   };
 
-  const handleToggleContent = (contentType) => {
-    setShowChallenges(contentType === "challenges");
-  };
+  if (!video) {
+    return <div>Video não encontrado</div>;
+  }
 
   return (
     <div className="video-page">
@@ -253,7 +250,7 @@ function VideoPage() {
               : video.description.length > 90
               ? video.description.slice(0, 90) + "..."
               : video.description}
-            <br></br>
+            <br />
             {video.description.length > 90 && (
               <button onClick={handleToggleDescription}>
                 {showFullDescription ? "Mostrar menos" : "Mostrar mais"}
@@ -281,7 +278,6 @@ function VideoPage() {
             <Typography component="legend" className="rating-label">
               Avalie:
             </Typography>
-
             <Rating
               name="video-user-rating"
               value={userRating}
@@ -294,7 +290,7 @@ function VideoPage() {
               sx={{
                 "& .MuiRating-iconFilled": {
                   color: "#FFD700",
-                  fontSize: "2rem", // Increase the icon size
+                  fontSize: "2rem",
                 },
                 "& .MuiRating-iconHover": {
                   color: "#FFD700",
@@ -329,7 +325,6 @@ function VideoPage() {
           </Box>
         </Modal>
       </div>
-
       <div className="related-videos">
         <h2>Vídeos Relacionados</h2>
         <div className="related-videos-list">
@@ -366,7 +361,6 @@ function VideoPage() {
               </Link>
             ))}
         </div>
-
         <div className="materials-challenges-toggle">
           <button
             className={`toggle-button ${!showChallenges ? "active" : ""}`}
@@ -381,122 +375,164 @@ function VideoPage() {
             Desafios
           </button>
         </div>
-
         {showChallenges ? (
-          <>
+          <div className="challenges-section">
             {user && user.data && user.data.role == "0" && (
-              <Link to={`/videos/${id}/registerchallenge`} className="link-button">
-                <div>
-                  <button className="button">Adicionar Desafios</button>
-                </div>
+              <Link
+                to={`/videos/${id}/registerchallenge`}
+                className="link-button"
+              >
+                <button className="button">Adicionar Desafios</button>
               </Link>
             )}
-            <div className="challenges-section">
-              {challenges.length > 0 ? (
-                <div className="challenges-list">
-                  {challenges.map(
-                    (challenge, index) =>
-                      (index < 2 || showAllChallenges) && (
-                        <div key={challenge.id} className="material-item">
-                          <h3>{challenge.title}</h3>
-                          <p className="text">{challenge.description}</p>
-                          {challenge.type === "link" ? (
-                            <a
-                              href={challenge.file_url}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="material-link"
-                            >
-                              Acessar
-                            </a>
-                          ) : (
-                            <a
-                              href={`http://localhost:3000/challenge/download/${challenge.file_url}`}
-                              download
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="material-link"
-                            >
-                              Baixar
-                            </a>
-                          )}
-                        </div>
-                      )
-                  )}
-                  {challenges.length > 2 && (
-                    <button
-                      type="button"
-                      onClick={handleShowAllChallenges}
-                      className="button"
-                    >
-                      {showAllChallenges ? "Mostrar menos" : "Mostrar mais"}
-                    </button>
-                  )}
-                </div>
-              ) : (
-                <p>Não há desafios relacionados.</p>
-              )}
-            </div>
-          </>
+            {challenges.length > 0 ? (
+              <div className="challenges-list">
+                {challenges.map(
+                  (challenge, index) =>
+                    (index < 2 || showAllChallenges) && (
+                      <div key={challenge.id} className="material-item">
+                        <h3>{challenge.title}</h3>
+                        <p className="text">{challenge.description}</p>
+                        {challenge.type === "link" ? (
+                          <a
+                            href={challenge.file_url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="material-link"
+                          >
+                            Acessar
+                          </a>
+                        ) : (
+                          <a
+                            href={`http://localhost:3000/challenge/download/${challenge.file_url}`}
+                            download
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="material-link"
+                          >
+                            Baixar
+                          </a>
+                        )}
+                        {user && user.data && user.data.role == "0" && (
+                          <FontAwesomeIcon
+                            icon={faTrash}
+                            onClick={() =>
+                              handleDelete("challenge", challenge.id)
+                            }
+                            className="delete-icon"
+                          />
+                        )}
+                      </div>
+                    )
+                )}
+                {challenges.length > 2 && (
+                  <button
+                    type="button"
+                    onClick={handleShowAllChallenges}
+                    className="button"
+                  >
+                    {showAllChallenges ? "Mostrar menos" : "Mostrar mais"}
+                  </button>
+                )}
+              </div>
+            ) : (
+              <p>Não há desafios relacionados.</p>
+            )}
+          </div>
         ) : (
-          <>
+          <div className="materials-section">
             {user && user.data && user.data.role == "0" && (
-              <Link to={`/videos/${id}/registermaterial`}>
-                <div>
-                  <button className="button">Adicionar Materiais</button>
-                </div>
+              <Link
+                to={`/videos/${id}/registermaterial`}
+                className="link-button"
+              >
+                <button className="button">Adicionar Materiais</button>
               </Link>
             )}
             {materials.length > 0 && (
-              <div className="materials-section">
-                <div className="materials-list">
-                  {materials.map(
-                    (material, index) =>
-                      (index < 2 || showAllMaterials) && (
-                        <div key={material.id} className="material-item">
-                          <h3>{material.title}</h3>
-                          <p className="text">{material.description}</p>
-                          {material.type === "link" ? (
-                            <a
-                              href={material.file_url}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="material-link"
-                            >
-                              Acessar
-                            </a>
-                          ) : (
-                            <a
-                              href={`http://localhost:3000/material/download/${material.file_url}`}
-                              download
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="material-link"
-                            >
-                              Baixar
-                            </a>
-                          )}
-                        </div>
-                      )
-                  )}
-                  {materials.length > 2 && (
-                    <button
-                      type="button"
-                      onClick={handleShowAllMaterials}
-                      className="button"
-                    >
-                      {showAllMaterials ? "Mostrar menos" : "Mostrar mais"}
-                    </button>
-                  )}
-                </div>
+              <div className="materials-list">
+                {materials.map(
+                  (material, index) =>
+                    (index < 2 || showAllMaterials) && (
+                      <div key={material.id} className="material-item">
+                        <h3>{material.title}</h3>
+                        <p className="text">{material.description}</p>
+                        {material.type === "link" ? (
+                          <a
+                            href={material.file_url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="material-link"
+                          >
+                            Acessar
+                          </a>
+                        ) : (
+                          <a
+                            href={`http://localhost:3000/material/download/${material.file_url}`}
+                            download
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="material-link"
+                          >
+                            Baixar
+                          </a>
+                        )}
+                        {user && user.data && user.data.role == "0" && (
+                          <FontAwesomeIcon
+                            icon={faTrash}
+                            onClick={() =>
+                              handleDelete("material", material.id)
+                            }
+                            className="delete-icon"
+                          />
+                        )}
+                      </div>
+                    )
+                )}
+                {materials.length > 2 && (
+                  <button
+                    type="button"
+                    onClick={handleShowAllMaterials}
+                    className="button"
+                  >
+                    {showAllMaterials ? "Mostrar menos" : "Mostrar mais"}
+                  </button>
+                )}
               </div>
             )}
-          </>
-        )}
-        {ratingSuccessAlert && (
-          <div className="success-alert show">Avaliado com sucesso</div>
+          </div>
         )}
       </div>
+      {ratingSuccessAlert && (
+        <div className="success-alert show">Avaliado com sucesso</div>
+      )}
+      <Modal
+        open={confirmDeleteModalOpen}
+        onClose={() => setConfirmDeleteModalOpen(false)}
+      >
+        <Box className="modal-container">
+          <Typography variant="h6" component="h2">
+            Confirmar Exclusão
+          </Typography>
+          <Typography>
+            Você tem certeza que deseja excluir este item?
+          </Typography>
+          <Button
+            onClick={confirmDelete}
+            variant="contained"
+            style={{ backgroundColor: "red", color: "#fff" }}
+          >
+            Confirmar
+          </Button>
+          <Button
+            onClick={() => setConfirmDeleteModalOpen(false)}
+            variant="contained"
+            className="cancel-button"
+          >
+            Cancelar
+          </Button>
+        </Box>
+      </Modal>
     </div>
   );
 }
