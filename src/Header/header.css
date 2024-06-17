@@ -38,6 +38,11 @@ a {
 .user-info span,
 .login span {
   color: #ffffff;
+  cursor: pointer;
+}
+
+.user-info span:hover {
+  text-decoration: underline;
 }
 
 .header-column .center-section h1 {
@@ -61,7 +66,7 @@ a {
   }
 }
 
-.header-links{
+.header-links {
   display: flex;
   align-items: center;
   width: 30%;
@@ -71,7 +76,7 @@ a {
   align-items: center;
 }
 
-.header-links h3{
+.header-links h3 {
   font-weight: normal;
   font-size: 0.9rem;
 }
