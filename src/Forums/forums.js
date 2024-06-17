@@ -234,10 +234,7 @@ const App = () => {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Box className="modal-container">
-          <Typography variant="h6" component="h2">
-            Criar Novo Tópico
-          </Typography>
+        <Box className="modal-container2">
           <NewThreadForm
             onCreateThread={handleCreateThread}
             user={user}
@@ -261,20 +258,18 @@ const App = () => {
           <Typography variant="h6" component="h2">
             Confirmar Exclusão
           </Typography>
-          <Typography>
-            Tem certeza que deseja apagar este tópico?
-          </Typography>
+          <Typography>Tem certeza que deseja apagar este tópico?</Typography>
           <Button
             onClick={confirmDelete}
             variant="contained"
-            style={{ backgroundColor: "red", color: "#fff"}}
+            style={{ backgroundColor: "red", color: "#fff" }}
           >
             Confirmar
           </Button>
           <Button
             onClick={() => setConfirmDeleteModalOpen(false)}
             variant="contained"
-            style={{ backgroundColor: "#074b94", color : "#fff"}}
+            style={{ backgroundColor: "#074b94", color: "#fff" }}
           >
             Cancelar
           </Button>

@@ -181,7 +181,7 @@ select:-moz-focusring {
   font-size: 1.2em;
 }
 
-@media screen and (max-width: 1024px) {
+@media screen and (max-width: 1029px) {
   .videos {
     margin-top: 135vh;
   }
@@ -222,7 +222,7 @@ select:-moz-focusring {
 
 @media screen and (max-width: 900px) {
   .videos {
-    margin-top: 80vh;
+    margin-top: 90vh;
   }
   .video-item {
     width: 30vw;
