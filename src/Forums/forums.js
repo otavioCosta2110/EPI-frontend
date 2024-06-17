@@ -35,7 +35,7 @@ const Thread = ({
     </Link>
     <br />
     {(user?.data?.role === "0" || user?.data?.id === threadUserId) && (
-      <FaTrash onClick={() => onDelete(id)} className="delete-icon" />
+      <FaTrash onClick={() => onDelete(id)} />
     )}
   </div>
 );

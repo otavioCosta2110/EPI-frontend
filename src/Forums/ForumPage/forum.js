@@ -275,7 +275,7 @@ const ThreadDetail = () => {
           <Button onClick={handleEditPost} variant="contained" color="primary">
             Salvar
           </Button>
-          <Button onClick={closeEditModal} variant="contained" color="secondary">
+          <Button onClick={closeEditModal} variant="contained">
             Cancelar
           </Button>
         </Box>
@@ -319,7 +319,7 @@ const ThreadDetail = () => {
           <Button onClick={handleAnswerPost} variant="contained" color="primary">
             Responder
           </Button>
-          <Button onClick={closeAnswerModal} variant="contained" color="secondary">
+          <Button onClick={closeAnswerModal} variant="contained">
             Cancelar
           </Button>
         </Box>
