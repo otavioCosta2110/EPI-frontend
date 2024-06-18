@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Button from '@mui/material/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faWhatsapp, faFacebook } from '@fortawesome/free-brands-svg-icons';
@@ -6,6 +6,7 @@ import { faCopy } from '@fortawesome/free-solid-svg-icons';
 import './ShareButton.css';
 
 function ShareButton({ videoUrl }) {
+  const [showPopup, setShowPopup] = useState(false);
   const shareOnWhatsApp = () => {
     const whatsappUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(
       videoUrl
@@ -22,7 +23,8 @@ function ShareButton({ videoUrl }) {
 
   const copyLink = () => {
     navigator.clipboard.writeText(videoUrl);
-    alert('Link copiado para a área de transferência!');
+    setShowPopup(true);
+    setTimeout(() => setShowPopup(false), 2000);
   };
 
   return (
@@ -36,6 +38,17 @@ function ShareButton({ videoUrl }) {
       <Button onClick={copyLink} className="share-button copy">
         <FontAwesomeIcon icon={faCopy} /> Copiar Link
       </Button>
+      {showPopup && (
+        <Popup message="Link copiado para a área de transferência!" />
+      )}
+    </div>
+  );
+}
+
+function Popup({ message }) {
+  return (
+    <div className="popup">
+      <span className="popup-text">{message}</span>
     </div>
   );
 }
