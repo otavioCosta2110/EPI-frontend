@@ -1,15 +1,16 @@
-import React, { useState, useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
-import Rating from "@mui/material/Rating";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import Youtube from "react-youtube";
-import Modal from "@mui/material/Modal";
-import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrash } from "@fortawesome/free-solid-svg-icons";
-import "./VideoPage.css";
+import React, { useState, useEffect } from 'react';
+import { useParams, Link } from 'react-router-dom';
+import Rating from '@mui/material/Rating';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import Youtube from 'react-youtube';
+import Modal from '@mui/material/Modal';
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
+import ShareButton from './ShareButton';
+import './VideoPage.css';
 
 function VideoPage() {
   const { id } = useParams();
@@ -19,7 +20,7 @@ function VideoPage() {
   const [userRating, setUserRating] = useState(null);
   const [hoverRating, setHoverRating] = useState(-1);
   const [open, setOpen] = useState(false);
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState('');
   const [materials, setMaterials] = useState([]);
   const [challenges, setChallenges] = useState([]);
   const [showAllMaterials, setShowAllMaterials] = useState(false);
@@ -31,10 +32,10 @@ function VideoPage() {
   const [deleteItemType, setDeleteItemType] = useState(null);
   const [confirmDeleteModalOpen, setConfirmDeleteModalOpen] = useState(false);
 
-  const apiURL = "http://localhost:3000";
+  const apiURL = 'http://localhost:3000';
 
   useEffect(() => {
-    const storedUser = localStorage.getItem("user");
+    const storedUser = localStorage.getItem('user');
     if (storedUser) {
       setUser(JSON.parse(storedUser));
     }
@@ -63,7 +64,7 @@ function VideoPage() {
         setChallenges(challengesData.data);
         setRelatedVideos(relatedVideosData.data);
       } catch (error) {
-        console.error("Error fetching data:", error);
+        console.error('Error fetching data:', error);
       }
     };
 
@@ -80,9 +81,9 @@ function VideoPage() {
   const markVideoAsWatched = async () => {
     try {
       const response = await fetch(`${apiURL}/video/play`, {
-        method: "POST",
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           video_id: video.id,
@@ -90,10 +91,10 @@ function VideoPage() {
         }),
       });
       if (!response.ok) {
-        console.error("Failed to mark video as watched");
+        console.error('Failed to mark video as watched');
       }
     } catch (error) {
-      console.error("Error marking video as watched:", error);
+      console.error('Error marking video as watched:', error);
     }
   };
 
@@ -107,9 +108,9 @@ function VideoPage() {
     event.preventDefault();
     try {
       const response = await fetch(`${apiURL}/mail/send`, {
-        method: "POST",
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           videoid: video.id,
@@ -118,13 +119,13 @@ function VideoPage() {
         }),
       });
       if (response.ok) {
-        setMessage("");
+        setMessage('');
         handleClose();
       } else {
-        console.error("Failed to submit question");
+        console.error('Failed to submit question');
       }
     } catch (error) {
-      console.error("Error submitting question:", error);
+      console.error('Error submitting question:', error);
     }
   };
 
@@ -143,9 +144,9 @@ function VideoPage() {
         rating: newValue,
       };
       const response = await fetch(`${apiURL}/video/rate`, {
-        method: "PUT",
+        method: 'PUT',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify(body),
       });
@@ -153,10 +154,10 @@ function VideoPage() {
         setUserRating(newValue);
         showRatingSuccessAlert();
       } else {
-        console.error("Failed to rate video");
+        console.error('Failed to rate video');
       }
     } catch (error) {
-      console.error("Error rating video:", error);
+      console.error('Error rating video:', error);
     }
   };
 
@@ -179,7 +180,7 @@ function VideoPage() {
   const handleShowAllChallenges = () =>
     setShowAllChallenges(!showAllChallenges);
   const handleToggleContent = (contentType) =>
-    setShowChallenges(contentType === "challenges");
+    setShowChallenges(contentType === 'challenges');
 
   const handleDelete = (type, id) => {
     setDeleteItemType(type);
@@ -189,35 +190,35 @@ function VideoPage() {
   const confirmDelete = async () => {
     try {
       let endpoint;
-      if (deleteItemType === "material") {
+      if (deleteItemType === 'material') {
         endpoint = `${apiURL}/material/deletematerial/${deleteItemId}`;
-      } else if (deleteItemType === "challenge") {
+      } else if (deleteItemType === 'challenge') {
         endpoint = `${apiURL}/challenge/deletechallenge/${deleteItemId}`;
       } else {
-        console.error("Invalid deleteItemType");
+        console.error('Invalid deleteItemType');
         return;
       }
 
       const response = await fetch(endpoint, {
-        method: "DELETE",
+        method: 'DELETE',
       });
 
       if (response.ok) {
-        if (deleteItemType === "material") {
+        if (deleteItemType === 'material') {
           setMaterials(
             materials.filter((material) => material.id !== deleteItemId)
           );
-        } else if (deleteItemType === "challenge") {
+        } else if (deleteItemType === 'challenge') {
           setChallenges(
             challenges.filter((challenge) => challenge.id !== deleteItemId)
           );
         }
         setConfirmDeleteModalOpen(false);
       } else {
-        console.error("Failed to delete item");
+        console.error('Failed to delete item');
       }
     } catch (error) {
-      console.error("Error deleting item:", error);
+      console.error('Error deleting item:', error);
     }
   };
 
@@ -230,14 +231,14 @@ function VideoPage() {
       <div className="video-container">
         <h1>
           {video.title.length > 30
-            ? video.title.slice(0, 30) + "..."
+            ? video.title.slice(0, 30) + '...'
             : video.title}
         </h1>
         <Youtube
           videoId={getYouTubeVideoId(video.url)}
           opts={{
-            height: "390",
-            width: "640",
+            height: '390',
+            width: '640',
             playerVars: {
               autoplay: 1,
             },
@@ -248,16 +249,17 @@ function VideoPage() {
             {showFullDescription
               ? video.description
               : video.description.length > 90
-              ? video.description.slice(0, 90) + "..."
+              ? video.description.slice(0, 90) + '...'
               : video.description}
             <br />
             {video.description.length > 90 && (
               <button onClick={handleToggleDescription}>
-                {showFullDescription ? "Mostrar menos" : "Mostrar mais"}
+                {showFullDescription ? 'Mostrar menos' : 'Mostrar mais'}
               </button>
             )}
           </p>
         </div>
+
         <div className="video-tags">
           <h3>Assuntos:</h3>
           <div className="tag-container">
@@ -268,6 +270,10 @@ function VideoPage() {
             ))}
           </div>
         </div>
+        <p>
+          Compartilhar com:
+          <ShareButton videoUrl={video?.url} />
+        </p>
         {user && (
           <Box
             component="fieldset"
@@ -288,12 +294,12 @@ function VideoPage() {
               }}
               size="large"
               sx={{
-                "& .MuiRating-iconFilled": {
-                  color: "#FFD700",
-                  fontSize: "2rem",
+                '& .MuiRating-iconFilled': {
+                  color: '#FFD700',
+                  fontSize: '2rem',
                 },
-                "& .MuiRating-iconHover": {
-                  color: "#FFD700",
+                '& .MuiRating-iconHover': {
+                  color: '#FFD700',
                 },
               }}
             />
@@ -349,12 +355,12 @@ function VideoPage() {
                 <div className="video-info">
                   <h2 className="video-title">
                     {relatedVideo.title.length > 25
-                      ? relatedVideo.title.slice(0, 25) + "..."
+                      ? relatedVideo.title.slice(0, 25) + '...'
                       : relatedVideo.title}
                   </h2>
                   <p className="video-description">
                     {relatedVideo.description.length > 25
-                      ? relatedVideo.description.slice(0, 25) + "..."
+                      ? relatedVideo.description.slice(0, 25) + '...'
                       : relatedVideo.description}
                   </p>
                 </div>
@@ -363,21 +369,21 @@ function VideoPage() {
         </div>
         <div className="materials-challenges-toggle">
           <button
-            className={`toggle-button ${!showChallenges ? "active" : ""}`}
-            onClick={() => handleToggleContent("materials")}
+            className={`toggle-button ${!showChallenges ? 'active' : ''}`}
+            onClick={() => handleToggleContent('materials')}
           >
             Materiais
           </button>
           <button
-            className={`toggle-button ${showChallenges ? "active" : ""}`}
-            onClick={() => handleToggleContent("challenges")}
+            className={`toggle-button ${showChallenges ? 'active' : ''}`}
+            onClick={() => handleToggleContent('challenges')}
           >
             Desafios
           </button>
         </div>
         {showChallenges ? (
           <div className="challenges-section">
-            {user && user.data && user.data.role == "0" && (
+            {user && user.data && user.data.role == '0' && (
               <Link
                 to={`/videos/${id}/registerchallenge`}
                 className="link-button"
@@ -393,7 +399,7 @@ function VideoPage() {
                       <div key={challenge.id} className="material-item">
                         <h3>{challenge.title}</h3>
                         <p className="text">{challenge.description}</p>
-                        {challenge.type === "link" ? (
+                        {challenge.type === 'link' ? (
                           <a
                             href={challenge.file_url}
                             target="_blank"
@@ -413,11 +419,11 @@ function VideoPage() {
                             Baixar
                           </a>
                         )}
-                        {user && user.data && user.data.role == "0" && (
+                        {user && user.data && user.data.role == '0' && (
                           <FontAwesomeIcon
                             icon={faTrash}
                             onClick={() =>
-                              handleDelete("challenge", challenge.id)
+                              handleDelete('challenge', challenge.id)
                             }
                             className="delete-icon"
                           />
@@ -431,7 +437,7 @@ function VideoPage() {
                     onClick={handleShowAllChallenges}
                     className="button"
                   >
-                    {showAllChallenges ? "Mostrar menos" : "Mostrar mais"}
+                    {showAllChallenges ? 'Mostrar menos' : 'Mostrar mais'}
                   </button>
                 )}
               </div>
@@ -441,7 +447,7 @@ function VideoPage() {
           </div>
         ) : (
           <div className="materials-section">
-            {user && user.data && user.data.role == "0" && (
+            {user && user.data && user.data.role == '0' && (
               <Link
                 to={`/videos/${id}/registermaterial`}
                 className="link-button"
@@ -457,7 +463,7 @@ function VideoPage() {
                       <div key={material.id} className="material-item">
                         <h3>{material.title}</h3>
                         <p className="text">{material.description}</p>
-                        {material.type === "link" ? (
+                        {material.type === 'link' ? (
                           <a
                             href={material.file_url}
                             target="_blank"
@@ -477,11 +483,11 @@ function VideoPage() {
                             Baixar
                           </a>
                         )}
-                        {user && user.data && user.data.role == "0" && (
+                        {user && user.data && user.data.role == '0' && (
                           <FontAwesomeIcon
                             icon={faTrash}
                             onClick={() =>
-                              handleDelete("material", material.id)
+                              handleDelete('material', material.id)
                             }
                             className="delete-icon"
                           />
@@ -495,7 +501,7 @@ function VideoPage() {
                     onClick={handleShowAllMaterials}
                     className="button"
                   >
-                    {showAllMaterials ? "Mostrar menos" : "Mostrar mais"}
+                    {showAllMaterials ? 'Mostrar menos' : 'Mostrar mais'}
                   </button>
                 )}
               </div>
@@ -520,7 +526,7 @@ function VideoPage() {
           <Button
             onClick={confirmDelete}
             variant="contained"
-            style={{ backgroundColor: "red", color: "#fff" }}
+            style={{ backgroundColor: 'red', color: '#fff' }}
           >
             Confirmar
           </Button>
