@@ -12,16 +12,31 @@
   color: white;
 }
 
+.share-button.whatsapp:hover {
+  color: black;
+}
+
+.share-button.facebook:hover {
+  color: black;
+}
+
+.share-button.copy:hover {
+  color: black;
+}
+
 .share-button.whatsapp {
   background-color: #25d366;
+  color: white;
 }
 
 .share-button.facebook {
-  background-color: rgb(57, 163, 255);
+  background-color: #3b5998;
+  color: white;
 }
 
 .share-button.copy {
   background-color: #6c757d;
+  color: white;
 }
 
 .popup {
