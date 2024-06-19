@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser } from "@fortawesome/free-solid-svg-icons";
+import { faUser, faEdit, faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
 import "./header.css";
 import Cookies from "js-cookie";
 
 function Header({ style }) {
   const [user, setUser] = useState("");
+  const [showPopup, setShowPopup] = useState(false);
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
@@ -29,6 +30,10 @@ function Header({ style }) {
 
   const handleMouseLeave = (event) => {
     event.target.textContent = user.data.name;
+  };
+
+  const togglePopup = () => {
+    setShowPopup(!showPopup);
   };
 
   return (
@@ -54,13 +59,23 @@ function Header({ style }) {
                 <span>{user.data.name}</span>
               </Link>
             ) : (
-              <span
-                onMouseEnter={handleMouseEnter}
-                onMouseLeave={handleMouseLeave}
-                onClick={handleLogout}
-              >
+              <span onClick={togglePopup}>
                 {user.data.name}
               </span>
+            )}
+            {showPopup && (
+              <div className="popup-menu">
+                <Link to="/modifyUser">
+                  <div className="popup-item">
+                    <FontAwesomeIcon icon={faEdit} style={{ marginRight: "0.5rem", color: "black"}} />
+                    Modificar Usuário
+                  </div>
+                </Link>
+                <div className="popup-item" onClick={handleLogout}>
+                  <FontAwesomeIcon icon={faSignOutAlt} style={{ marginRight: "0.5rem" }} />
+                  Sair
+                </div>
+              </div>
             )}
           </div>
         ) : (

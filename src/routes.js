@@ -13,6 +13,7 @@ import ForumsPage from "./Forums/forums";
 import ForumPage from "./Forums/ForumPage/forum";
 import MaterialRegister from "./AdminPage/Material/MaterialRegister";
 import ChallengeRegister from "./AdminPage/Challenge/ChallengeRegister";
+import ModifyUser from "./ModifyUser/ModifyUser";
 
 const AppRoutes = () => {
   return (
@@ -27,6 +28,7 @@ const AppRoutes = () => {
       <Route path="/videos/:id" element={<VideoPage />} />
       <Route path="/registerstudent" element={<RegisterStudent />} />
       <Route path="/forums" element={<ForumsPage />} />
+      <Route path="/modifyuser" element={<ModifyUser />} />
       <Route path="/forums/:id" element={<ForumPage />} />
       <Route
         path="/videos/:id/registermaterial"

@@ -11,7 +11,6 @@
   z-index: 999;
   top: 0;
   left: 0;
-  z-index: 999;
 }
 
 .header-column {
@@ -26,6 +25,7 @@
 
 .right-section {
   justify-content: flex-end;
+  position: relative;
 }
 
 a {
@@ -81,4 +81,33 @@ a {
 .header-links h3 {
   font-weight: normal;
   font-size: 0.9rem;
+}
+
+.popup-menu {
+  position: absolute;
+  right: 0;
+  top: 100%;
+  background-color: #ffffff;
+  color: #000000;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  overflow: hidden;
+  z-index: 999;
+}
+
+.popup-item {
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  color: black;
+}
+
+.popup-item:hover {
+  background-color: #f0f0f0;
+}
+
+.popup-item a {
+  color: inherit;
+  text-decoration: none;
 }
