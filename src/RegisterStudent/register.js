@@ -85,18 +85,24 @@ function Register() {
       { text: "Pelo menos 8 caracteres", isValid: password.length >= 8 },
       { text: "Pelo menos um número", isValid: /\d/.test(password) },
       { text: "Pelo menos uma letra", isValid: /[A-Za-z]/.test(password) },
-      { text: "Pelo menos um caractere especial: #, $, %, &", isValid: /[@#%&*$!]/.test(password) }
+      {
+        text: "Pelo menos um caractere especial: #, $, %, &",
+        isValid: /[@#%&*$!]/.test(password),
+      },
     ];
 
     return (
       <div className="password-rules">
         <ul>
           <li>A senha deve conter:</li>
-          {rules.map((rule, index) => (
-            !rule.isValid && (
-              <li key={index} className="invalid">{rule.text}</li>
-            )
-          ))}
+          {rules.map(
+            (rule, index) =>
+              !rule.isValid && (
+                <li key={index} className="invalid">
+                  {rule.text}
+                </li>
+              )
+          )}
         </ul>
       </div>
     );
@@ -104,7 +110,7 @@ function Register() {
 
   return (
     <div className="register-container">
-      <form onSubmit={handleSubmit}>
+      <form className="register-form" onSubmit={handleSubmit}>
         <label>
           Nome:
           <input
