@@ -6,7 +6,7 @@ body {
 
 .videos {
   width: 100%;
-  margin-top: 30vh;
+  margin-top: 25vh;
   padding-bottom: 100px;
   margin-bottom: 10vh;
 }
@@ -183,7 +183,7 @@ select:-moz-focusring {
 
 @media screen and (max-width: 1600px) {
   .videos {
-    margin-top: 45vh;
+    margin-top: 25vh;
   }
 
   .video-item {
@@ -212,7 +212,7 @@ select:-moz-focusring {
 
 @media screen and (max-width: 1440px) {
   .videos {
-    margin-top: 45vh;
+    margin-top: 25vh;
   }
 
   .video-item {
@@ -241,7 +241,7 @@ select:-moz-focusring {
 
 @media screen and (max-width: 1366px) {
   .videos {
-    margin-top: 45vh;
+    margin-top: 25vh;
   }
 
   .video-item {
@@ -270,7 +270,7 @@ select:-moz-focusring {
 
 @media screen and (max-width: 1029px) {
   .videos {
-    margin-top: 135vh;
+    margin-top: 25vh;
   }
   .video-item {
     width: 30vw;
@@ -309,7 +309,7 @@ select:-moz-focusring {
 
 @media screen and (max-width: 900px) {
   .videos {
-    margin-top: 90vh;
+    margin-top: 25vh;
   }
   .video-item {
     width: 30vw;
@@ -344,7 +344,7 @@ select:-moz-focusring {
 
 @media screen and (max-width: 768px) {
   .videos {
-    margin-top: 280vh;
+    margin-top: 25vh;
   }
 
   .video-item {
