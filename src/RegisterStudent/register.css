@@ -16,7 +16,10 @@
 }
 
 .register-container {
-  margin-top: 10vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 }
 
 .autocomplete-container {
@@ -74,4 +77,10 @@ input[type="password"].invalid {
 
 #combo-box-demo {
   border: none;
+}
+
+@media (max-width: 800px) {
+  .register-container {
+    height: 115vh;
+  }
 }

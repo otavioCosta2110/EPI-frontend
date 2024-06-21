@@ -1,4 +1,9 @@
-/* login.css */
+.login-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
 
 .login-form {
   width: 100%;
@@ -35,14 +40,14 @@ input[type="password"] {
 
 input[type="text"]:focus,
 input[type="password"]:focus {
-  border-color: #000;
+  border-color: #074b94;
   background-color: #fff;
 }
 
 input[type="submit"] {
   width: 100%;
   padding: 12px;
-  background-color: #000;
+  background-color: #074b94;
   border: none;
   border-radius: 5px;
   color: #fff;

@@ -1,3 +1,90 @@
-.card-container{
-    margin-top: 4vh;
+.card-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.video-register-form {
+  min-width: 20vw;
+  padding: 40px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  background-color: #f9f9f9;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.register-form:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: 600;
+  color: #333;
+}
+
+input[type="text"],
+input[type="password"] {
+  width: calc(100% - 24px);
+  padding: 12px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #fff;
+  transition: all 0.3s ease;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus {
+  border-color: #074b94;
+  background-color: #fff;
+}
+
+.autocomplete-container {
+  width: 100%;
+}
+
+.autocomplete-input {
+  width: 100%;
+  background-color: #fff;
+}
+
+.autocomplete-listbox {
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.autocomplete-option {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.autocomplete-option:hover {
+  background-color: #f0f0f0;
+}
+
+input[type="submit"] {
+  width: 100%;
+  padding: 12px;
+  background-color: #074b94;
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.autocomplete-input label {
+  border: none;
+}
+
+@media (max-width: 800px) {
+  .card-container {
+    height: 115vh;
+  }
 }

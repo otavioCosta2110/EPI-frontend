@@ -63,61 +63,63 @@ function Register() {
       if (response.ok) {
         window.location.href = "/login";
       } else {
-        setError("Erro ao enviar dados");
+        setError("Preencha todos os campos obrigatórios");
       }
     } catch (error) {
-      setError("Erro ao enviar dados");
+      setError("Preencha todos os campos obrigatórios");
     }
   };
 
   return user && user.data && user.data.role == "0" ? (
-    <form className="register-form" onSubmit={handleSubmit}>
-      <label>
-        Nome:
-        <input
-          type="text"
-          name="name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
-      </label>
-      <label>
-        E-mail:
-        <input
-          type="text"
-          name="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-      </label>
-      <label>
-        Senha:
-        <input
-          type="password"
-          name="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-      </label>
-      <Autocomplete
-        multiple
-        id="combo-box-demo"
-        options={tags}
-        className="autocomplete-container"
-        renderInput={(params) => (
-          <TextField
-            {...params}
-            className="autocomplete-input"
-            label="Preferência"
+    <div className="register-page">
+      <form className="register-form" onSubmit={handleSubmit}>
+        <label>
+          Nome:
+          <input
+            type="text"
+            name="name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
           />
-        )}
-        onChange={(event, newValue) => {
-          setSelectedTags(newValue);
-        }}
-      />
-      <input type="submit" value="Registrar" />
-      {error && <p>{error}</p>}
-    </form>
+        </label>
+        <label>
+          E-mail:
+          <input
+            type="text"
+            name="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+        </label>
+        <label>
+          Senha:
+          <input
+            type="password"
+            name="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </label>
+        <Autocomplete
+          multiple
+          id="combo-box-demo"
+          options={tags}
+          className="autocomplete-container"
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              className="autocomplete-input"
+              label="Preferência"
+            />
+          )}
+          onChange={(event, newValue) => {
+            setSelectedTags(newValue);
+          }}
+        />
+        <input type="submit" value="Registrar" />
+        {error && <p>{error}</p>}
+      </form>
+    </div>
   ) : (
     <div>Você não possui autorização para essa função.</div>
   );

@@ -74,7 +74,7 @@ function VideoRegister() {
 
   return user && user.data && user.data.role === "0" ? (
     <div className="card-container">
-      <form onSubmit={handleSubmit}>
+      <form className="video-register-form" onSubmit={handleSubmit}>
         <div>
           Título:
           <input
@@ -106,7 +106,6 @@ function VideoRegister() {
           />
         </div>
         <div>
-          Tags:
           <Autocomplete
             multiple
             id="tags-combo-box"

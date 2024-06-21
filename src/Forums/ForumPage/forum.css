@@ -133,6 +133,10 @@ textarea {
   max-width: 80%;
 }
 
+textarea {
+  resize: none;
+}
+
 .overlay {
   position: fixed;
   top: 0;

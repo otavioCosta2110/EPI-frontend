@@ -110,6 +110,7 @@ const NewThreadForm = ({ onCreateThread, user, onClose }) => {
     <div className="new-thread-form-container">
       <form className="new-thread-form" onSubmit={handleSubmit}>
         {error && <div className="error">{error}</div>}
+        <label>Criar tópico</label>
         <input
           type="text"
           placeholder="Título"
@@ -125,7 +126,13 @@ const NewThreadForm = ({ onCreateThread, user, onClose }) => {
 
         <div className="form-buttons">
           <button type="submit">Criar Tópico</button>
-          <button type="button" onClick={onClose} className="close-button">
+
+          <button
+            type="button"
+            onClick={onClose}
+            className="close-button"
+            style={{ backgroundColor: "red", color: "#fff" }}
+          >
             Cancelar
           </button>
         </div>

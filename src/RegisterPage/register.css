@@ -1,13 +1,20 @@
+.register-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
 .register-form {
   width: 100%;
-  max-width: 500px;
-  margin: auto;
+
   padding: 40px;
   border: 1px solid #ccc;
   border-radius: 10px;
   background-color: #f9f9f9;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
+  margin-top: 25vh;
 }
 
 .register-form:hover {
@@ -34,7 +41,7 @@ input[type="password"] {
 
 input[type="text"]:focus,
 input[type="password"]:focus {
-  border-color: #000;
+  border-color: #074b94;
   background-color: #fff;
 }
 
@@ -52,7 +59,7 @@ input[type="password"]:focus {
 input[type="submit"] {
   width: 100%;
   padding: 12px;
-  background-color: #000;
+  background-color: #074b94;
   border: none;
   border-radius: 5px;
   color: #fff;
@@ -63,6 +70,12 @@ input[type="submit"] {
 
 .autocomplete-input {
   border: none;
+}
+
+@media (max-width: 800px) {
+  .register-page {
+    height: 115vh;
+  }
 }
 
 @media (max-width: 768px) {
