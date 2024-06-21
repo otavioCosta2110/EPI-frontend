@@ -113,7 +113,7 @@ function MaterialForm() {
         />
       </div>
       <div>
-        Tipo de Entrada:
+        Tipo de Material:
         <select
           onChange={handleSelectChange}
           value={inputType}

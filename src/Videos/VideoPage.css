@@ -15,7 +15,7 @@ body {
   justify-content: space-between;
   width: 80vw;
   margin: 20px auto;
-  margin-top: 50vh;
+  margin-top: 10vh;
   padding: 20px;
   background-color: #fff;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -204,6 +204,7 @@ body {
   border-radius: 8px;
   width: 400px;
   max-width: 90%;
+  background-color: #fff;
 }
 
 .modal-container form {
@@ -261,6 +262,7 @@ body {
   transition: bottom 0.5s ease;
 }
 
+
 .success-alert.show {
   bottom: 20px;
 }
@@ -277,10 +279,74 @@ body {
   overflow-y: auto;
 }
 
+.materials-challenges-toggle {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.toggle-button {
+  padding: 10px 20px;
+  margin: 0 5px;
+  cursor: pointer;
+  background-color: transparent;
+  background-color: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  border-bottom: 2px solid transparent;
+  font-size: 1rem;
+  color: #666;
+  color: #666;
+  transition: color 0.3s, border-bottom 0.3s;
+}
+
+.toggle-button:hover {
+  color: #333;
+  color: #333;
+}
+
+.toggle-button.active {
+  color: #007bff;
+  border-bottom: 2px solid #007bff;
+  color: #007bff;
+  border-bottom: 2px solid #007bff;
+}
+
+.challenges-section,
+.materials-section {
+  margin-top: 20px;
+}
+
+.challenges-list,
+.materials-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.challenge-item,
+.material-item {
+  background-color: #f9f9f9;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.challenge-link,
+.material-link {
+  color: #007bff;
+  text-decoration: none;
+  margin-right: auto;
+}
+
+.challenge-link:hover,
+.material-link:hover {
+  text-decoration: underline;
+}
+
 @media (max-width: 1024px) {
   .video-page {
     overflow-y: auto;
-    margin-top: 200%;
+    margin-top: 12vh;
     flex-direction: column;
   }
 
@@ -418,115 +484,4 @@ body {
   .materials-list {
     gap: 15px;
   }
-}
-
-@media (max-width: 1024px) {
-  .video-page {
-    flex-direction: column;
-    align-items: center;
-    margin-top: 170vh;
-  }
-
-  .video-container,
-  .related-videos {
-    width: 100%;
-    margin-right: 0;
-  }
-
-  .video-container {
-    margin-bottom: 20px;
-  }
-
-  .video-container h1 {
-    font-size: 22px;
-  }
-
-  .video-container p {
-    font-size: 15px;
-  }
-
-  .video-thumbnail {
-    width: 110px;
-    height: 80px;
-  }
-
-  .video-title {
-    font-size: 17px;
-  }
-
-  .video-description {
-    font-size: 13px;
-  }
-
-  .related-videos-list {
-    height: auto;
-  }
-
-  .materials-list {
-    gap: 15px;
-  }
-}
-
-.materials-challenges-toggle {
-  display: flex;
-  justify-content: center;
-  margin-top: 20px;
-}
-
-.toggle-button {
-  padding: 10px 20px;
-  margin: 0 5px;
-  cursor: pointer;
-  background-color: transparent;
-  background-color: transparent;
-  border: none;
-  border-bottom: 2px solid transparent;
-  border-bottom: 2px solid transparent;
-  font-size: 1rem;
-  color: #666;
-  color: #666;
-  transition: color 0.3s, border-bottom 0.3s;
-}
-
-.toggle-button:hover {
-  color: #333;
-  color: #333;
-}
-
-.toggle-button.active {
-  color: #007bff;
-  border-bottom: 2px solid #007bff;
-  color: #007bff;
-  border-bottom: 2px solid #007bff;
-}
-
-.challenges-section,
-.materials-section {
-  margin-top: 20px;
-}
-
-.challenges-list,
-.materials-list {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.challenge-item,
-.material-item {
-  background-color: #f9f9f9;
-  padding: 10px;
-  border-radius: 5px;
-}
-
-.challenge-link,
-.material-link {
-  color: #007bff;
-  text-decoration: none;
-  margin-right: auto;
-}
-
-.challenge-link:hover,
-.material-link:hover {
-  text-decoration: underline;
 }

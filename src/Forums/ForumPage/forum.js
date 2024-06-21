@@ -4,6 +4,10 @@ import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
+import IconButton from "@mui/material/IconButton";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
+import ReplyIcon from "@mui/icons-material/Reply";
 import "./forum.css";
 
 const ThreadDetail = () => {
@@ -14,7 +18,7 @@ const ThreadDetail = () => {
   const [editContent, setEditContent] = useState("");
   const [editPostId, setEditPostId] = useState(null);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  const [deletePostId, setDeletePostId] = useState(null); 
+  const [deletePostId, setDeletePostId] = useState(null);
   const [answerContent, setAnswerContent] = useState("");
   const [isAnswerModalOpen, setIsAnswerModalOpen] = useState(false);
   const [answerPostId, setAnswerPostId] = useState(null);
@@ -116,7 +120,7 @@ const ThreadDetail = () => {
       if (response.ok) {
         setPosts(posts.filter((post) => post.id !== deletePostId));
         setDeletePostId(null);
-        setConfirmDeleteModalOpen(false); 
+        setConfirmDeleteModalOpen(false);
       }
     }
   };
@@ -201,29 +205,23 @@ const ThreadDetail = () => {
         <div className="post-actions">
           {user.id === post.user_id && (
             <>
-              <button
-                onClick={() => openEditModal(post)}
-                className="edit-post-button"
-              >
-                Editar
-              </button>
-              <button
+              <IconButton onClick={() => openEditModal(post)} aria-label="edit">
+                <EditIcon />
+              </IconButton>
+              <IconButton
                 onClick={() => {
                   setDeletePostId(post.id);
-                  setConfirmDeleteModalOpen(true); 
+                  setConfirmDeleteModalOpen(true);
                 }}
-                className="delete-post-button"
+                aria-label="delete"
               >
-                Apagar
-              </button>
+                <DeleteIcon />
+              </IconButton>
             </>
           )}
-          <button
-            onClick={() => openAnswerModal(post)}
-            className="edit-post-button"
-          >
-            Responder
-          </button>
+          <IconButton onClick={() => openAnswerModal(post)} aria-label="reply">
+            <ReplyIcon />
+          </IconButton>
         </div>
         {post.responses && post.responses.length > 0 && (
           <div className="responses">{renderPosts(post.responses)}</div>
@@ -263,7 +261,7 @@ const ThreadDetail = () => {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Box className="modal-container">
+        <Box className="modal-forum modal-container">
           <Typography variant="h6" component="h2">
             Editar Post
           </Typography>
@@ -275,7 +273,11 @@ const ThreadDetail = () => {
           <Button onClick={handleEditPost} variant="contained" color="primary">
             Salvar
           </Button>
-          <Button onClick={closeEditModal} variant="contained">
+          <Button
+            onClick={closeEditModal}
+            variant="contained"
+            style={{ backgroundColor: "red", color: "#fff" }}
+          >
             Cancelar
           </Button>
         </Box>
@@ -286,17 +288,23 @@ const ThreadDetail = () => {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Box className="modal-container">
+        <Box className="modal-forum modal-container">
           <Typography variant="h6" component="h2">
             Confirmar Exclusão
           </Typography>
-          <Typography>
-            Tem certeza que deseja apagar este tópico?
-          </Typography>
-          <Button onClick={handleDeletePost} variant="contained" style={{ backgroundColor: "red", color: "#fff"}}>
+          <Typography>Tem certeza que deseja apagar este tópico?</Typography>
+          <Button
+            onClick={handleDeletePost}
+            variant="contained"
+            style={{ backgroundColor: "red", color: "#fff" }}
+          >
             Confirmar
           </Button>
-          <Button onClick={() => setConfirmDeleteModalOpen(false)} variant="contained" style={{ backgroundColor: "#074b94", color : "#fff"}}>
+          <Button
+            onClick={() => setConfirmDeleteModalOpen(false)}
+            variant="contained"
+            style={{ backgroundColor: "#074b94", color: "#fff" }}
+          >
             Cancelar
           </Button>
         </Box>
@@ -307,7 +315,7 @@ const ThreadDetail = () => {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Box className="modal-container">
+        <Box className="modal-forum modal-container">
           <Typography variant="h6" component="h2">
             Responder ao Comentário
           </Typography>
@@ -316,10 +324,18 @@ const ThreadDetail = () => {
             onChange={(e) => setAnswerContent(e.target.value)}
             placeholder="Digite sua resposta"
           />
-          <Button onClick={handleAnswerPost} variant="contained" color="primary">
+          <Button
+            onClick={handleAnswerPost}
+            variant="contained"
+            color="primary"
+          >
             Responder
           </Button>
-          <Button onClick={closeAnswerModal} variant="contained">
+          <Button
+            onClick={closeAnswerModal}
+            variant="contained"
+            style={{ backgroundColor: "red", color: "#fff" }}
+          >
             Cancelar
           </Button>
         </Box>
