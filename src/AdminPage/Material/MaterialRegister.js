@@ -79,7 +79,7 @@ function MaterialForm() {
         const responseData = await response.json();
         const createdMaterialId = responseData.data.id;
         console.log("ID do material criado:", createdMaterialId);
-        
+
         // Redirect to the video page associated with video_id
         window.location.href = `/videos/${video_id}`;
       } else {
@@ -90,69 +90,67 @@ function MaterialForm() {
     }
   };
 
-  return (
-    user && user.data && user.data.role === '0' ? (
-      <form onSubmit={handleSubmit} className="form">
+  return user && user.data && user.data.role === "0" ? (
+    <form className="material-form" onSubmit={handleSubmit}>
+      <div>
+        Título:
+        <input
+          id="title"
+          name="title"
+          value={title}
+          onChange={handleInputChange}
+          className="input-field"
+        />
+      </div>
+      <div>
+        Descrição:
+        <input
+          id="description"
+          name="description"
+          value={description}
+          onChange={handleInputChange}
+          className="input-field"
+        />
+      </div>
+      <div>
+        Tipo de Entrada:
+        <select
+          onChange={handleSelectChange}
+          value={inputType}
+          className="input-field"
+        >
+          <option value="file">Arquivo</option>
+          <option value="link">Link</option>
+        </select>
+      </div>
+      {inputType === "file" ? (
         <div>
-          Título:
+          Arquivo:
           <input
-            id="title"
-            name="title"
-            value={title}
+            id="file_url"
+            type="file"
+            name="file_url"
+            onChange={handleFileChange}
+            className="input-field"
+          />
+        </div>
+      ) : (
+        <div>
+          Link:
+          <input
+            id="link_url"
+            name="link_url"
+            value={link}
             onChange={handleInputChange}
             className="input-field"
           />
         </div>
-        <div>
-          Descrição:
-          <input
-            id="description"
-            name="description"
-            value={description}
-            onChange={handleInputChange}
-            className="input-field"
-          />
-        </div>
-        <div>
-          Tipo de Entrada:
-          <select
-            onChange={handleSelectChange}
-            value={inputType}
-            className="input-field"
-          >
-            <option value="file">Arquivo</option>
-            <option value="link">Link</option>
-          </select>
-        </div>
-        {inputType === "file" ? (
-          <div>
-            Arquivo:
-            <input
-              id="file_url"
-              type="file"
-              name="file_url"
-              onChange={handleFileChange}
-              className="input-field"
-            />
-          </div>
-        ) : (
-          <div>
-            Link:
-            <input
-              id="link_url"
-              name="link_url"
-              value={link}
-              onChange={handleInputChange}
-              className="input-field"
-            />
-          </div>
-        )}
-        <input type="submit" value="Criar Material" className="submit-button" />
-        {error && <p className="error-message">{error}</p>}
-      </form>
-    ) : (
-      <div>Você não possui autorização para essa função.</div>
-    )
+      )}
+      <input type="submit" value="Criar Material" className="submit-button" />
+      {error && <p className="error-message">{error}</p>}
+    </form>
+  ) : (
+    <div>Você não possui autorização para essa função.</div>
   );
 }
 
