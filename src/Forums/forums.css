@@ -1,12 +1,15 @@
 .app {
-  width: 60vw;
+  width: 40vw;
   padding: 20px;
   font-family: Arial, sans-serif;
-  margin-top: 20vh;
+  margin: 10vh auto;
 }
 
 .thread-list {
   max-height: calc(100vh - 100px);
+  flex-direction: column;
+  align-items: center;
+  margin: 0 auto;
 }
 
 .thread-list::-webkit-scrollbar {
