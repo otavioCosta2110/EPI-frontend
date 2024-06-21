@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import "./ChallengeRegister.css";
 
 function ChallengesForm() {
     const { id } = useParams();
@@ -79,7 +80,6 @@ function ChallengesForm() {
                 const createdId = responseData.data.id;
                 console.log("Created Challenge ID:", createdId);
                 
-                // Redirect to the video page associated with video_id
                 window.location.href = `/videos/${video_id}`;
             } else {
                 setError("Error creating material.");
@@ -90,68 +90,64 @@ function ChallengesForm() {
     };
 
     return (
-        user && user.data && user.data.role === '0' ? (
-            <form onSubmit={handleSubmit} className="form">
+        <form onSubmit={handleSubmit} className="challenge-form">
+            <div>
+                Título:
+                <input
+                    id="title"
+                    name="title"
+                    value={title}
+                    onChange={handleInputChange}
+                    className="input-field"
+                />
+            </div>
+            <div>
+                Descrição:
+                <input
+                    id="description"
+                    name="description"
+                    value={description}
+                    onChange={handleInputChange}
+                    className="input-field"
+                />
+            </div>
+            <div>
+                Tipo de Desafio:
+                <select
+                    onChange={handleSelectChange}
+                    value={inputType}
+                    className="input-field"
+                >
+                    <option value="file">Arquivo</option>
+                    <option value="link">Link</option>
+                </select>
+            </div>
+            {inputType === "file" ? (
                 <div>
-                    Title:
+                    Arquivo:
                     <input
-                        id="title"
-                        name="title"
-                        value={title}
+                        id="file_url"
+                        type="file"
+                        name="file_url"
+                        onChange={handleFileChange}
+                        className="input-field"
+                    />
+                </div>
+            ) : (
+                <div>
+                    Link:
+                    <input
+                        id="link_url"
+                        name="link_url"
+                        value={link}
                         onChange={handleInputChange}
                         className="input-field"
                     />
                 </div>
-                <div>
-                    Description:
-                    <input
-                        id="description"
-                        name="description"
-                        value={description}
-                        onChange={handleInputChange}
-                        className="input-field"
-                    />
-                </div>
-                <div>
-                    Input Type:
-                    <select
-                        onChange={handleSelectChange}
-                        value={inputType}
-                        className="input-field"
-                    >
-                        <option value="file">File</option>
-                        <option value="link">Link</option>
-                    </select>
-                </div>
-                {inputType === "file" ? (
-                    <div>
-                        File:
-                        <input
-                            id="file_url"
-                            type="file"
-                            name="file_url"
-                            onChange={handleFileChange}
-                            className="input-field"
-                        />
-                    </div>
-                ) : (
-                    <div>
-                        Link:
-                        <input
-                            id="link_url"
-                            name="link_url"
-                            value={link}
-                            onChange={handleInputChange}
-                            className="input-field"
-                        />
-                    </div>
-                )}
-                <input type="submit" value="Create Material" className="submit-button" />
-                {error && <p className="error-message">{error}</p>}
-            </form>
-        ) : (
-            <div>Você não possui autorização para essa função.</div>
-        )
+            )}
+            <input type="submit" value="Create Material" className="submit-button" />
+            {error && <p className="error-message">{error}</p>}
+        </form>
     );
 }
 

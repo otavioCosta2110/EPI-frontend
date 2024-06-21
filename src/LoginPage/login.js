@@ -78,33 +78,35 @@ function Login() {
   };
 
   return (
-    <form className="login-form" onSubmit={handleSubmit}>
-      <label>
-        E-mail:
-        <input
-          type="text"
-          name="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-      </label>
-      <label>
-        Senha:
-        <input
-          type="password"
-          name="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-      </label>
-      <label>
-        <Link to="/registerStudent">
-          <a style={{ color: "black" }}>Ainda não possui uma conta?</a>
-        </Link>
-      </label>
-      {error && <div className="error">{error}</div>}
-      <input type="submit" value="Enviar" onClick={handleSubmit} />
-    </form>
+    <div className="login-page">
+      <form className="login-form" onSubmit={handleSubmit}>
+        <label>
+          E-mail:
+          <input
+            type="text"
+            name="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+        </label>
+        <label>
+          Senha:
+          <input
+            type="password"
+            name="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </label>
+        <label>
+          <Link to="/registerStudent">
+            <a style={{ color: "black" }}>Ainda não possui uma conta?</a>
+          </Link>
+        </label>
+        {error && <div className="error">{error}</div>}
+        <input type="submit" value="Enviar" onClick={handleSubmit} />
+      </form>
+    </div>
   );
 }
 
