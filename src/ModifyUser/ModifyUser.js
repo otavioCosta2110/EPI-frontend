@@ -162,6 +162,7 @@ function ModifyUser() {
           password: newPassword,
         }),
       });
+      
       if (response.ok) {
         alert("Senha atualizada com sucesso");
         setShowPasswordRules(false);
@@ -252,7 +253,7 @@ function ModifyUser() {
             placeholder="Email"
             value={emailForPassword}
             onChange={(e) => setEmailForPassword(e.target.value)}
-            className="custom-input1"
+            className="custom-input"
           />
           <input
             type="password"

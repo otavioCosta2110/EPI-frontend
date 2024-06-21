@@ -1,6 +1,6 @@
 .user-profile-container {
   width: 600px;
-  margin: 50px auto;
+  margin: 15vh auto;
   padding: 20px;
   border: 1px solid #ddd;
   border-radius: 4px;
@@ -94,8 +94,8 @@
   align-items: center;
 }
 
-.custom-input1 {
-  width: 93%;
+.custom-input {
+  width: 93.6%;
   padding: 10px;
   font-size: 16px;
   border: 1px solid #ccc;
@@ -105,7 +105,7 @@
   font-size: 14px;
 }
 
-.custom-input1:focus {
+.custom-input:focus {
   outline: none;
   border-color: black; 
 }

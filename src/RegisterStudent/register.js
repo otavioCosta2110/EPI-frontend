@@ -12,6 +12,7 @@ function Register() {
   const [selectedTags, setSelectedTags] = useState([]);
   const [isPasswordValid, setIsPasswordValid] = useState(false);
   const [isButtonClicked, setIsButtonClicked] = useState(false);
+  const [image, setImage] = useState(null);
 
   const apiURL = "http://localhost:3000";
 
@@ -47,36 +48,59 @@ function Register() {
     setIsPasswordValid(validatePassword(newPassword));
   };
 
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file && file.size > 5 * 1024 * 1024) {
+      setError("O arquivo é muito grande. O limite é de 5MB.");
+    } else {
+      setImage(file);
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsButtonClicked(true);
 
     if (!isPasswordValid) {
-      setError();
+      setError("A senha não é válida.");
       return;
+    }
+
+    const formData = new FormData();
+    formData.append("name", name);
+    formData.append("email", email);
+    formData.append("password", password);
+    formData.append("role", "1");
+    if (image) {
+      formData.append("image_url", image);
+    }
+
+    selectedTags.forEach((tag) => {
+      formData.append("tags[]", tag);
+    });
+
+    for (let pair of formData.entries()) {
+      console.log(pair[0] + ": " + pair[1]);
     }
 
     try {
       const response = await fetch(`${apiURL}/user/create`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name,
-          email,
-          password,
-          role: "1",
-          tags: selectedTags,
-        }),
+        body: formData,
       });
+
       if (response.ok) {
         window.location.href = "/login";
       } else {
-        setError("Erro ao enviar dados");
+        const errorData = await response.json();
+        console.error("Server Error:", errorData);
+        setError(
+          "Erro ao enviar dados: " + (errorData.message || "Unknown error")
+        );
       }
     } catch (error) {
-      setError("Erro ao enviar dados");
+      console.error("Network Error:", error);
+      setError("Erro ao enviar dados: " + error.message);
     }
   };
 
@@ -112,6 +136,10 @@ function Register() {
     <div className="register-container">
       <form className="register-form" onSubmit={handleSubmit}>
         <label>
+          Foto de Perfil:
+          <input type="file" onChange={handleImageChange} />
+        </label>
+        <label>
           Nome:
           <input
             type="text"
@@ -140,7 +168,6 @@ function Register() {
           />
         </label>
         {isButtonClicked && !isPasswordValid && renderPasswordRules()}
-        {error && <p className="error">{error}</p>}
         <label>
           <Autocomplete
             multiple
@@ -155,10 +182,12 @@ function Register() {
               />
             )}
             onChange={(event, newValue) => {
-              setSelectedTags(newValue);
+              const newTags = newValue.map((option) => option.trim());
+              setSelectedTags(newTags);
             }}
           />
         </label>
+        {error && <p className="error">{error}</p>}
         <input type="submit" value="Registrar" />
       </form>
     </div>
