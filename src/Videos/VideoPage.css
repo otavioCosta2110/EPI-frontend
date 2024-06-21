@@ -204,6 +204,7 @@ body {
   border-radius: 8px;
   width: 400px;
   max-width: 90%;
+  background-color: #fff;
 }
 
 .modal-container form {
@@ -260,6 +261,7 @@ body {
   z-index: 999;
   transition: bottom 0.5s ease;
 }
+
 
 .success-alert.show {
   bottom: 20px;
