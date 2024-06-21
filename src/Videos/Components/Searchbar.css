@@ -2,11 +2,11 @@
   display: flex;
   justify-content: center;
   margin-bottom: 20px;
+  align-items: center;
 }
 
 .search-bar form {
   display: flex;
-  align-items: center;
 }
 
 .search-bar input {
