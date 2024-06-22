@@ -9,7 +9,7 @@ import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
-import ShareButton from "./Components/ShareButton";
+import ShareButton from "../Components/ShareButton";
 import "./VideoPage.css";
 
 function VideoPage() {
