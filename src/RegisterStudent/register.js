@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { TextField } from "@mui/material";
 import Autocomplete from "@mui/material/Autocomplete";
 import "./register.css";
+import { CloudUpload } from "@mui/icons-material";
 
 function Register() {
   const [name, setName] = useState("");
@@ -13,6 +14,7 @@ function Register() {
   const [isPasswordValid, setIsPasswordValid] = useState(false);
   const [isButtonClicked, setIsButtonClicked] = useState(false);
   const [image, setImage] = useState(null);
+  const [imagePreview, setImagePreview] = useState(null);
 
   const apiURL = "http://localhost:3000";
 
@@ -54,6 +56,7 @@ function Register() {
       setError("O arquivo é muito grande. O limite é de 5MB.");
     } else {
       setImage(file);
+      setImagePreview(URL.createObjectURL(file));
     }
   };
 
@@ -135,10 +138,22 @@ function Register() {
   return (
     <div className="register-container">
       <form className="register-form" onSubmit={handleSubmit}>
-        <label>
-          Foto de Perfil:
-          <input type="file" onChange={handleImageChange} />
-        </label>
+        <div
+          className="profile-picture-container"
+          onClick={() => document.getElementById("image-upload").click()}
+        >
+          {imagePreview ? (
+            <img src={imagePreview} alt="Profile" />
+          ) : (
+            <CloudUpload className="upload-icon" style={{ fontSize: "70px" }} />
+          )}
+          <input
+            type="file"
+            id="image-upload"
+            className="hidden-file-input"
+            onChange={handleImageChange}
+          />
+        </div>
         <label>
           Nome:
           <input
