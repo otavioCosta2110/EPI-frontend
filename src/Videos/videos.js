@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "./videos.css";
-import SearchBar from "./Components/Searchbar.js";
+import SearchBar from "../Components/Searchbar.js";
 
 const VIDEOS_PER_PAGE = 12;
 

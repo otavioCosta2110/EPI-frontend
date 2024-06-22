@@ -8,6 +8,7 @@ import IconButton from "@mui/material/IconButton";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ReplyIcon from "@mui/icons-material/Reply";
+import PostVote from "../../Components/PostVote";
 import "./forum.css";
 
 const ThreadDetail = () => {
@@ -198,10 +199,18 @@ const ThreadDetail = () => {
   const renderPosts = (posts) => {
     return posts.map((post) => (
       <div key={post.id} className="post">
-        <p>
-          <strong>{post.userName}</strong>
-        </p>
+        <div className="post-header">
+          <p>
+            <strong>{post.userName}</strong>
+          </p>
+          <PostVote
+            postId={post.id}
+            initialVotes={post.votes}
+            userId={user.id}
+          />
+        </div>
         <p>{post.content}</p>
+
         <div className="post-actions">
           {user.id === post.user_id && (
             <>
