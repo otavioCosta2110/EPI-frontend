@@ -11,6 +11,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import ShareButton from "../Components/ShareButton";
 import "./VideoPage.css";
+import Post from "../Components/Post";
 
 function VideoPage() {
   const { id } = useParams();
@@ -64,12 +65,39 @@ function VideoPage() {
         setMaterials(materialsData.data);
         setChallenges(challengesData.data);
         setRelatedVideos(relatedVideosData.data);
+        console.log(posts)
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
 
     fetchVideoData();
+
+    const getPostsByVideo = async () => {
+      const response = await fetch(`${apiURL}/post/getbyvideo/${id}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const data = await response.json();
+      const postsWithUsernames = await Promise.all(
+        data.data.map(async (post) => {
+          const responseGetUser = await fetch(
+            `http://localhost:3000/user/getuserbyid?id=${post.user_id}`
+          );
+          const dataUser = await responseGetUser.json();
+          return {
+            ...post,
+            userName: dataUser.data.name,
+          };
+        })
+      );
+
+      setPosts(postsWithUsernames);
+    };
+
+    getPostsByVideo();
   }, [id]);
 
   useEffect(() => {
@@ -78,6 +106,38 @@ function VideoPage() {
       markVideoAsWatched();
     }
   }, [video]);
+
+  const buildPostHierarchy = (posts) => {
+    const postMap = {};
+    const rootPosts = [];
+
+    posts.forEach((post) => {
+      post.responses = [];
+      postMap[post.id] = post;
+    });
+
+    posts.forEach((post) => {
+      if (post.post_id) {
+        if (postMap[post.post_id]) {
+          postMap[post.post_id].responses.push(post);
+        }
+      } else {
+        rootPosts.push(post);
+      }
+    });
+
+    return rootPosts;
+  };
+
+  const renderPosts = (posts) => {
+    return posts.map((post) => (
+      <div key={post.id} className="post">
+        <Post post={post} user={user.data} video_id={id}></Post>
+      </div>
+    ));
+  };
+
+  const rootPosts = buildPostHierarchy(posts);
 
   const markVideoAsWatched = async () => {
     try {
@@ -309,6 +369,9 @@ function VideoPage() {
         <button color="primary" onClick={handleOpen} className="button">
           Tenho uma dúvida
         </button>
+        <div className="posts-container">
+          <div className="posts">{renderPosts(rootPosts)}</div>
+        </div>
         <Modal open={open} onClose={handleClose}>
           <Box className="modal-container">
             <form onSubmit={handleSubmit}>
@@ -331,9 +394,6 @@ function VideoPage() {
             </form>
           </Box>
         </Modal>
-        <div>
-          fodinha
-        </div>
       </div>
       <div className="related-videos">
         <h2>Vídeos Relacionados</h2>

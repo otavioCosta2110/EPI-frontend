@@ -8,7 +8,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ReplyIcon from "@mui/icons-material/Reply";
 import PostVote from "../Components/PostVote";
-const Post = ({ post, user, thread }) => {
+const Post = ({ post, user, video_id=null, thread_id=null }) => {
 
   const [posts, setPosts] = useState([]);
   const [editContent, setEditContent] = useState("");
@@ -98,10 +98,11 @@ const Post = ({ post, user, thread }) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        thread_id: thread.id,
         user_id: user.id,
         content: answerContent,
         post_id: answerPostId,
+        video_id: video_id,
+        thread_id: thread_id
       }),
     });
     if (response.ok) {
@@ -109,6 +110,7 @@ const Post = ({ post, user, thread }) => {
       setPosts([...posts, { ...newPost.data, userName: user.name }]);
       setAnswerContent("");
       setIsAnswerModalOpen(false);
+      console.log(newPost.data)
       window.location.reload();
     }
   };
@@ -154,6 +156,7 @@ const Post = ({ post, user, thread }) => {
         )
       );
       setIsEditModalOpen(false);
+      window.location.reload();
     }
   };
   
