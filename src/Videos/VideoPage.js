@@ -16,6 +16,7 @@ function VideoPage() {
   const { id } = useParams();
   const [user, setUser] = useState(null);
   const [video, setVideo] = useState(null);
+  const [posts, setPosts] = useState([]);
   const [relatedVideos, setRelatedVideos] = useState([]);
   const [userRating, setUserRating] = useState(null);
   const [hoverRating, setHoverRating] = useState(-1);
@@ -330,6 +331,9 @@ function VideoPage() {
             </form>
           </Box>
         </Modal>
+        <div>
+          fodinha
+        </div>
       </div>
       <div className="related-videos">
         <h2>Vídeos Relacionados</h2>
