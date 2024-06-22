@@ -20,6 +20,7 @@ function VideoPage() {
   const [posts, setPosts] = useState([]);
   const [relatedVideos, setRelatedVideos] = useState([]);
   const [userRating, setUserRating] = useState(null);
+  const [content, setContent] = useState("");
   const [hoverRating, setHoverRating] = useState(-1);
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState("");
@@ -65,7 +66,6 @@ function VideoPage() {
         setMaterials(materialsData.data);
         setChallenges(challengesData.data);
         setRelatedVideos(relatedVideosData.data);
-        console.log(posts)
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -106,6 +106,25 @@ function VideoPage() {
       markVideoAsWatched();
     }
   }, [video]);
+  const handleCreateResponse = async () => {
+    const response = await fetch(`${apiURL}/post/create`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        video_id: id,
+        user_id: user.data.id,
+        content: content,
+      }),
+    });
+    if (response.ok) {
+      const newPost = await response.json();
+      setPosts([{ ...newPost.data, userName: user.name }, ...posts]);
+      setContent("");
+      window.location.reload();
+    }
+  };
 
   const buildPostHierarchy = (posts) => {
     const postMap = {};
@@ -370,6 +389,22 @@ function VideoPage() {
           Tenho uma dúvida
         </button>
         <div className="posts-container">
+          <h4>Comentários</h4>
+          {user && (
+            <textarea
+              value={content}
+              onChange={(e) => setContent(e.target.value)}
+              placeholder="Digite sua resposta"
+            />
+          )}
+          {user && (
+            <button
+              onClick={handleCreateResponse}
+              className="create-response-button"
+            >
+              Criar Comentário
+            </button>
+          )}
           <div className="posts">{renderPosts(rootPosts)}</div>
         </div>
         <Modal open={open} onClose={handleClose}>
