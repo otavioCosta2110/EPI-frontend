@@ -24,6 +24,10 @@
   color: black;
 }
 
+.share-button.download:hover {
+  color: black;
+}
+
 .share-button.whatsapp {
   background-color: #25d366;
   color: white;
@@ -36,6 +40,11 @@
 
 .share-button.copy {
   background-color: #6c757d;
+  color: white;
+}
+
+.share-button.download {
+  background-color: black;
   color: white;
 }
 
