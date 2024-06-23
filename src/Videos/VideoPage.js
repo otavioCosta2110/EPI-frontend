@@ -11,13 +11,16 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import ShareButton from "../Components/ShareButton";
 import "./VideoPage.css";
+import Post from "../Components/Post";
 
 function VideoPage() {
   const { id } = useParams();
   const [user, setUser] = useState(null);
   const [video, setVideo] = useState(null);
+  const [posts, setPosts] = useState([]);
   const [relatedVideos, setRelatedVideos] = useState([]);
   const [userRating, setUserRating] = useState(null);
+  const [content, setContent] = useState("");
   const [hoverRating, setHoverRating] = useState(-1);
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState("");
@@ -69,6 +72,32 @@ function VideoPage() {
     };
 
     fetchVideoData();
+
+    const getPostsByVideo = async () => {
+      const response = await fetch(`${apiURL}/post/getbyvideo/${id}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const data = await response.json();
+      const postsWithUsernames = await Promise.all(
+        data.data.map(async (post) => {
+          const responseGetUser = await fetch(
+            `http://localhost:3000/user/getuserbyid?id=${post.user_id}`
+          );
+          const dataUser = await responseGetUser.json();
+          return {
+            ...post,
+            userName: dataUser.data.name,
+          };
+        })
+      );
+
+      setPosts(postsWithUsernames);
+    };
+
+    getPostsByVideo();
   }, [id]);
 
   useEffect(() => {
@@ -77,6 +106,57 @@ function VideoPage() {
       markVideoAsWatched();
     }
   }, [video]);
+  const handleCreateResponse = async () => {
+    const response = await fetch(`${apiURL}/post/create`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        video_id: id,
+        user_id: user.data.id,
+        content: content,
+      }),
+    });
+    if (response.ok) {
+      const newPost = await response.json();
+      setPosts([{ ...newPost.data, userName: user.name }, ...posts]);
+      setContent("");
+      window.location.reload();
+    }
+  };
+
+  const buildPostHierarchy = (posts) => {
+    const postMap = {};
+    const rootPosts = [];
+
+    posts.forEach((post) => {
+      post.responses = [];
+      postMap[post.id] = post;
+    });
+
+    posts.forEach((post) => {
+      if (post.post_id) {
+        if (postMap[post.post_id]) {
+          postMap[post.post_id].responses.push(post);
+        }
+      } else {
+        rootPosts.push(post);
+      }
+    });
+
+    return rootPosts;
+  };
+
+  const renderPosts = (posts) => {
+    return posts.map((post) => (
+      <div key={post.id} className="post">
+        <Post post={post} user={user.data} video_id={id}></Post>
+      </div>
+    ));
+  };
+
+  const rootPosts = buildPostHierarchy(posts);
 
   const markVideoAsWatched = async () => {
     try {
@@ -308,6 +388,25 @@ function VideoPage() {
         <button color="primary" onClick={handleOpen} className="button">
           Tenho uma dúvida
         </button>
+        <div className="posts-container">
+          <h4>Comentários</h4>
+          {user && (
+            <textarea
+              value={content}
+              onChange={(e) => setContent(e.target.value)}
+              placeholder="Digite sua resposta"
+            />
+          )}
+          {user && (
+            <button
+              onClick={handleCreateResponse}
+              className="create-response-button"
+            >
+              Criar Comentário
+            </button>
+          )}
+          <div className="posts">{renderPosts(rootPosts)}</div>
+        </div>
         <Modal open={open} onClose={handleClose}>
           <Box className="modal-container">
             <form onSubmit={handleSubmit}>

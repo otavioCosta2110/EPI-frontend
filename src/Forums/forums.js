@@ -175,6 +175,7 @@ const App = () => {
   };
 
   const handleCreateThread = (newThread) => {
+    window.location.reload()
     setThreads([newThread, ...threads]);
     setShowForm(false);
   };
