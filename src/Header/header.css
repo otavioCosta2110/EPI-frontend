@@ -37,14 +37,19 @@ a {
   margin: 0;
 }
 
-.user-info span,
-.login span {
-  color: #ffffff;
+.user-info .profile-picture,
+.login .profile-picture {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
   cursor: pointer;
+  border: 2px solid #ffffff;
 }
 
-.user-info span:hover {
-  text-decoration: underline;
+.user-info .profile-picture:hover,
+.login .profile-picture:hover {
+  border-color: #d1d1d1;
 }
 
 .header-column .center-section h1 {
