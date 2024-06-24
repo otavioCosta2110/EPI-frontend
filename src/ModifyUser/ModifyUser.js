@@ -95,7 +95,6 @@ function ModifyUser() {
       });
 
       if (response.ok) {
-        alert("Nome atualizado com sucesso");
         window.location.reload();
       } else {
         const errorData = await response.json();
@@ -121,7 +120,6 @@ function ModifyUser() {
       });
 
       if (response.ok) {
-        alert("Senha atualizada com sucesso");
         window.location.reload();
       } else {
         setError("Erro ao atualizar senha");
@@ -145,7 +143,6 @@ function ModifyUser() {
       });
 
       if (response.ok) {
-        alert("Imagem atualizada com sucesso");
         window.location.reload();
       } else {
         setError("Erro ao atualizar imagem");
@@ -169,7 +166,10 @@ function ModifyUser() {
     <div className="user-profile-container">
       <h2>Perfil do Usuário</h2>
       <div className="profile-field">
-        <div className="profile-picture-container" onClick={handleOpenImageModal}>
+        <div
+          className="profile-picture-container"
+          onClick={handleOpenImageModal}
+        >
           {imagePreview ? (
             <img src={imagePreview} alt="Profile" />
           ) : (
@@ -184,13 +184,20 @@ function ModifyUser() {
       <div className="profile-field">
         <label>Nome:</label>
         <span>{name}</span>
-        <Button onClick={handleOpenNameModal} variant="contained" color="primary">
+        <Button
+          onClick={handleOpenNameModal}
+          variant="contained"
+          color="primary"
+        >
           Alterar Nome
         </Button>
       </div>
       <div className="profile-field">
-        <label>Senha:</label>
-        <Button onClick={handleOpenPasswordModal} variant="contained" color="primary">
+        <Button
+          onClick={handleOpenPasswordModal}
+          variant="contained"
+          color="primary"
+        >
           Alterar Senha
         </Button>
       </div>
@@ -260,10 +267,17 @@ function ModifyUser() {
             {imagePreview ? (
               <img src={imagePreview} alt="Profile" />
             ) : (
-              <CloudUpload className="upload-icon" style={{ fontSize: "70px" }} />
+              <CloudUpload
+                className="upload-icon"
+                style={{ fontSize: "70px" }}
+              />
             )}
           </div>
-          <input type="file" onChange={handleImageChange} className="custom-input" />
+          <input
+            type="file"
+            onChange={handleImageChange}
+            className="custom-input"
+          />
           <Button
             onClick={handleUpdateImage}
             variant="contained"

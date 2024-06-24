@@ -182,10 +182,6 @@ select:-moz-focusring {
 }
 
 @media screen and (max-width: 1600px) {
-  .videos {
-    margin-top: 25vh;
-  }
-
   .video-item {
     width: 18vw;
     padding: 8px;
@@ -211,10 +207,6 @@ select:-moz-focusring {
 }
 
 @media screen and (max-width: 1440px) {
-  .videos {
-    margin-top: 25vh;
-  }
-
   .video-item {
     width: 18.5vw;
     padding: 9px;
@@ -240,10 +232,6 @@ select:-moz-focusring {
 }
 
 @media screen and (max-width: 1366px) {
-  .videos {
-    margin-top: 25vh;
-  }
-
   .video-item {
     width: 19vw;
     padding: 10px;
@@ -269,9 +257,6 @@ select:-moz-focusring {
 }
 
 @media screen and (max-width: 1029px) {
-  .videos {
-    margin-top: 25vh;
-  }
   .video-item {
     width: 30vw;
     height: 20vh;
@@ -294,9 +279,6 @@ select:-moz-focusring {
   }
   .video-history-tabs {
     top: 96px;
-  }
-  .pagination {
-    margin-top: 80vh;
   }
 }
 
@@ -354,9 +336,6 @@ select:-moz-focusring {
   }
   .video-history-tabs {
     top: 96px;
-  }
-  .pagination {
-    margin-top: 230vh;
   }
 }
 

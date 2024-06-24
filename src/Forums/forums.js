@@ -175,30 +175,9 @@ const App = () => {
   };
 
   const handleCreateThread = (newThread) => {
-    window.location.reload()
+    window.location.reload();
     setThreads([newThread, ...threads]);
     setShowForm(false);
-  };
-
-  const handleDeleteThread = async () => {
-    if (deleteThreadId) {
-      const response = await fetch(`http://localhost:3000/thread/delete`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          id: deleteThreadId,
-        }),
-      });
-
-      if (response.ok) {
-        setThreads(threads.filter((thread) => thread.id !== deleteThreadId));
-      } else {
-        console.error("Erro ao apagar thread");
-      }
-    }
-    setDeleteThreadId(null);
   };
 
   const handleDelete = (id) => {
