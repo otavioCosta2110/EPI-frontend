@@ -30,6 +30,8 @@ body {
 .video-container h1 {
   font-size: 24px;
   margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
 }
 
 .video-container p {
