@@ -2,7 +2,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 20px 0;
 }
 
 .search-bar form {
@@ -16,11 +15,12 @@
 
 .search-bar input[type="text"] {
   flex: 1;
-  padding: 10px 20px;
   border: none;
   font-size: 16px;
   border-radius: 50px 0 0 50px;
   outline: none;
+  margin-top: auto;
+  margin-bottom: auto;
 }
 
 .search-bar input[type="text"]::placeholder {
@@ -38,6 +38,7 @@
   cursor: pointer;
   transition: background-color 0.3s ease;
   border-radius: 0 50px 50px 0;
+  margin-right: auto;
 }
 
 .search-bar button:focus {
