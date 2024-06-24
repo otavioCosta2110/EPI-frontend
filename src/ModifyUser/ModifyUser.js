@@ -6,7 +6,6 @@ import "./ModifyUser.css";
 
 function ModifyUser() {
   const [user, setUser] = useState({});
-  const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [newName, setNewName] = useState("");
   const [newPassword, setNewPassword] = useState("");
@@ -20,39 +19,40 @@ function ModifyUser() {
 
   const apiURL = "http://localhost:3000";
 
-  useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const response = await fetch(`${apiURL}/user/loggeduser`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${Cookies.get("jwt")}`,
-          },
-        });
-        const userData = await response.json();
-        setUser(userData);
-        setName(userData.data.name);
+  const fetchUserData = async () => {
+    try {
+      const response = await fetch(`${apiURL}/user/loggeduser`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${Cookies.get("jwt")}`,
+        },
+      });
+      const userData = await response.json();
+      setUser(userData);
 
-        const imageResponse = await fetch(`${apiURL}/user/getuserimage`, {
-          headers: {
-            Authorization: `Bearer ${Cookies.get("jwt")}`,
-          },
-        });
+      const imageResponse = await fetch(`${apiURL}/user/getuserimage`, {
+        headers: {
+          Authorization: `Bearer ${Cookies.get("jwt")}`,
+        },
+      });
 
-        if (imageResponse.ok) {
-          const blob = await imageResponse.blob();
-          const imageUrl = URL.createObjectURL(blob);
-          setImagePreview(imageUrl);
-        } else {
-          console.error("Failed to fetch user image");
-        }
-      } catch (error) {
-        console.error("Error fetching user data:", error);
+      if (imageResponse.ok) {
+        const blob = await imageResponse.blob();
+        const imageUrl = URL.createObjectURL(blob);
+        setImagePreview(imageUrl);
+      } else {
+        console.error("Failed to fetch user image");
       }
-    };
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+    }
+  };
+  useEffect(() => {
+    console.log(user);
 
     fetchUserData();
+    setUser(localStorage.getItem("user"));
   }, []);
 
   const handleOpenNameModal = () => setOpenNameModal(true);
@@ -79,6 +79,13 @@ function ModifyUser() {
     setError("");
   };
 
+  const handleLogout = () => {
+    Cookies.remove("jwt");
+    setUser(null);
+    localStorage.removeItem("user");
+    window.location.href = "/login";
+  };
+
   const handleUpdateName = async () => {
     try {
       const response = await fetch(`${apiURL}/user/updatename`, {
@@ -95,7 +102,7 @@ function ModifyUser() {
       });
 
       if (response.ok) {
-        window.location.reload();
+        handleLogout();
       } else {
         const errorData = await response.json();
         setError(errorData.error);
@@ -120,7 +127,7 @@ function ModifyUser() {
       });
 
       if (response.ok) {
-        window.location.reload();
+        handleLogout();
       } else {
         setError("Erro ao atualizar senha");
       }
@@ -162,6 +169,10 @@ function ModifyUser() {
     }
   };
 
+  if (!user.data) {
+    return <div></div>;
+  }
+
   return (
     <div className="user-profile-container">
       <h2>Perfil do Usuário</h2>
@@ -183,7 +194,7 @@ function ModifyUser() {
       </div>
       <div className="profile-field">
         <label>Nome:</label>
-        <span>{name}</span>
+        <span>{user.data.name}</span>
         <Button
           onClick={handleOpenNameModal}
           variant="contained"
