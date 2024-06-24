@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import "./Searchbar.css";
 
 function SearchBar({ onSearch }) {
@@ -18,7 +20,9 @@ function SearchBar({ onSearch }) {
           onChange={(e) => setSearchTerm(e.target.value)}
           placeholder="Pesquisar vídeos..."
         />
-        <button type="submit">Pesquisar</button>
+        <button type="submit">
+          <FontAwesomeIcon icon={faSearch} />
+        </button>
       </form>
     </div>
   );

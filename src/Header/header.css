@@ -1,8 +1,9 @@
 .header {
   width: 100%;
+  height: 96px;
   background-color: #074b94;
   color: #ffffff;
-  padding: 24px;
+  padding: 24px 24px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -11,7 +12,6 @@
   z-index: 999;
   top: 0;
   left: 0;
-  z-index: 999;
 }
 
 .header-column {
@@ -26,6 +26,7 @@
 
 .right-section {
   justify-content: flex-end;
+  position: relative;
 }
 
 a {
@@ -37,14 +38,19 @@ a {
   margin: 0;
 }
 
-.user-info span,
-.login span {
-  color: #ffffff;
+.user-info .profile-picture,
+.login .profile-picture {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
   cursor: pointer;
+  border: 2px solid #ffffff;
 }
 
-.user-info span:hover {
-  text-decoration: underline;
+.user-info .profile-picture:hover,
+.login .profile-picture:hover {
+  border-color: #d1d1d1;
 }
 
 .header-column .center-section h1 {
@@ -81,4 +87,33 @@ a {
 .header-links h3 {
   font-weight: normal;
   font-size: 0.9rem;
+}
+
+.popup-menu {
+  position: absolute;
+  right: 0;
+  top: 100%;
+  background-color: #ffffff;
+  color: #000000;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  overflow: hidden;
+  z-index: 999;
+}
+
+.popup-item {
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  color: black;
+}
+
+.popup-item:hover {
+  background-color: #f0f0f0;
+}
+
+.popup-item a {
+  color: inherit;
+  text-decoration: none;
 }

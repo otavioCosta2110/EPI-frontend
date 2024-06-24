@@ -11,7 +11,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import ShareButton from "../Components/ShareButton";
 import "./VideoPage.css";
+import Cookies from "js-cookie";
 import Post from "../Components/Post";
+import DeleteButton from "../Components/DeleteButton";
 
 function VideoPage() {
   const { id } = useParams();
@@ -106,6 +108,7 @@ function VideoPage() {
       markVideoAsWatched();
     }
   }, [video]);
+
   const handleCreateResponse = async () => {
     const response = await fetch(`${apiURL}/post/create`, {
       method: "POST",
@@ -267,6 +270,33 @@ function VideoPage() {
     setDeleteItemId(id);
     setConfirmDeleteModalOpen(true);
   };
+
+  const handleDeleteVideo = async (videoID) => {
+    try {
+      const response = await fetch(`${apiURL}/video/delete`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ id: id }),
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        if (result.message === "Video deleted") {
+          window.location.href = "/videos";
+        } else {
+          console.error("Failed to delete video:", result.error);
+        }
+      } else {
+        const errorResponse = await response.json();
+        console.error("Failed to delete video:", errorResponse.error);
+      }
+    } catch (error) {
+      console.error("Error deleting video:", error);
+    }
+  };
+
   const confirmDelete = async () => {
     try {
       let endpoint;
@@ -313,7 +343,15 @@ function VideoPage() {
           {video.title.length > 30
             ? video.title.slice(0, 30) + "..."
             : video.title}
+          {user && user.data && user.data.role == "0" && (
+            <FontAwesomeIcon
+              icon={faTrash}
+              onClick={handleDelete}
+              className="trash-icon"
+            />
+          )}
         </h1>
+
         <Youtube
           videoId={getYouTubeVideoId(video.url)}
           opts={{
@@ -389,8 +427,8 @@ function VideoPage() {
           Tenho uma dúvida
         </button>
         <div className="posts-container">
-          <h4>Comentários</h4>
-          {user && (
+        {user ? <h4>Comentários</h4> : <h4>Entre para ver os comentários</h4>}
+        {user && (
             <textarea
               value={content}
               onChange={(e) => setContent(e.target.value)}
@@ -405,7 +443,9 @@ function VideoPage() {
               Criar Comentário
             </button>
           )}
-          <div className="posts">{renderPosts(rootPosts)}</div>
+          {user && user.data && (
+            <div className="posts">{renderPosts(rootPosts)}</div>
+          )}
         </div>
         <Modal open={open} onClose={handleClose}>
           <Box className="modal-container">
@@ -624,6 +664,33 @@ function VideoPage() {
           </Typography>
           <Button
             onClick={confirmDelete}
+            variant="contained"
+            style={{ backgroundColor: "red", color: "#fff" }}
+          >
+            Confirmar
+          </Button>
+          <Button
+            onClick={() => setConfirmDeleteModalOpen(false)}
+            variant="contained"
+            className="cancel-button"
+          >
+            Cancelar
+          </Button>
+        </Box>
+      </Modal>
+      <Modal
+        open={confirmDeleteModalOpen}
+        onClose={() => setConfirmDeleteModalOpen(false)}
+      >
+        <Box className="modal-container">
+          <Typography variant="h6" component="h2">
+            Confirmar Exclusão
+          </Typography>
+          <Typography>
+            Você tem certeza que deseja excluir este item?
+          </Typography>
+          <Button
+            onClick={handleDeleteVideo}
             variant="contained"
             style={{ backgroundColor: "red", color: "#fff" }}
           >

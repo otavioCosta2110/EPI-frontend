@@ -211,7 +211,9 @@ function Videos() {
             {searchActive && videos.length === 0 ? (
               <div className="no-results">
                 <p>Nenhum resultado encontrado para "{searchTerm}"</p>
-                <button onClick={handleResetSearch}>Voltar</button>
+                <button className="button" onClick={handleResetSearch}>
+                  Voltar
+                </button>
               </div>
             ) : (
               paginatedVideos(filterAndSortVideos(videos)).map((video) => {

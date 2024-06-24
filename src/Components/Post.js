@@ -8,8 +8,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ReplyIcon from "@mui/icons-material/Reply";
 import PostVote from "../Components/PostVote";
-const Post = ({ post, user, video_id=null, thread_id=null }) => {
-
+const Post = ({ post, user, video_id = null, thread_id = null }) => {
   const [posts, setPosts] = useState([]);
   const [editContent, setEditContent] = useState("");
   const [editPostId, setEditPostId] = useState(null);
@@ -19,7 +18,7 @@ const Post = ({ post, user, video_id=null, thread_id=null }) => {
   const [isAnswerModalOpen, setIsAnswerModalOpen] = useState(false);
   const [answerPostId, setAnswerPostId] = useState(null);
   const [confirmDeleteModalOpen, setConfirmDeleteModalOpen] = useState(false);
-  
+
   const apiURL = "http://localhost:3000";
 
   const openEditModal = (post) => {
@@ -49,44 +48,51 @@ const Post = ({ post, user, video_id=null, thread_id=null }) => {
   const renderPosts = (posts) => {
     return posts.map((post) => (
       <div key={post.id} className="post">
-      <div className="post-header">
-      <p>
-      <strong>{post.userName}</strong>
-      </p>
-      <PostVote
-      postId={post.id}
-      initialVotes={post.votes}
-      userId={user.id}
-      />
-      </div>
-      <p>{post.content}</p>
-
-      <div className="post-actions">
-      {user.id === post.user_id && (
-        <>
-        <IconButton onClick={() => openEditModal(post)} aria-label="edit">
-        <EditIcon />
-        </IconButton>
-        <IconButton
-        onClick={() => {
-          setDeletePostId(post.id);
-          setConfirmDeleteModalOpen(true);
-        }}
-        aria-label="delete"
-        >
-        <DeleteIcon />
-        </IconButton>
-        </>
-      )}
-      <IconButton onClick={() => {
-        openAnswerModal(post)
-      }} aria-label="reply">
-      <ReplyIcon />
-      </IconButton>
-      </div>
-      {post.responses && post.responses.length > 0 && (
-        <div className="responses">{renderPosts(post.responses)}</div>
-      )}
+        <div className="post-header">
+          <p>
+            <strong>{post.userName}</strong>
+          </p>
+          <PostVote
+            postId={post.id}
+            initialVotes={post.votes}
+            userId={user.id}
+          />
+        </div>
+        <p>{post.content}</p>
+        {user && (
+          <div className="post-actions">
+            {user.id === post.user_id && (
+              <>
+                <IconButton
+                  onClick={() => openEditModal(post)}
+                  aria-label="edit"
+                >
+                  <EditIcon />
+                </IconButton>
+                <IconButton
+                  onClick={() => {
+                    setDeletePostId(post.id);
+                    setConfirmDeleteModalOpen(true);
+                  }}
+                  aria-label="delete"
+                >
+                  <DeleteIcon />
+                </IconButton>
+              </>
+            )}
+            <IconButton
+              onClick={() => {
+                openAnswerModal(post);
+              }}
+              aria-label="reply"
+            >
+              <ReplyIcon />
+            </IconButton>
+          </div>
+        )}
+        {post.responses && post.responses.length > 0 && (
+          <div className="responses">{renderPosts(post.responses)}</div>
+        )}
       </div>
     ));
   };
@@ -102,7 +108,7 @@ const Post = ({ post, user, video_id=null, thread_id=null }) => {
         content: answerContent,
         post_id: answerPostId,
         video_id: video_id,
-        thread_id: thread_id
+        thread_id: thread_id,
       }),
     });
     if (response.ok) {
@@ -110,7 +116,7 @@ const Post = ({ post, user, video_id=null, thread_id=null }) => {
       setPosts([...posts, { ...newPost.data, userName: user.name }]);
       setAnswerContent("");
       setIsAnswerModalOpen(false);
-      console.log(newPost.data)
+      console.log(newPost.data);
       window.location.reload();
     }
   };
@@ -151,49 +157,47 @@ const Post = ({ post, user, video_id=null, thread_id=null }) => {
       setPosts(
         posts.map((post) =>
           post.id === editPostId
-          ? { ...updatedPost.data, userName: post.userName }
-          : post
+            ? { ...updatedPost.data, userName: post.userName }
+            : post
         )
       );
       setIsEditModalOpen(false);
       window.location.reload();
     }
   };
-  
+
   return (
     <div>
       <div className="post-header">
-      <p>
-      <strong>{post.userName}</strong>
-      </p>
-      <PostVote
-      postId={post.id}
-      initialVotes={post.votes}
-      userId={user.id}
-      />
+        <p>
+          <strong>{post.userName}</strong>
+        </p>
+        <PostVote postId={post.id} initialVotes={post.votes} userId={user.id} />
       </div>
       <p>{post.content}</p>
 
       <div className="post-actions">
-      {user.id === post.user_id && (
-        <>
-        <IconButton onClick={() => openEditModal(post)} aria-label="edit">
-        <EditIcon />
-        </IconButton>
-        <IconButton
-        onClick={() => {
-          setDeletePostId(post.id);
-          setConfirmDeleteModalOpen(true);
-        }}
-        aria-label="delete"
-        >
-        <DeleteIcon />
-        </IconButton>
-        </>
-      )}
-      <IconButton onClick={() => openAnswerModal(post)} aria-label="reply">
-      <ReplyIcon />
-      </IconButton>
+        {user.id === post.user_id && (
+          <>
+            <IconButton onClick={() => openEditModal(post)} aria-label="edit">
+              <EditIcon />
+            </IconButton>
+            <IconButton
+              onClick={() => {
+                setDeletePostId(post.id);
+                setConfirmDeleteModalOpen(true);
+              }}
+              aria-label="delete"
+            >
+              <DeleteIcon />
+            </IconButton>
+          </>
+        )}
+        {user && (
+          <IconButton onClick={() => openAnswerModal(post)} aria-label="reply">
+            <ReplyIcon />
+          </IconButton>
+        )}
       </div>
       {post.responses && post.responses.length > 0 && (
         <div className="responses">{renderPosts(post.responses)}</div>
@@ -268,6 +272,7 @@ const Post = ({ post, user, video_id=null, thread_id=null }) => {
             onChange={(e) => setAnswerContent(e.target.value)}
             placeholder="Digite sua resposta"
           />
+
           <Button
             onClick={handleAnswerPost}
             variant="contained"
@@ -275,6 +280,7 @@ const Post = ({ post, user, video_id=null, thread_id=null }) => {
           >
             Responder
           </Button>
+
           <Button
             onClick={closeAnswerModal}
             variant="contained"
@@ -285,7 +291,7 @@ const Post = ({ post, user, video_id=null, thread_id=null }) => {
         </Box>
       </Modal>
     </div>
-  )
-}
+  );
+};
 
 export default Post;
