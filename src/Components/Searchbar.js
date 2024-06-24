@@ -18,7 +18,7 @@ function SearchBar({ onSearch }) {
           type="text"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          placeholder="Pesquisar vídeos..."
+          placeholder="Pesquisar"
         />
         <button type="submit">
           <FontAwesomeIcon icon={faSearch} />
