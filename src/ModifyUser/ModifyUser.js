@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Button, Modal, Box } from "@mui/material";
+import { CloudUpload } from "@mui/icons-material";
 import Cookies from "js-cookie";
 import "./ModifyUser.css";
 
@@ -11,6 +12,7 @@ function ModifyUser() {
   const [newPassword, setNewPassword] = useState("");
   const [emailForPassword, setEmailForPassword] = useState("");
   const [image, setImage] = useState(null);
+  const [imagePreview, setImagePreview] = useState(null);
   const [openNameModal, setOpenNameModal] = useState(false);
   const [openPasswordModal, setOpenPasswordModal] = useState(false);
   const [openImageModal, setOpenImageModal] = useState(false);
@@ -31,6 +33,20 @@ function ModifyUser() {
         const userData = await response.json();
         setUser(userData);
         setName(userData.data.name);
+
+        const imageResponse = await fetch(`${apiURL}/user/getuserimage`, {
+          headers: {
+            Authorization: `Bearer ${Cookies.get("jwt")}`,
+          },
+        });
+
+        if (imageResponse.ok) {
+          const blob = await imageResponse.blob();
+          const imageUrl = URL.createObjectURL(blob);
+          setImagePreview(imageUrl);
+        } else {
+          console.error("Failed to fetch user image");
+        }
       } catch (error) {
         console.error("Error fetching user data:", error);
       }
@@ -59,6 +75,7 @@ function ModifyUser() {
   const handleCloseImageModal = () => {
     setOpenImageModal(false);
     setImage(null);
+    setImagePreview(null);
     setError("");
   };
 
@@ -138,9 +155,28 @@ function ModifyUser() {
     }
   };
 
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file && file.size > 5 * 1024 * 1024) {
+      setError("O arquivo é muito grande. O limite é de 5MB.");
+    } else {
+      setImage(file);
+      setImagePreview(URL.createObjectURL(file));
+    }
+  };
+
   return (
     <div className="user-profile-container">
       <h2>Perfil do Usuário</h2>
+      <div className="profile-field">
+        <div className="profile-picture-container" onClick={handleOpenImageModal}>
+          {imagePreview ? (
+            <img src={imagePreview} alt="Profile" />
+          ) : (
+            <CloudUpload className="upload-icon" style={{ fontSize: "70px" }} />
+          )}
+        </div>
+      </div>
       <div className="profile-field">
         <label>Email:</label>
         <span>{user.data?.email}</span>
@@ -158,21 +194,10 @@ function ModifyUser() {
           Alterar Senha
         </Button>
       </div>
-      <div className="profile-field">
-        <label>Imagem:</label>
-        <Button onClick={handleOpenImageModal} variant="contained" color="primary">
-          Alterar Imagem
-        </Button>
-      </div>
 
       {error && <p className="error">{error}</p>}
 
-      <Modal
-        open={openNameModal}
-        onClose={handleCloseNameModal}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
+      <Modal open={openNameModal} onClose={handleCloseNameModal}>
         <Box className="modal-box">
           <h2>Alterar Nome</h2>
           <input
@@ -200,12 +225,7 @@ function ModifyUser() {
         </Box>
       </Modal>
 
-      <Modal
-        open={openPasswordModal}
-        onClose={handleClosePasswordModal}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
+      <Modal open={openPasswordModal} onClose={handleClosePasswordModal}>
         <Box className="modal-box">
           <h2>Alterar Senha</h2>
           <input
@@ -233,19 +253,17 @@ function ModifyUser() {
         </Box>
       </Modal>
 
-      <Modal
-        open={openImageModal}
-        onClose={handleCloseImageModal}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
+      <Modal open={openImageModal} onClose={handleCloseImageModal}>
         <Box className="modal-box">
           <h2>Alterar Imagem</h2>
-          <input
-            type="file"
-            onChange={(e) => setImage(e.target.files[0])}
-            className="custom-input"
-          />
+          <div className="profile-picture-container">
+            {imagePreview ? (
+              <img src={imagePreview} alt="Profile" />
+            ) : (
+              <CloudUpload className="upload-icon" style={{ fontSize: "70px" }} />
+            )}
+          </div>
+          <input type="file" onChange={handleImageChange} className="custom-input" />
           <Button
             onClick={handleUpdateImage}
             variant="contained"

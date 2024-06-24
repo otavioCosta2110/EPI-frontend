@@ -73,6 +73,11 @@ function Header({ style }) {
       </div>
       <div className="header-column right-section">
         {user ? (
+          <span style={{ color: "white", marginRight: "1rem" }}>
+            {user.data.name}
+          </span>
+        ) : null}
+        {user ? (
           <div className="user-info">
             {imageBlob ? (
               <img
@@ -84,7 +89,12 @@ function Header({ style }) {
             ) : (
               <FontAwesomeIcon
                 icon={faUser}
-                style={{ marginRight: "0.5rem", fontSize: "2rem", color: "white", cursor: "pointer"}}
+                style={{
+                  marginRight: "0.5rem",
+                  fontSize: "2rem",
+                  color: "white",
+                  cursor: "pointer",
+                }}
                 onClick={togglePopup}
               />
             )}
