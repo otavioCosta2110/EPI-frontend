@@ -13,7 +13,7 @@ body {
 
 .video-history-tabs {
   position: fixed;
-  top: 9%;
+  top: 96px;
   left: 0;
   display: flex;
   justify-content: space-between;
@@ -110,7 +110,7 @@ h2 {
 }
 
 .filter {
-  flex-direction: column;
+  flex-direction: row;
 }
 
 select {
@@ -206,7 +206,7 @@ select:-moz-focusring {
   }
 
   .video-history-tabs {
-    top: 11%;
+    top: 96px;
   }
 }
 
@@ -235,7 +235,7 @@ select:-moz-focusring {
   }
 
   .video-history-tabs {
-    top: 11%;
+    top: 96px;
   }
 }
 
@@ -264,7 +264,7 @@ select:-moz-focusring {
   }
 
   .video-history-tabs {
-    top: 11%;
+    top: 96px;
   }
 }
 
@@ -293,14 +293,7 @@ select:-moz-focusring {
     font-size: 2.5vw;
   }
   .video-history-tabs {
-    position: fixed;
-    top: 11.3%;
-    left: 0;
-    align-items: center;
-    background-color: #fff;
-
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 100vw;
+    top: 96px;
   }
   .pagination {
     margin-top: 80vh;
@@ -331,14 +324,7 @@ select:-moz-focusring {
     font-size: 3vw;
   }
   .video-history-tabs {
-    position: fixed;
-    top: 11%;
-    left: 0;
-    align-items: center;
-    background-color: #fff;
-
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 100vw;
+    top: 96px;
   }
 }
 
@@ -367,14 +353,7 @@ select:-moz-focusring {
     font-size: 4vw;
   }
   .video-history-tabs {
-    position: fixed;
-    top: 7%;
-    left: 0;
-    align-items: center;
-    background-color: #fff;
-
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 100vw;
+    top: 96px;
   }
   .pagination {
     margin-top: 230vh;
@@ -382,6 +361,9 @@ select:-moz-focusring {
 }
 
 @media screen and (max-width: 480px) {
+  .video-history-tabs {
+    top: 96px;
+  }
   .video-item {
     width: 90vw;
     padding: 6vw;
@@ -400,5 +382,11 @@ select:-moz-focusring {
   .video-description,
   .video-tags {
     font-size: 6vw;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .video-history-tabs {
+    top: 96px;
   }
 }
