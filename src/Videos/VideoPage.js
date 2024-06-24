@@ -11,7 +11,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import ShareButton from "../Components/ShareButton";
 import "./VideoPage.css";
+import Cookies from "js-cookie";
 import Post from "../Components/Post";
+import DeleteButton from "../Components/DeleteButton";
 
 function VideoPage() {
   const { id } = useParams();
@@ -106,6 +108,7 @@ function VideoPage() {
       markVideoAsWatched();
     }
   }, [video]);
+
   const handleCreateResponse = async () => {
     const response = await fetch(`${apiURL}/post/create`, {
       method: "POST",
@@ -267,6 +270,24 @@ function VideoPage() {
     setDeleteItemId(id);
     setConfirmDeleteModalOpen(true);
   };
+
+  const handleDeleteVideo = async (videoID) => {
+    try {
+      const response = await fetch(`${apiURL}/video/delete`, {
+        method: "POST",
+        body: JSON.stringify({ id: videoID }),
+      });
+
+      if (response.ok) {
+        window.location.href = "/videos";
+      } else {
+        console.error("Failed to delete video");
+      }
+    } catch (error) {
+      console.error("Error deleting video:", error);
+    }
+  };
+
   const confirmDelete = async () => {
     try {
       let endpoint;
@@ -308,6 +329,9 @@ function VideoPage() {
 
   return (
     <div className="video-page">
+      {user.data.id === video.user_id && (
+        <DeleteButton videoID={video.id} onDelete={handleDeleteVideo} />
+      )}
       <div className="video-container">
         <h1>
           {video.title.length > 30

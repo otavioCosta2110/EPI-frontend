@@ -84,7 +84,7 @@ function Header({ style }) {
             ) : (
               <FontAwesomeIcon
                 icon={faUser}
-                style={{ marginRight: "0.5rem", fontSize: "2rem", color: "white"}}
+                style={{ marginRight: "0.5rem", fontSize: "2rem", color: "white", cursor: "pointer"}}
                 onClick={togglePopup}
               />
             )}
@@ -96,7 +96,7 @@ function Header({ style }) {
                       icon={faEdit}
                       style={{ marginRight: "0.5rem", color: "black" }}
                     />
-                    Modificar Usuário
+                    Meu Perfil
                   </div>
                 </Link>
                 {user && user.data && user.data.role === "0" && (
