@@ -217,6 +217,7 @@ function Videos() {
               </div>
             ) : (
               paginatedVideos(filterAndSortVideos(videos)).map((video) => {
+                if (!video.url) return null;
                 const match = video.url.match(
                   /(?:https?:\/\/)?(?:www\.)?youtube\.com\/(?:[^/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)([^"&?/ ]{11})/
                 );
@@ -255,6 +256,7 @@ function Videos() {
             {watchedVideos.length > 0 ? (
               paginatedVideos(filterAndSortVideos(watchedVideos)).map(
                 (video) => {
+                  if (!video || !video.url) return null;
                   const match = video.url.match(
                     /(?:https?:\/\/)?(?:www\.)?youtube\.com\/(?:[^/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)([^"&?/ ]{11})/
                   );
