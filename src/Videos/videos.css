@@ -53,7 +53,7 @@ body {
   justify-content: center;
   padding: 20px;
   margin: 0;
-  max-height: calc(100vh - 100px);
+  margin-top: 224px;
   width: 100%;
 }
 

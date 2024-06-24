@@ -183,7 +183,7 @@ const ThreadDetail = () => {
   const renderPosts = (posts) => {
     return posts.map((post) => (
       <div key={post.id} className="post">
-        <Post post={post} user={user}></Post>
+        <Post post={post} user={user} thread_id={thread.id}></Post>
       </div>
     ));
   };
